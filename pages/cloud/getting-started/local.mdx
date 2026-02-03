@@ -20,6 +20,25 @@ The launcher provides one-click Start/Stop, status monitoring, and log viewing.
 Windows users: Install WSL2 first (see Windows section below), then the launcher can manage PC2 for you.
 </Callout>
 
+### Mac Installation (One-Time Setup)
+
+macOS shows a security warning for apps downloaded outside the App Store. Follow these steps once:
+
+1. **Download** the `.dmg` file from the link above
+2. **Double-click** the downloaded file to open the disk image
+3. **Open Terminal** (press `Cmd + Space`, type "Terminal", press Enter)
+4. **Copy and paste this command:**
+
+```bash
+cp -R "/Volumes/ElastOS 0.1.1-arm64/ElastOS.app" /Applications/ && xattr -cr /Applications/ElastOS.app && open /Applications/ElastOS.app
+```
+
+5. **Done!** The app will open. You only need to do this once.
+
+<Callout type="info">
+**Why is this needed?** The app isn't signed with an Apple Developer certificate yet. The command copies the app to your Applications folder and removes the macOS security quarantine. Future updates will include proper signing.
+</Callout>
+
 ---
 
 ## Option 2: Terminal Install
