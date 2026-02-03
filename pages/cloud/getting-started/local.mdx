@@ -4,20 +4,19 @@ import { Callout } from 'nextra/components'
 
 Run PC2 on your own computer. Choose your preferred method:
 
-## Option 1: Desktop Launcher (Easiest)
+## Option 1: Desktop Launcher (Mac & Linux)
 
 Download the **ElastOS Desktop Launcher** for a visual interface:
 
 | Platform | Download |
 |----------|----------|
 | **macOS** | [Download .dmg](https://github.com/Elacity/elastos-launcher/releases/latest) |
-| **Windows** | [Download .exe](https://github.com/Elacity/elastos-launcher/releases/latest) (requires WSL2) |
 | **Linux** | [Download .AppImage](https://github.com/Elacity/elastos-launcher/releases/latest) |
 
 The launcher provides one-click Start/Stop, status monitoring, and log viewing.
 
-<Callout type="info">
-Windows users: Install WSL2 first (see Windows section below), then the launcher can manage PC2 for you.
+<Callout type="warning">
+**Windows users:** Local installation is complex. We recommend using a [VPS](/cloud/getting-started/vps) instead. See the Windows section below for details.
 </Callout>
 
 ### Mac Installation (One-Time Setup)
@@ -52,7 +51,7 @@ curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-
 Wait for it to finish, then open **http://localhost:4200** in your browser.
 
 <Callout type="info">
-Works on **macOS**, **Linux**, and **Windows** (via WSL2).
+Works on **macOS** and **Linux**. Windows users should use a [VPS](/cloud/getting-started/vps) or see the advanced WSL2 instructions below.
 </Callout>
 
 ---
@@ -111,13 +110,37 @@ pm2 restart pc2
 
 ## Windows Users
 
-PC2 runs on Windows via WSL2:
+<Callout type="warning">
+**Local Windows installation is complex.** We recommend using a VPS instead for the best experience.
+</Callout>
 
-1. Open PowerShell as Administrator
-2. Run: `wsl --install`
-3. Restart your computer
-4. Open "Ubuntu" from Start menu
-5. Run the install command above
+### Recommended: Use a VPS
+
+For $5/month, you get a cloud server that:
+- Runs 24/7 (even when your PC is off)
+- Works from any device (phone, tablet, laptop)
+- No complex local setup required
+
+See our [VPS setup guide](/cloud/getting-started/vps) - it takes about 10 minutes.
+
+### Advanced: Local Installation (WSL2)
+
+If you want to run PC2 locally on Windows, you need:
+
+1. **Hardware virtualization enabled in BIOS** (varies by manufacturer)
+2. **WSL2 with Ubuntu installed:**
+   ```powershell
+   wsl --install -d Ubuntu
+   ```
+3. **Restart your computer**
+4. **Open "Ubuntu" from Start menu** and run the install command:
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+   ```
+
+<Callout type="info">
+If you see errors about "Virtual Machine Platform" or "virtualization not enabled", you'll need to enable virtualization in your computer's BIOS settings. This process varies by manufacturer and may not be possible on some corporate laptops.
+</Callout>
 
 ---
 
