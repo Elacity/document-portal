@@ -1,0 +1,177 @@
+import { Callout } from 'nextra/components'
+
+# Auto Updates
+
+PC2 includes a macOS-style auto-update system.
+
+## How It Works
+
+1. **Check** — Node checks for updates every 6 hours
+2. **Notify** — Toast notification when update available
+3. **Confirm** — You decide when to install
+4. **Install** — One-click automatic update
+5. **Restart** — Server restarts, page refreshes
+
+## Update Notification
+
+When an update is available, you'll see:
+
+- **Toast popup** — Bottom-right of screen
+- **Settings banner** — In Settings → About
+
+Click "Update Now" to proceed.
+
+## Update Process
+
+When you click "Install Update":
+
+1. **Downloading** — `git pull origin main`
+2. **Installing** — `npm install`
+3. **Building** — `npm run build`
+4. **Restarting** — Server restart
+5. **Complete** — Page auto-refreshes
+
+A progress modal shows each step.
+
+## Manual Update
+
+If you prefer manual control:
+
+```bash
+# SSH into your server
+cd /path/to/pc2-node
+
+# Pull latest
+git pull origin main
+
+# Rebuild
+npm install
+npm run build
+
+# Restart
+systemctl restart pc2-node
+```
+
+## Check Current Version
+
+### From UI
+
+Go to **Settings → About** to see:
+- Current version
+- Latest available version
+- Update status
+
+### From API
+
+```bash
+curl http://localhost:4200/api/update/status
+```
+
+Response:
+```json
+{
+  "currentVersion": "1.0.0",
+  "latestVersion": "1.1.0",
+  "updateAvailable": true
+}
+```
+
+## Update API
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/update/version` | GET | Current version |
+| `/api/update/status` | GET | Full update status |
+| `/api/update/check` | POST | Force check now |
+| `/api/update/install` | POST | Start update |
+| `/api/update/progress` | GET | Install progress |
+
+## Rollback
+
+If an update causes issues:
+
+```bash
+# View git history
+git log --oneline -10
+
+# Rollback to previous version
+git checkout <commit-hash>
+
+# Rebuild
+npm run build
+
+# Restart
+systemctl restart pc2-node
+```
+
+<Callout type="warning">
+Rolling back may lose features. Only do this if absolutely necessary.
+</Callout>
+
+## Disable Auto-Check
+
+To disable automatic checking:
+
+Edit `data/config/pc2.json`:
+
+```json
+{
+  "updates": {
+    "autoCheck": false
+  }
+}
+```
+
+You can still check manually in Settings.
+
+## Notifications
+
+### Toast Dismissed
+
+If you click "Later":
+- Toast disappears
+- Won't show again for this version
+- Banner still visible in Settings
+
+### Clear Dismissed
+
+To see the toast again:
+
+```bash
+# In browser console
+localStorage.removeItem('updateDismissed')
+```
+
+## Troubleshooting
+
+### Update Stuck
+
+If progress modal hangs:
+
+1. Check server logs: `journalctl -u pc2-node -f`
+2. Refresh the page
+3. Try manual update via SSH
+
+### Build Failed
+
+Check for:
+- Disk space: `df -h`
+- Memory: `free -m`
+- npm errors in logs
+
+### Server Won't Start
+
+```bash
+# Check status
+systemctl status pc2-node
+
+# View logs
+journalctl -u pc2-node -n 50
+
+# Try starting manually
+cd pc2-node && node dist/index.js
+```
+
+---
+
+→ Next: [Access Control](/cloud/guides/access-control)

@@ -1,0 +1,157 @@
+import { Callout } from 'nextra/components'
+
+# Local Install
+
+Run PC2 on your own computer. Choose your preferred method:
+
+## Option 1: Desktop Launcher (Easiest)
+
+Download the **ElastOS Desktop Launcher** for a visual interface:
+
+| Platform | Download |
+|----------|----------|
+| **macOS** | [Download .dmg](https://github.com/Elacity/elastos-launcher/releases/latest) |
+| **Windows** | [Download .exe](https://github.com/Elacity/elastos-launcher/releases/latest) (requires WSL2) |
+| **Linux** | [Download .AppImage](https://github.com/Elacity/elastos-launcher/releases/latest) |
+
+The launcher provides one-click Start/Stop, status monitoring, and log viewing.
+
+<Callout type="info">
+Windows users: Install WSL2 first (see Windows section below), then the launcher can manage PC2 for you.
+</Callout>
+
+---
+
+## Option 2: Terminal Install
+
+Open your terminal and paste this:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+```
+
+Wait for it to finish, then open **http://localhost:4200** in your browser.
+
+<Callout type="info">
+Works on **macOS**, **Linux**, and **Windows** (via WSL2).
+</Callout>
+
+---
+
+## Common Questions
+
+### How do I stop my PC2 node?
+
+```bash
+pm2 stop pc2
+```
+
+### How do I start my PC2 node?
+
+```bash
+pm2 start pc2
+```
+
+### How do I restart my PC2 node?
+
+```bash
+pm2 restart pc2
+```
+
+### How do I check if PC2 is running?
+
+```bash
+pm2 status
+```
+
+You'll see a table. If PC2 shows "online", it's running.
+
+### How do I see what's happening (logs)?
+
+```bash
+pm2 logs pc2
+```
+
+Press `Ctrl+C` to stop watching logs.
+
+### How do I update PC2?
+
+Open PC2 in your browser, go to **Settings → About**, and click **Check for Updates**.
+
+Or via terminal:
+
+```bash
+cd ~/pc2.net
+git pull origin main
+npm install --legacy-peer-deps --ignore-scripts
+cd pc2-node && npm run build
+pm2 restart pc2
+```
+
+---
+
+## Windows Users
+
+PC2 runs on Windows via WSL2:
+
+1. Open PowerShell as Administrator
+2. Run: `wsl --install`
+3. Restart your computer
+4. Open "Ubuntu" from Start menu
+5. Run the install command above
+
+---
+
+## Where is everything stored?
+
+| What | Location |
+|------|----------|
+| PC2 installation | `~/pc2.net/` |
+| Your files | `~/pc2.net/pc2-node/data/` |
+| Configuration | `~/pc2.net/pc2-node/config/` |
+
+---
+
+## Troubleshooting
+
+### "Command not found: pm2"
+
+Run this first:
+
+```bash
+source ~/.nvm/nvm.sh
+```
+
+### PC2 won't start
+
+Check if something else is using port 4200:
+
+```bash
+lsof -i :4200
+```
+
+If you see a process, kill it:
+
+```bash
+kill -9 <the PID number>
+```
+
+Then start PC2:
+
+```bash
+pm2 start pc2
+```
+
+---
+
+## Uninstalling
+
+```bash
+pm2 stop pc2
+pm2 delete pc2
+rm -rf ~/pc2.net
+```
+
+<Callout type="warning">
+This deletes all your uploaded files! Back up `~/pc2.net/pc2-node/data/` first if needed.
+</Callout>

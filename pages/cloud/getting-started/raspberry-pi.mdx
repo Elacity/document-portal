@@ -1,0 +1,182 @@
+import { Callout } from 'nextra/components'
+
+# Raspberry Pi
+
+Run PC2 on your own Raspberry Pi for maximum sovereignty.
+
+<Callout type="warning">
+**Coming Soon**: Pre-built Raspberry Pi images are in development. For now, follow the manual installation below.
+</Callout>
+
+## Hardware Requirements
+
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| **Model** | Raspberry Pi 4 (4GB) | Raspberry Pi 5 (8GB) |
+| **Storage** | 32GB microSD | 128GB+ SSD via USB |
+| **Power** | Official 3A PSU | Official 5A PSU (Pi 5) |
+| **Network** | WiFi | Ethernet (recommended) |
+| **Cooling** | Passive heatsink | Active fan/case |
+
+## Manual Installation
+
+### 1. Flash Raspberry Pi OS
+
+1. Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/)
+2. Select **Raspberry Pi OS Lite (64-bit)**
+3. Configure WiFi and SSH in settings
+4. Flash to your SD card
+
+### 2. Boot and Connect
+
+```bash
+# Find your Pi's IP (check router or use)
+ping raspberrypi.local
+
+# SSH in
+ssh pi@raspberrypi.local
+```
+
+### 3. Install Node.js
+
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Node.js 20
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify
+node --version
+```
+
+### 4. Install PC2
+
+You can use the one-liner (recommended):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+```
+
+Or manually:
+
+```bash
+# Install PM2
+sudo npm install -g pm2
+
+# Clone repository
+git clone https://github.com/Elacity/pc2.net
+cd pc2.net
+
+# Install dependencies
+npm install --legacy-peer-deps --ignore-scripts
+
+# Install and build pc2-node
+cd pc2-node
+npm install --legacy-peer-deps
+npm run build
+```
+
+### 5. Create Service
+
+```bash
+sudo cat > /etc/systemd/system/pc2-node.service << 'EOF'
+[Unit]
+Description=PC2 Node
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/pc2.net/pc2-node
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+Environment=PORT=4200
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable pc2-node
+sudo systemctl start pc2-node
+```
+
+### 6. Access Your Cloud
+
+Open **http://raspberrypi.local:4200** in your browser.
+
+## Performance Tips
+
+### Use SSD Storage
+
+SD cards are slow. For better performance:
+
+1. Get a USB 3.0 SSD enclosure
+2. Boot from SSD (use Raspberry Pi Imager)
+3. Much faster file operations
+
+### Enable Swap
+
+```bash
+sudo dphys-swapfile swapoff
+sudo sed -i 's/CONF_SWAPSIZE=100/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
+sudo dphys-swapfile setup
+sudo dphys-swapfile swapon
+```
+
+### Overclock (Pi 4)
+
+Add to `/boot/config.txt`:
+
+```
+over_voltage=6
+arm_freq=2000
+gpu_freq=750
+```
+
+<Callout type="warning">
+Overclocking requires good cooling. Monitor temperature with `vcgencmd measure_temp`.
+</Callout>
+
+## Remote Access
+
+### Option A: *.ela.city (Recommended)
+
+Register for free HTTPS subdomain:
+
+```bash
+curl -X POST https://69.164.241.210/api/gateway/register \
+  -H "Content-Type: application/json" \
+  -d '{"subdomain": "myhome", "endpoint": "http://YOUR_PUBLIC_IP:4200"}'
+```
+
+<Callout type="info">
+This requires port forwarding on your router (port 4200 → Pi's local IP).
+</Callout>
+
+### Option B: Tailscale
+
+For private access without port forwarding:
+
+```bash
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+```
+
+Access via Tailscale IP from any device.
+
+## Power Outage Protection
+
+### UPS (Recommended)
+
+Use a small UPS to protect against power outages.
+
+### Auto-Recovery
+
+The systemd service automatically restarts PC2 after power loss.
+
+---
+
+**Your home. Your cloud. Your sovereignty.**

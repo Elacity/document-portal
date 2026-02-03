@@ -1,0 +1,210 @@
+import { Callout, Tabs } from 'nextra/components'
+
+# Managing PC2
+
+Complete guide to managing your PC2 installation - starting, stopping, updating, and monitoring.
+
+## Process Management
+
+PC2 runs as a background process. Commands depend on your installation method.
+
+### PM2 (Local Install)
+
+Used for local installations via `start-local.sh`:
+
+```bash
+pm2 status          # Check status
+pm2 logs pc2        # View logs
+pm2 stop pc2        # Stop server
+pm2 start pc2       # Start server
+pm2 restart pc2     # Restart server
+pm2 monit           # Monitor dashboard
+```
+
+### Systemd (VPS)
+
+Used for VPS deployments:
+
+```bash
+systemctl status pc2-node         # Check status
+journalctl -u pc2-node -f         # View logs (live)
+sudo systemctl stop pc2-node      # Stop server
+sudo systemctl start pc2-node     # Start server
+sudo systemctl restart pc2-node   # Restart server
+sudo systemctl enable pc2-node    # Enable on boot
+```
+
+### Desktop App
+
+The desktop app provides a GUI:
+
+- Click **Start** to start the server
+- Click **Stop** to stop the server
+- Status indicator shows current state (green/red/yellow)
+- View logs in the Logs panel
+
+## Updating PC2
+
+### Via UI (Recommended)
+
+1. Open PC2 in your browser
+2. Go to **Settings → Updates**
+3. Click **"Check for Updates"**
+4. If available, click **"Install Update"**
+5. Wait for automatic restart
+
+### Via Terminal (PM2)
+
+```bash
+cd ~/pc2.net
+git pull origin main
+npm install --legacy-peer-deps --include=dev
+npm run build
+pm2 restart pc2
+```
+
+### Via Terminal (Systemd)
+
+```bash
+cd ~/pc2.net
+git pull origin main
+npm install --legacy-peer-deps --include=dev
+npm run build
+sudo systemctl restart pc2-node
+```
+
+## Health Check
+
+PC2 provides a health endpoint:
+
+```bash
+curl http://localhost:4200/health
+```
+
+Returns:
+
+```json
+{
+  "status": "ok",
+  "version": "0.1.1",
+  "uptime": 3600
+}
+```
+
+## Backup & Restore
+
+### Create Backup
+
+**Via UI:**
+Settings → Storage → Backups → Create Backup
+
+**Via Terminal:**
+
+```bash
+cd ~/pc2.net
+tar -czvf backup-$(date +%Y%m%d).tar.gz data/
+```
+
+### Restore Backup
+
+```bash
+pm2 stop pc2
+cd ~/pc2.net
+rm -rf data/
+tar -xzvf backup-YYYYMMDD.tar.gz
+pm2 start pc2
+```
+
+<Callout type="warning">
+Store backups off-site for safety. The `data/` directory contains all your files and database.
+</Callout>
+
+## Configuration
+
+Config file location: `~/pc2.net/pc2-node/config/config.json`
+
+### Common Settings
+
+```json
+{
+  "port": 4200,
+  "owner": "0x...",
+  "ipfs": {
+    "mode": "hybrid"
+  }
+}
+```
+
+### Change Port
+
+1. Edit config.json
+2. Change `"port": 4200` to desired port
+3. Restart PC2
+
+### Lock to Specific Wallet
+
+Set an owner to restrict access:
+
+1. Edit config.json
+2. Add `"owner": "0xYourWalletAddress"`
+3. Restart PC2
+
+## Monitoring
+
+### Resource Usage
+
+```bash
+# PM2 dashboard
+pm2 monit
+
+# System resources
+htop
+```
+
+### Disk Usage
+
+```bash
+# PC2 data size
+du -sh ~/pc2.net/data
+
+# Available space
+df -h
+```
+
+## Logs
+
+| Installation | Log Location |
+|--------------|--------------|
+| PM2 | `pm2 logs pc2` or `~/.pm2/logs/` |
+| Systemd | `journalctl -u pc2-node` |
+| Desktop App | In-app Logs panel |
+
+### Clear Logs
+
+```bash
+# PM2
+pm2 flush pc2
+
+# Systemd
+sudo journalctl --vacuum-time=7d
+```
+
+## Troubleshooting
+
+### PC2 Won't Start
+
+1. Check logs: `pm2 logs pc2`
+2. Check port: `lsof -i :4200`
+3. Check Node version: `node --version` (need v20+)
+
+### High CPU Usage
+
+1. Check for AI processing
+2. Check for indexing tasks
+3. View processes: `htop`
+
+### Out of Disk Space
+
+1. Empty trash in PC2 UI
+2. Remove old backups
+3. Clear logs: `pm2 flush`

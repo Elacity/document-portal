@@ -1,0 +1,102 @@
+import { Callout, Steps } from 'nextra/components'
+
+# Getting Started
+
+Get your sovereign cloud running in under 5 minutes.
+
+## Choose Your Method
+
+### Local Install (Easiest)
+
+One command. Works on Mac, Linux, Windows (WSL). **Free** - runs on your computer.
+
+→ [Local Install Guide](/cloud/getting-started/local)
+
+### VPS Server
+
+Always-on, accessible anywhere. **$5-12/month** on Contabo, Hetzner, etc.
+
+→ [VPS Deployment Guide](/cloud/getting-started/vps)
+
+### Docker
+
+Containerized deployment. **Free** - your own hardware.
+
+→ [Docker Guide](/cloud/getting-started/docker)
+
+### Raspberry Pi
+
+Maximum sovereignty. Your home, your hardware. **~$95 one-time** hardware cost.
+
+→ [Raspberry Pi Guide](/cloud/getting-started/raspberry-pi)
+
+---
+
+## Quick Start (Local - Recommended)
+
+The fastest way to try PC2:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+```
+
+This automatically:
+- Installs Node.js (if needed)
+- Installs PM2 process manager
+- Downloads and builds PC2
+- Starts the server
+
+Then open **http://localhost:4200** and connect your wallet!
+
+<Callout type="info">
+Works on **macOS**, **Linux**, and **Windows** (via WSL2).
+</Callout>
+
+## What Happens Next
+
+1. **Connect Wallet** — MetaMask, Essentials, or any WalletConnect wallet
+2. **Desktop Loads** — Full cloud desktop in your browser
+3. **Start Using** — Upload files, run apps, chat with AI
+
+## Verify Installation
+
+After starting, check these work:
+
+- Desktop loads in browser at http://localhost:4200
+- Can connect wallet and login
+- Can upload and download files
+- Calculator app opens and works (proves WASM works)
+
+## Managing Your Node
+
+After installation, use these commands:
+
+```bash
+pm2 status          # Check if running
+pm2 logs pc2        # View logs
+pm2 stop pc2        # Stop server
+pm2 start pc2       # Start server
+pm2 restart pc2     # Restart server
+```
+
+## Get a Public URL
+
+Want to access your node from anywhere?
+
+### Option A: Free *.ela.city Subdomain (Recommended)
+
+Register for instant HTTPS - your node gets a public URL like `yourname.ela.city`:
+
+1. Go to Settings → Network in your PC2 dashboard
+2. Register your subdomain
+3. Access from anywhere!
+
+### Option B: Custom Domain
+
+See [VPS Deployment](/cloud/getting-started/vps#custom-domain) for Caddy/Nginx setup.
+
+## Need Help?
+
+- [Troubleshooting Guide](/cloud/reference/troubleshooting)
+- [GitHub Issues](https://github.com/Elacity/pc2.net/issues)
+- [Telegram Community](https://t.me/elastos)

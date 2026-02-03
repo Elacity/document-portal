@@ -1,0 +1,259 @@
+import { Callout, Steps } from 'nextra/components'
+
+# VPS Deployment
+
+Deploy PC2 on a Virtual Private Server for 24/7 access from anywhere.
+
+## Recommended Providers
+
+| Provider | Specs | Price | Notes |
+|----------|-------|-------|-------|
+| **Contabo** | 4 vCPU, 8GB RAM | €5.99/mo | Best value |
+| **Hetzner** | 2 vCPU, 4GB RAM | €4.51/mo | EU-based |
+| **DigitalOcean** | 2 vCPU, 4GB RAM | $24/mo | Easy setup |
+| **Vultr** | 2 vCPU, 4GB RAM | $24/mo | Global locations |
+| **InterServer** | 1 vCPU, 2GB RAM | $6/mo | Budget option |
+
+<Callout type="info">
+**Minimum Requirements**: 1 vCPU, 2GB RAM, 20GB SSD, Ubuntu 22.04
+</Callout>
+
+## Quick Install (Recommended)
+
+SSH into your server and run the same one-liner:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+```
+
+This works on VPS too! It will:
+- Install Node.js 20
+- Install PM2
+- Clone, build, and start PC2
+
+Then access at `http://YOUR_SERVER_IP:4200`
+
+## Manual Setup
+
+If you prefer manual control:
+
+<Steps>
+
+### Create Your VPS
+
+1. Sign up with your chosen provider
+2. Create a new VPS with **Ubuntu 22.04 LTS**
+3. Choose at least 2GB RAM
+4. Note your server IP address
+
+### Connect via SSH
+
+```bash
+ssh root@YOUR_SERVER_IP
+```
+
+### Install Node.js 20
+
+```bash
+# Update system
+apt update && apt upgrade -y
+
+# Install Node.js 20
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+apt-get install -y nodejs
+
+# Verify
+node --version  # Should show v20.x.x
+```
+
+### Install Git and PM2
+
+```bash
+apt install -y git
+npm install -g pm2
+```
+
+### Clone and Build PC2
+
+```bash
+cd ~
+git clone https://github.com/Elacity/pc2.net
+cd pc2.net
+
+# Install dependencies (ignore peer conflicts)
+npm install --legacy-peer-deps --ignore-scripts
+
+# Install pc2-node dependencies
+cd pc2-node
+npm install --legacy-peer-deps
+
+# Build frontend and backend
+npm run build
+
+cd ..
+```
+
+### Create Systemd Service
+
+```bash
+cat > /etc/systemd/system/pc2-node.service << 'EOF'
+[Unit]
+Description=PC2 Node - Personal Cloud
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/pc2.net/pc2-node
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=4200
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Enable and start
+systemctl daemon-reload
+systemctl enable pc2-node
+systemctl start pc2-node
+
+# Check status
+systemctl status pc2-node
+```
+
+### Configure Firewall
+
+```bash
+ufw allow 22      # SSH
+ufw allow 4200    # PC2
+ufw allow 80      # HTTP (for SSL)
+ufw allow 443     # HTTPS
+ufw enable
+```
+
+### Verify
+
+```bash
+curl http://localhost:4200/health
+```
+
+You should see: `{"status":"ok",...}`
+
+</Steps>
+
+## Get HTTPS Access
+
+### Option A: Free *.ela.city Subdomain (Easiest)
+
+Your node can register for a free `yourname.ela.city` subdomain with automatic HTTPS:
+
+1. Open your PC2 at `http://YOUR_IP:4200`
+2. Go to **Settings → Network**
+3. Register your subdomain
+
+Now access at `https://yourname.ela.city`
+
+### Option B: Custom Domain with Caddy
+
+```bash
+# Install Caddy
+apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
+apt update
+apt install caddy
+
+# Configure
+cat > /etc/caddy/Caddyfile << 'EOF'
+yourdomain.com {
+    reverse_proxy localhost:4200
+}
+EOF
+
+# Restart
+systemctl restart caddy
+```
+
+Caddy automatically gets SSL certificates from Let's Encrypt.
+
+## Managing Your Node
+
+### Systemd Commands
+
+```bash
+systemctl status pc2-node     # Check status
+systemctl start pc2-node      # Start
+systemctl stop pc2-node       # Stop
+systemctl restart pc2-node    # Restart
+journalctl -u pc2-node -f     # View logs (live)
+journalctl -u pc2-node -n 100 # Last 100 lines
+```
+
+### Updating
+
+**Via UI (Recommended):**
+
+Settings → About → Check for Updates → Install Update
+
+**Via Terminal:**
+
+```bash
+cd ~/pc2.net
+git pull origin main
+npm install --legacy-peer-deps --ignore-scripts
+cd pc2-node
+npm install --legacy-peer-deps --include=dev
+npm run build
+systemctl restart pc2-node
+```
+
+## Backup
+
+### Create Backup
+
+```bash
+systemctl stop pc2-node
+cd ~/pc2.net/pc2-node
+tar -czvf ~/pc2-backup-$(date +%Y%m%d).tar.gz data/
+systemctl start pc2-node
+```
+
+### Restore Backup
+
+```bash
+systemctl stop pc2-node
+cd ~/pc2.net/pc2-node
+rm -rf data/
+tar -xzvf ~/pc2-backup-YYYYMMDD.tar.gz
+systemctl start pc2-node
+```
+
+## Security Hardening
+
+### Create Non-Root User
+
+```bash
+adduser pc2admin
+usermod -aG sudo pc2admin
+
+# Copy SSH key
+mkdir -p /home/pc2admin/.ssh
+cp ~/.ssh/authorized_keys /home/pc2admin/.ssh/
+chown -R pc2admin:pc2admin /home/pc2admin/.ssh
+```
+
+Update the systemd service to use `pc2admin` instead of `root`.
+
+### Enable Auto-Updates
+
+```bash
+apt install unattended-upgrades
+dpkg-reconfigure unattended-upgrades
+```
+
+---
+
+→ Having issues? See [Troubleshooting](/cloud/reference/troubleshooting)

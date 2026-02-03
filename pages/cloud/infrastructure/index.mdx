@@ -1,0 +1,135 @@
+import { Callout } from 'nextra/components'
+
+# Network Overview
+
+PC2's decentralized infrastructure enables global access without centralized servers.
+
+## Architecture
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                           SUPER NODES                                   │
+│                                                                         │
+│   ┌─────────────────────┐         ┌─────────────────────┐              │
+│   │ Primary (InterServer)│         │ Secondary (Contabo)  │              │
+│   │ 69.164.241.210      │         │ 38.242.211.112       │              │
+│   │                     │         │                      │              │
+│   │ • Web Gateway :443  │         │ • Failover gateway   │              │
+│   │ • Boson DHT :39001  │◄───────►│ • DHT replication    │              │
+│   │ • Active Proxy:8090 │         │ • Proxy backup       │              │
+│   └─────────┬───────────┘         └─────────┬────────────┘              │
+│             │                               │                           │
+└─────────────┼───────────────────────────────┼───────────────────────────┘
+              │                               │
+              ▼                               ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          PC2 USER NODES                                  │
+│                                                                          │
+│   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐                  │
+│   │ Alice       │   │ Bob         │   │ Carol       │                  │
+│   │ (VPS/Public)│   │ (Home/NAT)  │   │ (Office/NAT)│                  │
+│   │             │   │             │   │             │                  │
+│   │ Direct HTTP │   │ Via Proxy   │   │ Via Proxy   │                  │
+│   └─────────────┘   └─────────────┘   └─────────────┘                  │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+## Components
+
+### Super Nodes
+
+Infrastructure nodes that provide:
+
+| Service | Port | Purpose |
+|---------|------|---------|
+| **Web Gateway** | 443 | HTTPS termination, subdomain routing |
+| **Boson DHT** | 39001/UDP | Distributed hash table, peer discovery |
+| **Active Proxy** | 8090/TCP | NAT traversal relay |
+
+### User Nodes
+
+Your PC2 installation that provides:
+
+- Personal cloud storage
+- WASM execution
+- AI chat
+- File management
+
+## Connection Methods
+
+### Direct (Public IP)
+
+VPS and servers with public IPs connect directly:
+
+```
+User Browser → DNS (*.ela.city) → Super Node → Direct to PC2 Node
+```
+
+### Proxied (Behind NAT)
+
+Home and office nodes behind NAT use Active Proxy:
+
+```
+User Browser → DNS → Super Node → Active Proxy → Tunnel → PC2 Node
+```
+
+<Callout type="info">
+The Active Proxy handles NAT traversal automatically—no port forwarding required.
+</Callout>
+
+## Live Infrastructure
+
+### Primary Super Node (InterServer)
+
+- **IP**: 69.164.241.210
+- **Location**: Dallas, TX, USA
+- **DNS**: *.ela.city
+- **Status**: Production
+
+### Secondary Super Node (Contabo)
+
+- **IP**: 38.242.211.112
+- **Location**: EU
+- **Purpose**: Failover, load distribution
+
+## DNS Configuration
+
+| Record | Type | Value |
+|--------|------|-------|
+| `ela.city` | A | Main website |
+| `*.ela.city` | A | 69.164.241.210 (Super Node) |
+| `alice.ela.city` | Routing | → Alice's PC2 Node |
+| `bob.ela.city` | Routing | → Bob's PC2 Node |
+
+Subdomains are registered dynamically via the gateway API.
+
+## Protocol Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Transport** | HTTPS (Let's Encrypt wildcard) |
+| **Routing** | Subdomain → Node mapping |
+| **Identity** | Boson DHT (Ed25519) |
+| **NAT Traversal** | Active Proxy |
+| **Encryption** | TLS 1.3 + CryptoBox |
+
+## Getting a Subdomain
+
+Register your node for a free `*.ela.city` address:
+
+```bash
+curl -X POST https://69.164.241.210/api/gateway/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "subdomain": "yourname",
+    "nodeId": "your-node-id",
+    "endpoint": "http://YOUR_IP:4200"
+  }'
+```
+
+## Learn More
+
+- [Boson Integration](/cloud/infrastructure/boson) — Identity and DHT
+- [NAT Traversal](/cloud/infrastructure/nat-traversal) — How proxying works
+- [Super Node Guide](/cloud/infrastructure/supernode) — Run your own gateway

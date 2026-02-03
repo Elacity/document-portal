@@ -1,0 +1,168 @@
+import { Callout } from 'nextra/components'
+
+# Features
+
+A complete list of everything PC2 offers today.
+
+## Core Platform
+
+### Desktop Environment
+- **Full Desktop UI** — Puter-compatible interface with taskbar, app launcher, and window management
+- **File Manager** — Browse, upload, download, rename, delete files and folders
+- **Right-Click Menus** — Context menus for all operations
+- **Drag & Drop** — Move files between folders, upload by dragging
+- **Multi-Window** — Run multiple apps simultaneously
+- **Keyboard Shortcuts** — Standard shortcuts (Ctrl+C, Ctrl+V, etc.)
+
+### Authentication
+- **Wallet Login** — MetaMask, WalletConnect, Coinbase Wallet
+- **Social Login** — Google, Twitter, Email via Particle Network
+- **Session Persistence** — Stay logged in across page refreshes
+- **Multi-Device** — Access from any browser with your wallet
+
+### Storage
+- **IPFS Integration** — Decentralized, content-addressed storage
+- **Local Filesystem** — Files stored on your hardware
+- **SQLite Database** — Fast metadata queries
+- **Wallet-Scoped** — Each wallet gets isolated storage
+
+## Built-in Apps
+
+| App | Description |
+|-----|-------------|
+| **File Manager** | Browse and manage files |
+| **Text Editor** | Create and edit text files |
+| **Image Viewer** | View images with zoom and pan |
+| **Video Player** | Play video files |
+| **Audio Player** | Play music and audio |
+| **Terminal** | Full PTY terminal access |
+| **Calculator** | WASM-powered calculator (runs on YOUR node) |
+| **AI Chat** | Multi-provider AI assistant |
+| **Settings** | Configure your node |
+
+## AI Integration
+
+### Supported Providers
+- **Ollama** — Run AI completely locally (recommended for privacy)
+- **OpenAI** — GPT-4o, GPT-4 Turbo, GPT-3.5
+- **Anthropic** — Claude Opus 4, Claude Sonnet 4, Claude 3.5
+- **Google** — Gemini 2.0 Flash, Gemini 1.5 Pro
+- **xAI** — Grok 3, Grok 2
+
+### AI Features
+- **Chat Sidebar** — Always accessible AI assistant
+- **Windowed App** — Full-screen AI chat experience
+- **Tool Calling** — AI can read/write files, execute commands
+- **Streaming** — Real-time response streaming
+- **Multi-Model** — Switch between models on the fly
+
+<Callout type="info">
+For complete privacy, use Ollama. Your conversations never leave your hardware.
+</Callout>
+
+## WASM Execution
+
+**Run WebAssembly binaries on YOUR node—not in the browser.**
+
+- **Server-Side Execution** — Computation happens on your hardware
+- **WASI Support** — Full WASI compatibility for system access
+- **Isolated Execution** — Each run is sandboxed
+- **User-Scoped** — Binaries stored per-wallet
+
+### Demo Apps
+- **Calculator** — Prove computation runs on your node
+- **File Processor** — WASI file I/O demonstration
+
+## Network & Connectivity
+
+### Global Access
+- **Free Subdomain** — Get `yourname.ela.city` with automatic SSL
+- **NAT Traversal** — Access your node from behind firewalls via Boson Active Proxy
+- **WebSocket** — Real-time updates across all connected clients
+
+### Boson Network Integration
+- **Node Identity** — Ed25519 keypair with DID
+- **Username Registry** — Human-readable URLs
+- **Super Node Connection** — Automatic connectivity
+- **Recovery Phrase** — 12-word mnemonic backup
+
+## Security & Privacy
+
+### Data Protection
+- **Wallet-Scoped Storage** — Complete isolation between users
+- **No Cross-User Access** — Cryptographically impossible
+- **Local-First** — Data never leaves your hardware unless you share it
+
+### Authentication Security
+- **Cryptographic Sessions** — 32-byte random tokens
+- **Configurable Expiry** — Default 7 days
+- **No Passwords** — Nothing to hack or phish
+
+### Access Control
+- **Role-Based Permissions** — Owner, Admin, Member roles
+- **Multi-User Support** — Add wallets with specific permissions
+- **Audit Trail** — Login history tracking
+
+## System Management
+
+### Backup & Restore
+- **One-Click Backup** — Create full node backup
+- **Download Backups** — Export to external storage
+- **Web UI Restore** — Restore from any backup
+
+### Auto Updates
+- **macOS-Style Notifications** — Toast when update available
+- **One-Click Install** — Automatic git pull, build, restart
+- **Progress UI** — Watch update progress in real-time
+- **Auto-Refresh** — Page refreshes when complete
+
+### Monitoring
+- **Health Endpoint** — `/api/health` for status checks
+- **Resource Monitor** — CPU, memory, storage usage
+- **Systemd Integration** — Run as a proper service
+
+## First-Run Experience
+
+### Setup Wizard
+- **Welcome Screen** — Branded introduction
+- **Username Selection** — Choose your `*.ela.city` subdomain
+- **Recovery Phrase** — Secure your node identity
+- **Completion** — Ready to use
+
+## Deployment Options
+
+| Method | Best For |
+|--------|----------|
+| **VPS** | Always-on access, public internet |
+| **Docker** | Easy deployment, isolation |
+| **Source** | Developers, customization |
+| **Raspberry Pi** | Home server, maximum sovereignty |
+
+## API & Extensibility
+
+### REST API
+- **Puter-Compatible** — Standard Puter API endpoints
+- **File Operations** — read, write, mkdir, delete, move
+- **App Management** — Launch apps, get metadata
+- **AI Endpoints** — Chat, tool execution
+
+### WebSocket
+- **Real-Time Updates** — File changes, notifications
+- **Terminal Streaming** — PTY output
+- **AI Streaming** — Token-by-token responses
+
+## Technical Stack
+
+| Component | Technology |
+|-----------|------------|
+| **Backend** | Node.js 20+, TypeScript, Express |
+| **Database** | SQLite (better-sqlite3) |
+| **Storage** | IPFS (Helia), Local filesystem |
+| **WASM** | @wasmer/wasi |
+| **Frontend** | Puter-compatible (jQuery, vanilla JS) |
+| **Auth** | Particle Network |
+| **Network** | Boson DHT, Active Proxy |
+
+---
+
+→ Ready to try it? See [Getting Started](/cloud/getting-started)

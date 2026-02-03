@@ -1,0 +1,206 @@
+import { Callout } from 'nextra/components'
+
+# Boson Integration
+
+PC2 integrates with the Boson Network for decentralized identity and connectivity.
+
+## What is Boson?
+
+Boson is a decentralized communication network built on:
+
+- **Distributed Hash Table (DHT)** — Peer discovery without central servers
+- **Ed25519 Cryptography** — Strong identity and signing
+- **Active Proxy** — NAT traversal for unreachable nodes
+- **DID** — Decentralized Identifiers
+
+## PC2 Boson Services
+
+PC2 implements five Boson-related services:
+
+### IdentityService
+
+Manages the node's cryptographic identity:
+
+```typescript
+// Identity structure
+{
+  nodeId: "2abc...xyz",     // Base58(publicKey)
+  did: "did:boson:2abc...xyz",
+  publicKey: Uint8Array,
+  privateKey: Uint8Array    // Never leaves node
+}
+```
+
+**Storage**: `data/identity/identity.json`
+
+### UsernameService
+
+Registers human-readable usernames:
+
+```
+alice.ela.city → nodeId → IP:port
+```
+
+Usernames are stored in the DHT and resolved by super nodes.
+
+### ConnectivityService
+
+Detects network conditions:
+
+- Public IP detection
+- NAT type detection
+- Port availability
+- Super node reachability
+
+### ActiveProxyClient
+
+Connects to Active Proxy for NAT traversal (see [NAT Traversal](/cloud/infrastructure/nat-traversal)).
+
+### BosonService
+
+Orchestrates all Boson services on startup.
+
+## Identity Creation
+
+<Callout type="info">
+Identity is created during the Setup Wizard on first login.
+</Callout>
+
+### Flow
+
+1. Generate random entropy
+2. Create BIP39 mnemonic (12 words)
+3. Derive Ed25519 keypair from seed
+4. Compute Node ID = Base58(publicKey)
+5. Create DID = "did:boson:" + nodeId
+6. Save to `identity.json`
+
+### Recovery Phrase
+
+The 12-word mnemonic can restore your identity on any PC2 node:
+
+```
+witch collapse practice feed shame open despair creek road again ice least
+```
+
+<Callout type="warning">
+**Store safely**: Anyone with this phrase can impersonate your node.
+</Callout>
+
+## DHT Operations
+
+### Storing Data
+
+```typescript
+// Store username → endpoint mapping
+await dht.put(
+  sha256("username:alice"),
+  {
+    nodeId: "2abc...",
+    endpoint: "http://1.2.3.4:4200",
+    timestamp: Date.now(),
+    signature: sign(data, privateKey)
+  }
+);
+```
+
+### Retrieving Data
+
+```typescript
+// Lookup username
+const result = await dht.get(sha256("username:alice"));
+// { nodeId, endpoint, timestamp, signature }
+```
+
+## Super Node Connection
+
+PC2 nodes connect to super nodes for:
+
+| Purpose | Protocol | Port |
+|---------|----------|------|
+| **DHT Bootstrap** | UDP | 39001 |
+| **Active Proxy** | TCP | 8090 |
+| **Gateway Registration** | HTTPS | 443 |
+
+### Bootstrap Flow
+
+1. Connect to known super node
+2. Join DHT network
+3. Announce presence
+4. Discover peers
+
+## Signatures
+
+All DHT data is signed with Ed25519:
+
+```typescript
+const signature = sign(JSON.stringify(data), privateKey);
+
+// Verification
+const valid = verify(signature, data, publicKey);
+```
+
+This prevents tampering and impersonation.
+
+## DID Format
+
+PC2 uses the Boson DID method:
+
+```
+did:boson:2abcdefghijklmnopqrstuvwxyz123456789
+         └─────────── Node ID (Base58) ─────────┘
+```
+
+DIDs enable:
+- Verifiable identity
+- Cross-platform authentication
+- Decentralized PKI
+
+## Configuration
+
+Super nodes are configured in `data/config/pc2.json`:
+
+```json
+{
+  "boson": {
+    "superNodes": [
+      {
+        "host": "69.164.241.210",
+        "dhtPort": 39001,
+        "proxyPort": 8090
+      }
+    ],
+    "enabled": true
+  }
+}
+```
+
+## Troubleshooting
+
+### Identity Not Found
+
+```bash
+# Check identity file exists
+cat data/identity/identity.json
+```
+
+If missing, delete data directory and re-run setup wizard.
+
+### DHT Connection Failed
+
+```bash
+# Test super node connectivity
+nc -vuz 69.164.241.210 39001
+```
+
+Check firewall allows UDP outbound.
+
+### Username Conflict
+
+If username taken:
+- Choose different username
+- Or contact admin if you believe it's yours
+
+---
+
+→ See [NAT Traversal](/cloud/infrastructure/nat-traversal) for proxy details

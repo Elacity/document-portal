@@ -1,0 +1,72 @@
+import { Callout, Cards, Card } from 'nextra/components'
+
+# Personal Cloud Computer
+
+**Your sovereign cloud. Your hardware. Your rules.**
+
+PC2 is a self-hosted personal cloud that runs entirely on YOUR hardware—a Raspberry Pi, VPS, or any computer you control. Login with your blockchain wallet, store files on IPFS, run AI locally, and own your digital life.
+
+<Callout type="info">
+**Live Demo**: Try PC2 at [demo.ela.city](https://demo.ela.city) or [test.ela.city](https://test.ela.city)
+</Callout>
+
+## Why PC2?
+
+| Traditional Cloud | PC2 |
+|-------------------|-----|
+| Data on company servers | Data on YOUR hardware |
+| Monthly subscriptions forever | Buy hardware once, own forever |
+| Companies scan your files | Files encrypted with YOUR keys |
+| Can be locked out anytime | Your keys = your access, always |
+| Computation in their cloud | WASM runs on YOUR node |
+
+## Core Features
+
+- **Beautiful Desktop UI** — Full Puter-compatible interface in the browser
+- **Wallet Authentication** — Login with MetaMask, WalletConnect, or social login
+- **IPFS Storage** — Decentralized file storage on your node
+- **Private Computation** — WASM binaries execute on YOUR hardware
+- **AI Integration** — Local Ollama or cloud providers (OpenAI, Claude, Gemini, xAI)
+- **Auto Updates** — macOS-style one-click updates
+- **Global Access** — Get a free `yourname.ela.city` subdomain with SSL
+
+## Quick Start
+
+The fastest way to get started:
+
+```bash
+# Clone and run
+git clone https://github.com/Elacity/pc2.net
+cd pc2.net && npm install && npm start
+```
+
+Open `http://localhost:4200` and connect your wallet.
+
+→ See [Getting Started](/cloud/getting-started) for detailed setup options.
+
+## How It Works
+
+```
+┌─────────────────────────────────────────────────────┐
+│                  Your Browser                        │
+│          PC2 Desktop UI (Puter-Compatible)           │
+└─────────────────────┬───────────────────────────────┘
+                      │ HTTPS
+                      ▼
+┌─────────────────────────────────────────────────────┐
+│              YOUR HARDWARE (PC2 Node)                │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
+│  │  Files   │  │   AI     │  │  WASM    │          │
+│  │  (IPFS)  │  │ (Ollama) │  │ Runtime  │          │
+│  └──────────┘  └──────────┘  └──────────┘          │
+└─────────────────────────────────────────────────────┘
+```
+
+Your data never leaves your hardware. Your computation happens locally. You control everything.
+
+## Next Steps
+
+- [Why Self-Host?](/cloud/why-pc2) — The case for digital sovereignty
+- [Features](/cloud/features) — Complete feature list
+- [VPS Setup](/cloud/getting-started/vps) — Deploy on a $6/month server
+- [Architecture](/cloud/architecture) — Technical deep-dive

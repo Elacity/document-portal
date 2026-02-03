@@ -1,0 +1,226 @@
+import { Callout } from 'nextra/components'
+
+# Architecture
+
+Technical deep-dive into PC2's infrastructure and design.
+
+## System Overview
+
+PC2 is a self-hosted personal cloud with three main layers:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           INTERNET                                           │
+│                                                                              │
+│  ┌─────────────────────┐     DNS: *.ela.city → Super Node                   │
+│  │   User's Browser    │                                                    │
+│  │                     │                                                    │
+│  │  https://alice.ela.city ──────────────────────────────────────┐          │
+│  └─────────────────────┘                                         │          │
+└──────────────────────────────────────────────────────────────────┼──────────┘
+                                                                   │
+                                                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                    SUPER NODE (Gateway Layer)                                │
+│                                                                              │
+│  ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐           │
+│  │   Web Gateway   │   │   Boson DHT     │   │  Active Proxy   │           │
+│  │    :80/443      │   │    :39001/UDP   │   │    :8090/TCP    │           │
+│  │                 │   │                 │   │                 │           │
+│  │ - Wildcard SSL  │   │ - Node registry │   │ - NAT traversal │           │
+│  │ - Subdomain     │   │ - Peer discovery│   │ - Session relay │           │
+│  │   routing       │   │                 │   │                 │           │
+│  └────────┬────────┘   └─────────────────┘   └────────┬────────┘           │
+│           │                                           │                     │
+└───────────┼───────────────────────────────────────────┼─────────────────────┘
+            │                                           │
+            ▼                                           ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│                         PC2 USER NODES                                     │
+│                                                                            │
+│  ┌───────────────────────┐           ┌───────────────────────┐            │
+│  │  Alice's PC2 Node     │           │  Bob's PC2 Node       │            │
+│  │  (VPS/Public IP)      │           │  (Home/Behind NAT)    │            │
+│  │                       │           │                       │            │
+│  │  Direct HTTP access   │           │  Active Proxy tunnel  │            │
+│  └───────────────────────┘           └───────────────────────┘            │
+│                                                                            │
+└───────────────────────────────────────────────────────────────────────────┘
+```
+
+## PC2 Node Components
+
+Each PC2 node contains these layers:
+
+### 1. HTTP Server Layer
+- **Express.js** — REST API and static file serving
+- **Socket.io** — WebSocket for real-time updates
+- **Static Assets** — Frontend bundle served locally
+
+### 2. Services Layer
+
+| Service | Purpose |
+|---------|---------|
+| **AuthService** | Wallet authentication via Particle |
+| **StorageService** | IPFS integration (Helia) |
+| **WASMRuntime** | Execute WASM binaries server-side |
+| **AIService** | Multi-provider AI chat |
+| **BosonService** | Identity, connectivity, username |
+| **UpdateService** | Auto-update system |
+| **BackupService** | Backup and restore |
+| **TerminalService** | PTY-based terminal |
+
+### 3. Data Layer
+- **SQLite** — Metadata, sessions, users
+- **IPFS (Helia)** — Distributed file storage
+- **Local Filesystem** — User files, WASM apps
+
+## API Endpoints
+
+### Authentication
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/whoami` | GET | Get current user info |
+| `/auth/particle` | POST | Particle auth callback |
+
+### File Operations
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/read` | GET | Read file content |
+| `/write` | POST | Write file content |
+| `/readdir` | GET | List directory |
+| `/stat` | GET | File metadata |
+| `/mkdir` | POST | Create directory |
+| `/delete` | POST | Delete file/folder |
+| `/move` | POST | Move/rename |
+
+### WASM
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/wasm/execute-file` | POST | Execute WASM file |
+| `/api/wasm/execute` | POST | Execute WASM bytes |
+
+### AI
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/ai/chat` | POST | Stream AI response |
+| `/api/ai/models` | GET | List available models |
+
+### System
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check |
+| `/api/update/status` | GET | Update availability |
+| `/api/update/install` | POST | Trigger update |
+| `/api/backup/create` | POST | Create backup |
+
+## Boson Network
+
+PC2 integrates with the Boson Network for decentralized infrastructure:
+
+### Components
+
+**Boson DHT** — Distributed hash table for:
+- Node identity storage
+- Peer discovery
+- Username resolution
+
+**Active Proxy** — NAT traversal service:
+- Enables nodes behind firewalls
+- Encrypted session relay
+- Automatic port mapping
+
+### Identity Flow
+
+```
+1. Generate Ed25519 keypair
+2. Derive Node ID = Base58(PublicKey)
+3. Create DID = "did:boson:" + NodeID
+4. Store in local identity.json
+5. Register username with gateway
+```
+
+### NAT Traversal
+
+```
+PC2 Node (behind NAT)          Super Node           Client
+       │                            │                    │
+       │──── AUTH Packet ──────────►│                    │
+       │     (Ed25519 signature)    │                    │
+       │                            │                    │
+       │◄─── AUTH_ACK + Port ───────│                    │
+       │     (Allocated: 25001)     │                    │
+       │                            │                    │
+       │──── PING (every 30s) ─────►│                    │
+       │                            │◄── HTTP Request ───│
+       │◄─── Relay Data ────────────│                    │
+       │──── Response ─────────────►│                    │
+       │                            │── Response ───────►│
+```
+
+## Security Architecture
+
+### Encryption Layers
+
+1. **Transport** — TLS 1.3 (HTTPS via Let's Encrypt)
+2. **Session** — CryptoBox (Active Proxy)
+3. **Identity** — Ed25519 signatures
+4. **Storage** — Wallet-scoped isolation
+
+### Authentication Flow
+
+1. User connects wallet via Particle
+2. Wallet signs challenge message
+3. PC2 verifies signature
+4. Session token issued (32-byte random)
+5. Token stored in cookie/localStorage
+6. All API requests include token
+
+### Access Control
+
+| Role | Permissions |
+|------|-------------|
+| **Owner** | Full access, manage all wallets |
+| **Admin** | All data access, cannot manage admins |
+| **Member** | Own wallet scope only |
+
+## Data Flow Examples
+
+### File Upload
+```
+User drags file → Frontend captures
+                → POST /write with file data
+                → Backend validates auth
+                → StorageService.write()
+                → IPFS.add() + SQLite.update()
+                → WebSocket broadcast
+                → All clients update UI
+```
+
+### WASM Calculation
+```
+User clicks "5 + 3" → Frontend sends POST /api/wasm/execute-file
+                    → Backend loads calculator.wasm
+                    → WASMRuntime.execute("add", [5, 3])
+                    → Returns 8
+                    → Frontend displays result
+```
+
+## Live Infrastructure
+
+### Primary Super Node
+- **IP**: 69.164.241.210 (InterServer)
+- **Services**: Web Gateway, Boson DHT, Active Proxy
+- **Wildcard SSL**: *.ela.city
+
+### Secondary Super Node
+- **IP**: 38.242.211.112 (Contabo)
+- **Purpose**: Failover, load distribution
+
+### DNS
+- **A Record**: `*.ela.city` → 69.164.241.210
+- **Root**: `ela.city` → Main website
+
+---
+
+→ See [Infrastructure](/cloud/infrastructure) for operator guides

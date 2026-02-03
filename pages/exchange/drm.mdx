@@ -1,0 +1,101 @@
+import { Callout } from 'nextra/components'
+
+# Digital Rights Management (dDRM)
+
+Elacity's **dDRM** (Decentralized Digital Rights Management) enables sovereign ownership and trading of digital assets without intermediaries.
+
+## The Three Pillars
+
+### 1. Protect
+
+Encrypt your assets so AI cannot scrape them for free.
+
+```
+Traditional DRM         →    Elacity dDRM
+─────────────────────────────────────────
+Central servers              Your hardware
+Company controls             You control
+Can be revoked               Mathematically yours
+```
+
+Your content is **mathematically invisible** without an Access Token.
+
+### 2. Automate
+
+Embed "Rights Logic" that forces AI agents and individuals to pay you instantly.
+
+- No manual invoicing
+- No chasing payments
+- No payment processors
+
+Smart contracts enforce licensing automatically.
+
+### 3. Settle
+
+Bypass banks and platforms. Revenue hits your wallet in seconds.
+
+- No "Net-30" days
+- No intermediaries
+- No platform fees (beyond gas)
+
+## How dDRM Differs
+
+| Traditional DRM | Elacity dDRM |
+|-----------------|--------------|
+| Centralized servers | Decentralized (IPFS + blockchain) |
+| Platform controls access | You control access |
+| Revenue delayed | Revenue instant |
+| Can be revoked | Mathematically enforced |
+| Platform takes cut | Direct to your wallet |
+
+## Technical Architecture
+
+```
+┌──────────────┐    License Token    ┌──────────────┐
+│   Consumer   │ ◄──────────────────►│   Creator    │
+└──────┬───────┘                     └──────┬───────┘
+       │                                    │
+       │ Request                            │ Publish
+       ▼                                    ▼
+┌──────────────┐                     ┌──────────────┐
+│  Smart       │◄───────────────────►│   IPFS       │
+│  Contract    │    Encrypted        │   Storage    │
+└──────────────┘    Content          └──────────────┘
+       │
+       │ Payment
+       ▼
+┌──────────────┐
+│  Creator's   │
+│  Wallet      │
+└──────────────┘
+```
+
+## Supported Content Types
+
+- **Video/Audio** - Streaming with encrypted chunks
+- **Images** - High-resolution with watermarking
+- **Documents** - PDFs, papers, reports
+- **Data** - Datasets, APIs, feeds
+- **Code** - Algorithms, models, scripts
+
+## Revenue Models
+
+| Model | Description | Use Case |
+|-------|-------------|----------|
+| Pay-per-view | Single access fee | Videos, articles |
+| Subscription | Recurring access | Streaming, APIs |
+| Royalty splits | % to multiple parties | Collaborations |
+| Resale rights | Secondary market | NFT-style trading |
+
+<Callout type="info">
+All revenue models are enforced by smart contracts - no trust required.
+</Callout>
+
+## Integration
+
+dDRM integrates with:
+- **Personal Cloud (PC2)** - Host and serve your content
+- **Elacity Exchange** - Discover and trade capsules
+- **AI Agents** - Automated content consumption
+
+→ [Learn about Wealth Capsules](/exchange/wealth-capsules)

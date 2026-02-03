@@ -1,0 +1,176 @@
+import { Callout, Steps } from 'nextra/components'
+
+# Docker Deployment
+
+Run PC2 in a Docker container for easy deployment and isolation.
+
+## Quick Start
+
+```bash
+# Create data directories
+mkdir -p pc2/data pc2/config
+
+# Run container
+docker run -d \
+  --name pc2-node \
+  -p 4200:4200 \
+  -v $(pwd)/pc2/data:/app/data \
+  ghcr.io/elacity/pc2:latest
+
+# Check status
+docker logs -f pc2-node
+```
+
+Open **http://localhost:4200** in your browser.
+
+## Docker Compose
+
+Create `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+
+services:
+  pc2:
+    image: ghcr.io/elacity/pc2:latest
+    container_name: pc2-node
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+```
+
+Then run:
+
+```bash
+docker compose up -d
+```
+
+## Build from Source
+
+If you want to build the image yourself:
+
+```bash
+# Clone repository
+git clone https://github.com/Elacity/pc2.net
+cd pc2.net
+
+# Build image
+docker build -t pc2-node -f pc2-node/Dockerfile .
+
+# Run
+docker run -d -p 4200:4200 -v $(pwd)/data:/app/data pc2-node
+```
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PORT` | 4200 | HTTP port |
+| `NODE_ENV` | production | Environment |
+| `PC2_DATA_DIR` | /app/data | Data directory |
+
+## Volumes
+
+| Container Path | Purpose |
+|----------------|---------|
+| `/app/data` | User files, database, identity |
+
+<Callout type="warning">
+**Important**: Always mount `/app/data` to persist your data across container restarts.
+</Callout>
+
+## Managing the Container
+
+```bash
+# View logs
+docker logs -f pc2-node
+
+# Stop
+docker stop pc2-node
+
+# Start
+docker start pc2-node
+
+# Restart
+docker restart pc2-node
+
+# Remove
+docker rm -f pc2-node
+```
+
+## Updating
+
+```bash
+# Pull latest image
+docker pull ghcr.io/elacity/pc2:latest
+
+# Stop and remove old container
+docker stop pc2-node
+docker rm pc2-node
+
+# Run new container
+docker run -d \
+  --name pc2-node \
+  -p 4200:4200 \
+  -v $(pwd)/pc2/data:/app/data \
+  ghcr.io/elacity/pc2:latest
+```
+
+Or with Docker Compose:
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+## Adding HTTPS with Caddy
+
+Create `docker-compose.yml` with Caddy:
+
+```yaml
+version: '3.8'
+
+services:
+  pc2:
+    image: ghcr.io/elacity/pc2:latest
+    expose:
+      - "4200"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+```
+
+Create `Caddyfile`:
+
+```
+yourdomain.com {
+    reverse_proxy pc2:4200
+}
+```
+
+Then:
+
+```bash
+docker compose up -d
+```
+
+---
+
+→ Need more control? See [From Source](/cloud/getting-started/source)

@@ -1,0 +1,155 @@
+# File Management
+
+Store, organize, and manage your files on PC2.
+
+## Storage Architecture
+
+PC2 stores your files in two layers:
+
+1. **Local Filesystem** — Fast access, on your hardware
+2. **IPFS (Helia)** — Content-addressed, distributed storage
+
+All files are scoped to your wallet address—complete isolation from other users.
+
+## File Manager App
+
+The built-in File Manager provides:
+
+- **Browse** — Navigate folders, view files
+- **Upload** — Drag-and-drop or click to upload
+- **Download** — Right-click → Download
+- **Create** — New folders and files
+- **Rename** — Right-click → Rename
+- **Delete** — Right-click → Delete
+- **Move** — Drag files between folders
+
+## Uploading Files
+
+### Drag and Drop
+
+1. Open File Manager
+2. Navigate to destination folder
+3. Drag files from your computer
+4. Drop on the folder area
+
+### Upload Button
+
+1. Click "Upload" in toolbar
+2. Select files from your computer
+3. Files upload automatically
+
+### Size Limits
+
+- Default: 100MB per file
+- Configurable in settings
+
+## Folder Structure
+
+Default folders:
+
+```
+/
+├── Desktop/     # Desktop icons
+├── Documents/   # Documents
+├── Pictures/    # Images
+├── Videos/      # Video files
+├── Music/       # Audio files
+├── Downloads/   # Downloaded files
+└── Public/      # Publicly accessible files
+```
+
+## File Operations
+
+### Create Folder
+
+1. Right-click in empty space
+2. Select "New Folder"
+3. Enter folder name
+4. Press Enter
+
+### Rename
+
+1. Right-click file/folder
+2. Select "Rename"
+3. Enter new name
+4. Press Enter
+
+### Move
+
+Drag files to a different folder, or:
+1. Right-click → Cut
+2. Navigate to destination
+3. Right-click → Paste
+
+### Delete
+
+1. Right-click file/folder
+2. Select "Delete"
+3. Confirm deletion
+
+## File Types
+
+PC2 recognizes and handles:
+
+| Type | Extensions | Viewer |
+|------|------------|--------|
+| Images | jpg, png, gif, svg | Image Viewer |
+| Videos | mp4, webm, mov | Video Player |
+| Audio | mp3, wav, ogg | Audio Player |
+| Text | txt, md, json, js | Text Editor |
+| PDF | pdf | PDF Viewer |
+
+## Real-Time Sync
+
+Changes sync across all connected clients via WebSocket:
+
+- Upload on laptop → Appears on phone
+- Delete on phone → Disappears on laptop
+- Rename anywhere → Updates everywhere
+
+## IPFS Integration
+
+Files are stored on IPFS for:
+
+- **Content Addressing** — Files identified by content hash
+- **Deduplication** — Identical files stored once
+- **Distribution** — Optional sharing via IPFS network
+
+## Public Files
+
+Files in `/Public/` folder:
+
+- Accessible without authentication
+- Can be shared via direct link
+- Useful for profile pictures, public documents
+
+## Desktop Files
+
+Files on the Desktop:
+
+- Appear as icons on the desktop
+- Quick access to frequently used items
+- Drag from File Manager to Desktop
+
+## Search
+
+Use the search bar in File Manager:
+
+- Search by filename
+- Results update as you type
+- Click result to navigate
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + C` | Copy |
+| `Ctrl/Cmd + V` | Paste |
+| `Ctrl/Cmd + X` | Cut |
+| `Delete` | Delete |
+| `F2` | Rename |
+| `Enter` | Open |
+
+---
+
+→ Next: [AI Chat Setup](/cloud/guides/ai-chat)

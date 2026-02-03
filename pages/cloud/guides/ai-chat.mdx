@@ -1,0 +1,172 @@
+import { Callout, Tabs } from 'nextra/components'
+
+# AI Chat Setup
+
+Configure AI assistants to work with your PC2 node.
+
+## Provider Options
+
+<Tabs items={['Ollama (Local)', 'OpenAI', 'Claude', 'Gemini', 'xAI']}>
+  <Tabs.Tab>
+    **Privacy**: Maximum (all local)
+    **Cost**: Free (your hardware)
+    **Speed**: Depends on hardware
+  </Tabs.Tab>
+  <Tabs.Tab>
+    **Privacy**: Data sent to OpenAI
+    **Cost**: Pay per token
+    **Speed**: Fast
+  </Tabs.Tab>
+  <Tabs.Tab>
+    **Privacy**: Data sent to Anthropic
+    **Cost**: Pay per token
+    **Speed**: Fast
+  </Tabs.Tab>
+  <Tabs.Tab>
+    **Privacy**: Data sent to Google
+    **Cost**: Pay per token
+    **Speed**: Fast
+  </Tabs.Tab>
+  <Tabs.Tab>
+    **Privacy**: Data sent to xAI
+    **Cost**: Pay per token
+    **Speed**: Fast
+  </Tabs.Tab>
+</Tabs>
+
+## Ollama Setup (Recommended for Privacy)
+
+Ollama runs AI models locally on your hardware.
+
+### Install Ollama
+
+```bash
+# Linux/macOS
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Or download from https://ollama.com
+```
+
+### Pull a Model
+
+```bash
+# Recommended: DeepSeek R1 (7B)
+ollama pull deepseek-r1:7b
+
+# Smaller/faster
+ollama pull deepseek-r1:1.5b
+
+# Larger/smarter
+ollama pull deepseek-r1:14b
+```
+
+### Model Sizes
+
+| Model | Size | RAM Required | Quality |
+|-------|------|--------------|---------|
+| deepseek-r1:1.5b | ~1GB | 4GB | Basic |
+| deepseek-r1:7b | ~4.5GB | 8GB | Good |
+| deepseek-r1:8b | ~5GB | 10GB | Better |
+| deepseek-r1:14b | ~9GB | 16GB | Great |
+| deepseek-r1:32b | ~20GB | 32GB | Best |
+
+### Configure PC2
+
+1. Go to **Settings → AI Assistant**
+2. Select **Ollama** as provider
+3. Ensure Ollama URL is `http://localhost:11434`
+4. Select your model from dropdown
+5. Click **Save**
+
+<Callout type="info">
+With Ollama, your conversations never leave your hardware.
+</Callout>
+
+## Cloud Providers
+
+### Get API Keys
+
+| Provider | Get Key At |
+|----------|------------|
+| OpenAI | [platform.openai.com](https://platform.openai.com/api-keys) |
+| Anthropic | [console.anthropic.com](https://console.anthropic.com/settings/keys) |
+| Google | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| xAI | [console.x.ai](https://console.x.ai) |
+
+### Add to PC2
+
+1. Go to **Settings → AI Assistant**
+2. Find your provider section
+3. Click **Add Key**
+4. Paste your API key
+5. Click **Save**
+
+### Available Models
+
+**OpenAI**
+- GPT-4o (recommended)
+- GPT-4o Mini (faster/cheaper)
+- GPT-4 Turbo
+- GPT-3.5 Turbo
+
+**Anthropic (Claude)**
+- Claude Opus 4 (most capable)
+- Claude Sonnet 4 (balanced)
+- Claude 3.5 Haiku (fast)
+
+**Google (Gemini)**
+- Gemini 2.0 Flash
+- Gemini 1.5 Pro
+- Gemini 1.5 Flash
+
+**xAI (Grok)**
+- Grok 3
+- Grok 3 Fast
+- Grok 2
+- Grok Vision
+
+## Using AI Chat
+
+### Sidebar
+
+Click the AI icon in the taskbar or hover on the right edge.
+
+### Windowed App
+
+Open "AI Chat" from the app launcher for full-screen experience.
+
+### Features
+
+- **Streaming** — Watch responses generate in real-time
+- **Tool Calling** — AI can read/write files on your node
+- **Multi-Model** — Switch models mid-conversation
+- **History** — Conversations persist across sessions
+
+## Tool Capabilities
+
+The AI can:
+
+- **Read files** — Analyze documents, code, data
+- **Write files** — Create or modify files
+- **List directories** — Browse your filesystem
+- **Execute commands** — Run terminal commands (with permission)
+
+<Callout type="warning">
+Tool calling requires explicit permission. The AI will ask before making changes.
+</Callout>
+
+## Privacy Considerations
+
+| Provider | Your Data |
+|----------|-----------|
+| **Ollama** | Never leaves your hardware |
+| **Cloud Providers** | Sent to provider's servers |
+
+For maximum privacy:
+1. Use Ollama
+2. Disable cloud providers in settings
+3. Your conversations stay 100% local
+
+---
+
+→ Next: [Backup & Restore](/cloud/guides/backup-restore)

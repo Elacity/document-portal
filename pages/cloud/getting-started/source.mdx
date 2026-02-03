@@ -1,0 +1,199 @@
+import { Callout, Steps } from 'nextra/components'
+
+# From Source
+
+Build and run PC2 from source code for development or maximum control.
+
+<Callout type="info">
+For most users, the [one-line install](/cloud/getting-started/local) is easier. Use this guide for development or customization.
+</Callout>
+
+## Prerequisites
+
+- **Node.js 20+** (v23 recommended for best performance)
+- **npm** (comes with Node.js)
+- **Git**
+
+```bash
+node --version  # Should be v20.0.0 or higher
+npm --version   # Should be 10.0.0 or higher
+git --version
+```
+
+## Installation
+
+<Steps>
+
+### Clone Repository
+
+```bash
+git clone https://github.com/Elacity/pc2.net
+cd pc2.net
+```
+
+### Install Root Dependencies
+
+```bash
+npm install --legacy-peer-deps --ignore-scripts
+```
+
+<Callout type="warning">
+The `--legacy-peer-deps` flag is required due to some package conflicts.
+The `--ignore-scripts` flag skips the husky git hooks setup.
+</Callout>
+
+### Install PC2 Node Dependencies
+
+```bash
+cd pc2-node
+npm install --legacy-peer-deps
+```
+
+### Build Everything
+
+```bash
+npm run build
+```
+
+This builds both frontend and backend.
+
+### Start the Server
+
+```bash
+npm start
+```
+
+</Steps>
+
+Your PC2 node is now running at **http://localhost:4200**
+
+## Project Structure
+
+```
+pc2.net/
+├── src/gui/               # Frontend (desktop UI)
+│   └── src/               # Source files
+├── pc2-node/              # Backend server
+│   ├── src/               # TypeScript source
+│   │   ├── api/           # REST API endpoints
+│   │   ├── services/      # Business logic (AI, IPFS, etc.)
+│   │   └── storage/       # Database & file storage
+│   ├── frontend/          # Built frontend (generated)
+│   ├── data/              # User data & database
+│   └── config/            # Configuration files
+├── packages/              # Shared packages
+│   └── particle-auth/     # Wallet integration
+└── scripts/               # Utility scripts
+```
+
+## Development Commands
+
+Run these from the `pc2-node/` directory:
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start production server |
+| `npm run dev` | Development mode (auto-restart on changes) |
+| `npm run build` | Build frontend and backend |
+| `npm run build:frontend` | Build frontend only |
+| `npm run build:backend` | Build backend (TypeScript) only |
+
+## Development Mode
+
+For active development with hot reloading:
+
+```bash
+cd pc2-node
+npm run dev
+```
+
+This uses `tsx watch` to automatically restart when you change files.
+
+## Building for Production
+
+```bash
+cd pc2-node
+npm run build
+```
+
+This runs:
+1. `build:frontend` - Compiles GUI and copies to `frontend/`
+2. `build:backend` - Compiles TypeScript to `dist/`
+
+## Configuration
+
+Config file: `pc2-node/config/config.json`
+
+```json
+{
+  "port": 4200,
+  "owner": "0xYourWalletAddress",
+  "ipfs": {
+    "mode": "hybrid"
+  }
+}
+```
+
+See [Configuration Reference](/cloud/reference/configuration) for all options.
+
+## Running as a Service
+
+For production, use PM2:
+
+```bash
+# Install PM2 globally
+npm install -g pm2
+
+# Start with PM2 (from pc2-node directory)
+cd pc2-node
+pm2 start npm --name "pc2" -- start
+
+# Save for auto-restart on reboot
+pm2 save
+pm2 startup
+```
+
+Or use systemd - see [VPS Guide](/cloud/getting-started/vps).
+
+## Common Issues
+
+### Port Already in Use
+
+```bash
+# Find process using port
+lsof -i :4200
+
+# Kill it
+kill -9 <PID>
+```
+
+### Build Errors
+
+```bash
+# Clean and rebuild
+cd pc2-node
+rm -rf dist node_modules
+npm install --legacy-peer-deps
+npm run build
+```
+
+### Missing Frontend
+
+If you see "index.html not found":
+
+```bash
+cd pc2-node
+npm run build:frontend
+```
+
+### TypeScript Errors
+
+Make sure dev dependencies are installed:
+
+```bash
+npm install --legacy-peer-deps --include=dev
+```
+
+---
+
+→ Ready to deploy publicly? See [VPS Deployment](/cloud/getting-started/vps)

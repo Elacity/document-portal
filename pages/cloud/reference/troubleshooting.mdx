@@ -1,0 +1,384 @@
+import { Callout } from 'nextra/components'
+
+# Troubleshooting
+
+Common issues and solutions for PC2.
+
+## Installation Issues
+
+### Node.js Version Error
+
+**Error**: "Node.js version 18+ required"
+
+**Solution**:
+```bash
+# Check version
+node --version
+
+# Install Node.js 20
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+
+### npm Install Fails
+
+**Error**: "npm ERR! code ENOENT"
+
+**Solution**:
+```bash
+# Clear cache
+npm cache clean --force
+
+# Delete node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Permission Denied
+
+**Error**: "EACCES: permission denied"
+
+**Solution**:
+```bash
+# Fix npm permissions
+sudo chown -R $(whoami) ~/.npm
+sudo chown -R $(whoami) /usr/local/lib/node_modules
+```
+
+---
+
+## Startup Issues
+
+### Port Already in Use
+
+**Error**: "EADDRINUSE: address already in use :::4200"
+
+**Solution**:
+```bash
+# Find process using port
+lsof -i :4200
+
+# Kill it
+kill -9 <PID>
+
+# Or use different port
+PORT=4300 npm start
+```
+
+### Database Locked
+
+**Error**: "SQLITE_BUSY: database is locked"
+
+**Solution**:
+```bash
+# Stop all node processes
+pkill -f node
+
+# Restart
+npm start
+```
+
+### Missing Identity
+
+**Error**: "Identity file not found"
+
+**Solution**:
+1. Delete the data directory
+2. Restart PC2
+3. Complete setup wizard again
+
+```bash
+rm -rf data/identity
+npm start
+```
+
+---
+
+## Authentication Issues
+
+### Wallet Won't Connect
+
+**Symptoms**: Click "Connect Wallet" but nothing happens
+
+**Solutions**:
+1. Check browser console for errors (F12)
+2. Try different browser
+3. Disable VPN (can block WalletConnect)
+4. Clear browser cache
+5. Try different wallet (MetaMask vs WalletConnect)
+
+### Session Expired
+
+**Symptoms**: Suddenly logged out
+
+**Solutions**:
+1. Connect wallet again
+2. Check server time is correct
+3. Increase session duration in config
+
+```json
+{
+  "session": {
+    "expiryDays": 30
+  }
+}
+```
+
+### Signature Rejected
+
+**Symptoms**: Wallet popup appears but login fails
+
+**Solutions**:
+1. Click "Sign" in wallet popup (don't reject)
+2. Check wallet is on correct network
+3. Try disconnecting and reconnecting wallet
+
+---
+
+## Connection Issues
+
+### Can't Access from Internet
+
+**Symptoms**: Works locally but not remotely
+
+**Solutions**:
+
+1. **Check firewall**:
+   ```bash
+   ufw allow 4200
+   ufw status
+   ```
+
+2. **Check super node registration**:
+   ```bash
+   curl http://localhost:4200/api/boson/status
+   ```
+
+3. **Register with gateway**:
+   ```bash
+   curl -X POST https://69.164.241.210/api/gateway/register \
+     -H "Content-Type: application/json" \
+     -d '{"subdomain": "yourname", "endpoint": "http://YOUR_IP:4200"}'
+   ```
+
+### Active Proxy Not Connecting
+
+**Symptoms**: NAT traversal not working
+
+**Solutions**:
+
+1. Check outbound TCP to port 8090:
+   ```bash
+   nc -vz 69.164.241.210 8090
+   ```
+
+2. Verify identity exists:
+   ```bash
+   cat data/identity/identity.json
+   ```
+
+3. Check proxy status:
+   ```bash
+   curl http://localhost:4200/api/boson/status
+   ```
+
+### SSL Certificate Error
+
+**Symptoms**: "Your connection is not private"
+
+**Solutions**:
+1. Wait for Let's Encrypt propagation (up to 30 min)
+2. Check DNS is correct
+3. For custom domain, verify Caddy is running:
+   ```bash
+   systemctl status caddy
+   journalctl -u caddy -n 50
+   ```
+
+---
+
+## AI Issues
+
+### Ollama Not Working
+
+**Error**: "Connection refused to localhost:11434"
+
+**Solutions**:
+1. Install Ollama:
+   ```bash
+   curl -fsSL https://ollama.com/install.sh | sh
+   ```
+
+2. Start Ollama:
+   ```bash
+   ollama serve
+   ```
+
+3. Pull a model:
+   ```bash
+   ollama pull deepseek-r1:7b
+   ```
+
+### Cloud AI Not Responding
+
+**Error**: "API key invalid" or timeout
+
+**Solutions**:
+1. Verify API key is correct
+2. Check API key has credits/quota
+3. Try regenerating API key
+4. Check provider status page
+
+### AI Response Cuts Off
+
+**Symptoms**: Incomplete responses
+
+**Solutions**:
+1. Try smaller model
+2. Reduce max tokens in request
+3. Check server memory:
+   ```bash
+   free -m
+   ```
+
+---
+
+## File Issues
+
+### Upload Fails
+
+**Error**: "File too large"
+
+**Solutions**:
+1. Check file size limit in config:
+   ```json
+   {
+     "storage": {
+       "maxFileSize": 209715200
+     }
+   }
+   ```
+
+2. Check disk space:
+   ```bash
+   df -h
+   ```
+
+### Files Not Syncing
+
+**Symptoms**: Changes don't appear on other devices
+
+**Solutions**:
+1. Check WebSocket connection (browser console)
+2. Refresh the page
+3. Check server logs for errors
+
+---
+
+## Update Issues
+
+### Update Stuck
+
+**Symptoms**: Progress modal hangs
+
+**Solutions**:
+1. Check server logs:
+   ```bash
+   journalctl -u pc2-node -f
+   ```
+
+2. Manually complete update:
+   ```bash
+   cd /path/to/pc2-node
+   git pull origin main
+   npm install
+   npm run build
+   systemctl restart pc2-node
+   ```
+
+### Build Fails During Update
+
+**Symptoms**: "npm ERR!" during update
+
+**Solutions**:
+1. Check disk space:
+   ```bash
+   df -h
+   ```
+
+2. Check memory:
+   ```bash
+   free -m
+   ```
+
+3. Try manual update with more detail:
+   ```bash
+   npm install --verbose
+   ```
+
+---
+
+## Performance Issues
+
+### Slow File Operations
+
+**Solutions**:
+1. Use SSD storage
+2. Check IPFS compaction:
+   ```bash
+   # May need to rebuild IPFS repo
+   rm -rf data/ipfs
+   # Restart node
+   ```
+
+### High Memory Usage
+
+**Solutions**:
+1. Reduce AI model size
+2. Enable swap:
+   ```bash
+   sudo fallocate -l 2G /swapfile
+   sudo chmod 600 /swapfile
+   sudo mkswap /swapfile
+   sudo swapon /swapfile
+   ```
+
+### High CPU Usage
+
+**Solutions**:
+1. Check for runaway processes:
+   ```bash
+   top
+   ```
+
+2. Restart the service:
+   ```bash
+   systemctl restart pc2-node
+   ```
+
+---
+
+## Getting Help
+
+If none of these solutions work:
+
+1. **Check logs**:
+   ```bash
+   journalctl -u pc2-node -n 100
+   ```
+
+2. **Search GitHub Issues**:
+   [github.com/Elacity/pc2.net/issues](https://github.com/Elacity/pc2.net/issues)
+
+3. **Open new issue** with:
+   - PC2 version
+   - Operating system
+   - Error message
+   - Steps to reproduce
+
+4. **Community support**:
+   - Telegram: [t.me/elastos](https://t.me/elastos)
+
+<Callout type="info">
+Include your server logs when asking for help—they contain crucial debugging information.
+</Callout>

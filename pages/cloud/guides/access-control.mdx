@@ -1,0 +1,184 @@
+import { Callout } from 'nextra/components'
+
+# Access Control
+
+Configure multi-user access to your PC2 node.
+
+## Overview
+
+By default, the first wallet to login becomes the **Owner**. The owner can:
+
+- Add additional wallets
+- Assign roles (Admin, Member)
+- Remove access
+- Manage all settings
+
+## Roles
+
+| Role | Permissions |
+|------|-------------|
+| **Owner** | Full access, manage all wallets, system settings |
+| **Admin** | Full data access, cannot manage other admins |
+| **Member** | Own wallet scope only, limited settings |
+
+## Enabling Access Control
+
+Access control is disabled by default. To enable:
+
+### From UI
+
+1. Go to **Settings → Security**
+2. Find "Access Control" section
+3. Toggle "Enable Access Control"
+4. Click Save
+
+### From Config
+
+Edit `data/config/pc2.json`:
+
+```json
+{
+  "accessControl": {
+    "enabled": true,
+    "allowedWallets": []
+  }
+}
+```
+
+## Adding Wallets
+
+<Callout type="info">
+Only the Owner can add new wallets.
+</Callout>
+
+### From UI
+
+1. Go to **Settings → Security**
+2. Find "Allowed Wallets" section
+3. Enter wallet address (0x...)
+4. Select role (Admin or Member)
+5. Click "Add Wallet"
+
+### From API
+
+```bash
+curl -X POST http://localhost:4200/api/access/wallets \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "wallet": "0x1234...",
+    "role": "admin"
+  }'
+```
+
+## Removing Wallets
+
+1. Go to **Settings → Security**
+2. Find the wallet in the list
+3. Click the trash icon
+4. Confirm removal
+
+That wallet can no longer access your node.
+
+## Role Comparison
+
+### Owner
+
+- Is the first wallet to login
+- Cannot be removed
+- Can add/remove all wallets
+- Full system access
+
+### Admin
+
+- Full file access
+- Can use all apps
+- Cannot manage other admins
+- Cannot change system settings
+
+### Member
+
+- Access to own wallet scope
+- Limited app access
+- Read-only settings
+- Suitable for family/friends
+
+## Wallet Storage
+
+Allowed wallets are stored in:
+- `data/config/pc2.json` — Configuration
+- SQLite database — Runtime state
+
+Example config:
+
+```json
+{
+  "accessControl": {
+    "enabled": true,
+    "allowedWallets": [
+      {
+        "wallet": "0x1234567890abcdef...",
+        "role": "admin",
+        "addedAt": "2024-01-15T10:30:00Z"
+      },
+      {
+        "wallet": "0xabcdef1234567890...",
+        "role": "member",
+        "addedAt": "2024-01-16T14:20:00Z"
+      }
+    ]
+  }
+}
+```
+
+## Login History
+
+Track who accesses your node:
+
+1. Go to **Settings → Security**
+2. View "Login History" section
+3. See recent logins with wallet, time, IP
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/access/status` | GET | Access control status |
+| `/api/access/wallets` | GET | List allowed wallets |
+| `/api/access/wallets` | POST | Add wallet |
+| `/api/access/wallets/:id` | DELETE | Remove wallet |
+
+## Use Cases
+
+### Family Cloud
+
+1. Enable access control
+2. Add family members as Members
+3. Each has isolated storage
+4. Share files via Public folder
+
+### Team Workspace
+
+1. Enable access control
+2. Add team leads as Admins
+3. Add team members as Members
+4. Admins can manage shared resources
+
+### Personal Only
+
+Keep access control disabled for single-user mode (default).
+
+## Security Notes
+
+- Wallet addresses are immutable
+- Role changes take effect immediately
+- Removed wallets lose access instantly
+- Owner cannot be removed or demoted
+
+<Callout type="warning">
+Be careful who you add as Admin—they have full data access.
+</Callout>
+
+---
+
+→ See [Architecture](/cloud/architecture) for security details

@@ -1,0 +1,279 @@
+import { Callout } from 'nextra/components'
+
+# Super Node Guide
+
+Run your own PC2 gateway infrastructure.
+
+<Callout type="warning">
+**Advanced**: Running a super node requires server administration experience and ongoing maintenance.
+</Callout>
+
+## What is a Super Node?
+
+Super nodes provide infrastructure services:
+
+- **Web Gateway** — HTTPS termination, subdomain routing
+- **Boson DHT** — Distributed hash table bootstrap
+- **Active Proxy** — NAT traversal relay
+
+## Requirements
+
+### Hardware
+
+| Spec | Minimum | Recommended |
+|------|---------|-------------|
+| CPU | 2 vCPU | 4+ vCPU |
+| RAM | 4 GB | 8+ GB |
+| Storage | 40 GB SSD | 100+ GB NVMe |
+| Network | 100 Mbps | 1 Gbps |
+| IP | Static public IP | Static + IPv6 |
+
+### Software
+
+- Ubuntu 22.04 LTS
+- Node.js 20+
+- Caddy (for SSL)
+- Domain with wildcard DNS
+
+## Installation
+
+### 1. Server Setup
+
+```bash
+# Update system
+apt update && apt upgrade -y
+
+# Install Node.js
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+apt install -y nodejs
+
+# Install Caddy
+apt install -y debian-keyring debian-archive-keyring apt-transport-https
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
+apt update && apt install caddy
+```
+
+### 2. Clone Gateway Repository
+
+```bash
+git clone https://github.com/Elacity/pc2-supernode
+cd pc2-supernode
+npm install
+```
+
+### 3. Configure Gateway
+
+Create `config.json`:
+
+```json
+{
+  "gateway": {
+    "domain": "yourdomain.com",
+    "httpPort": 4100,
+    "httpsEnabled": true
+  },
+  "dht": {
+    "port": 39001,
+    "bootstrapNodes": [
+      "69.164.241.210:39001"
+    ]
+  },
+  "proxy": {
+    "port": 8090,
+    "maxConnections": 1000
+  }
+}
+```
+
+### 4. Configure Caddy
+
+Edit `/etc/caddy/Caddyfile`:
+
+```
+*.yourdomain.com {
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy localhost:4100
+}
+```
+
+<Callout type="info">
+Wildcard SSL requires DNS validation. Caddy supports multiple DNS providers.
+</Callout>
+
+### 5. Configure DNS
+
+At your DNS provider:
+
+| Record | Type | Value |
+|--------|------|-------|
+| `yourdomain.com` | A | YOUR_SERVER_IP |
+| `*.yourdomain.com` | A | YOUR_SERVER_IP |
+
+### 6. Create Services
+
+Web gateway service:
+
+```bash
+cat > /etc/systemd/system/pc2-gateway.service << 'EOF'
+[Unit]
+Description=PC2 Super Node Gateway
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/pc2-supernode
+ExecStart=/usr/bin/node dist/gateway.js
+Restart=on-failure
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+DHT service:
+
+```bash
+cat > /etc/systemd/system/pc2-dht.service << 'EOF'
+[Unit]
+Description=PC2 Boson DHT
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/pc2-supernode
+ExecStart=/usr/bin/node dist/dht.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+Active Proxy service:
+
+```bash
+cat > /etc/systemd/system/pc2-proxy.service << 'EOF'
+[Unit]
+Description=PC2 Active Proxy
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/pc2-supernode
+ExecStart=/usr/bin/node dist/proxy.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+### 7. Start Services
+
+```bash
+systemctl daemon-reload
+systemctl enable pc2-gateway pc2-dht pc2-proxy caddy
+systemctl start pc2-gateway pc2-dht pc2-proxy caddy
+```
+
+### 8. Configure Firewall
+
+```bash
+ufw allow 22      # SSH
+ufw allow 80      # HTTP
+ufw allow 443     # HTTPS
+ufw allow 39001/udp  # DHT
+ufw allow 8090    # Active Proxy
+ufw enable
+```
+
+## Verification
+
+### Check Services
+
+```bash
+systemctl status pc2-gateway
+systemctl status pc2-dht
+systemctl status pc2-proxy
+systemctl status caddy
+```
+
+### Test Gateway
+
+```bash
+curl https://test.yourdomain.com/health
+```
+
+### Test DHT
+
+```bash
+# From another machine
+nc -vuz YOUR_SERVER_IP 39001
+```
+
+### Test Proxy
+
+```bash
+nc -vz YOUR_SERVER_IP 8090
+```
+
+## Registering with Network
+
+Contact the Elacity team to add your super node to the official bootstrap list.
+
+Email: hello@ela.city
+
+Include:
+- Server IP
+- Domain
+- Location
+- Contact info
+
+## Monitoring
+
+### Logs
+
+```bash
+journalctl -u pc2-gateway -f
+journalctl -u pc2-dht -f
+journalctl -u pc2-proxy -f
+```
+
+### Metrics
+
+The gateway exposes metrics at `/metrics`:
+
+```bash
+curl http://localhost:4100/metrics
+```
+
+## Maintenance
+
+### Updates
+
+```bash
+cd /root/pc2-supernode
+git pull
+npm install
+npm run build
+systemctl restart pc2-gateway pc2-dht pc2-proxy
+```
+
+### Backups
+
+Backup the DHT data:
+
+```bash
+tar -czf dht-backup-$(date +%Y%m%d).tar.gz data/
+```
+
+---
+
+**Running a super node helps decentralize the PC2 network. Thank you for contributing!**

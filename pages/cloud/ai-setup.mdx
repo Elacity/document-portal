@@ -1,0 +1,137 @@
+import { Callout, Steps, Tabs } from 'nextra/components'
+
+# AI Setup
+
+Configure local AI for your PC2 personal cloud. This guide covers Ollama installation, model selection, GPU acceleration, and connecting external providers.
+
+<Callout type="info">
+With Ollama (local AI), your conversations stay 100% private - they never leave your machine.
+</Callout>
+
+## Installing Ollama
+
+<Tabs items={['macOS / Linux', 'Windows']}>
+  <Tabs.Tab>
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+  </Tabs.Tab>
+  <Tabs.Tab>
+Download from [ollama.com/download](https://ollama.com/download/windows)
+  </Tabs.Tab>
+</Tabs>
+
+Verify installation:
+```bash
+ollama --version
+```
+
+## Recommended Models
+
+| Model | Size | RAM Needed | Best For |
+|-------|------|------------|----------|
+| `deepseek-r1:1.5b` | 1GB | 4GB | Fast responses, basic tasks |
+| `llama3.2:3b` | 2GB | 6GB | Good balance |
+| `phi3:mini` | 2GB | 6GB | Microsoft's efficient model |
+| `mistral:7b` | 4GB | 8GB | Strong general purpose |
+| `llama3.2:8b` | 5GB | 12GB | Complex reasoning |
+| `codellama:7b` | 4GB | 8GB | Code generation |
+
+### Install a Model
+
+```bash
+ollama pull deepseek-r1:1.5b
+```
+
+Or via PC2: Settings → AI Setup → Click "Install" on any model.
+
+### List Installed Models
+
+```bash
+ollama list
+```
+
+## GPU Acceleration
+
+GPU dramatically improves AI speed.
+
+### NVIDIA GPUs (CUDA)
+
+Ollama automatically uses NVIDIA GPUs if CUDA is available.
+
+```bash
+# Check GPU is being used
+nvidia-smi
+```
+
+### Apple Silicon (M1/M2/M3)
+
+Ollama automatically uses Metal acceleration. No configuration needed.
+
+### No GPU?
+
+CPU-only works for smaller models (1.5b-3b). Larger models will be slow but functional.
+
+## Connecting to Remote Ollama
+
+If running Ollama on a different machine (like a powerful server):
+
+### On the Ollama Server
+
+```bash
+OLLAMA_HOST=0.0.0.0 ollama serve
+```
+
+### In PC2 Settings
+
+1. Go to Settings → AI Setup
+2. Set Ollama URL to `http://server-ip:11434`
+3. Save
+
+## External AI Providers
+
+PC2 also supports cloud providers for when you need more power:
+
+| Provider | Models | Get API Key |
+|----------|--------|-------------|
+| OpenAI | GPT-4, GPT-3.5 | [platform.openai.com](https://platform.openai.com) |
+| Anthropic | Claude 3 | [console.anthropic.com](https://console.anthropic.com) |
+| Google | Gemini | [aistudio.google.com](https://aistudio.google.com) |
+| xAI | Grok | xAI dashboard |
+
+<Callout type="warning">
+Cloud providers send data to their servers. Use Ollama for maximum privacy.
+</Callout>
+
+## Troubleshooting
+
+### "Ollama not available"
+
+```bash
+# Check if running
+curl http://localhost:11434/api/tags
+
+# Start Ollama
+ollama serve
+```
+
+### Slow Responses
+
+1. Use smaller model (`deepseek-r1:1.5b`)
+2. Enable GPU (see above)
+3. Check system resources: `htop`
+
+### Out of Memory
+
+1. Use smaller/quantized model
+2. Close other applications
+3. Add more RAM or swap
+
+## Model Recommendations by Use Case
+
+| Use Case | Recommended Model |
+|----------|-------------------|
+| General chat | llama3.2:3b, mistral:7b |
+| Coding | codellama:7b, deepseek-coder:6.7b |
+| Writing | mistral:7b, llama3.2:8b |
+| Fast responses | deepseek-r1:1.5b, phi3:mini |

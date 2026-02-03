@@ -1,0 +1,266 @@
+# Configuration
+
+All PC2 configuration options and environment variables.
+
+## Configuration File
+
+Location: `data/config/pc2.json`
+
+```json
+{
+  "pc2_mode": true,
+  "http_port": 4200,
+  "accessControl": {
+    "enabled": false,
+    "allowedWallets": []
+  },
+  "boson": {
+    "enabled": true,
+    "superNodes": [...]
+  },
+  "ai": {
+    "defaultProvider": "ollama",
+    "ollama": {
+      "baseUrl": "http://localhost:11434"
+    }
+  },
+  "updates": {
+    "autoCheck": true,
+    "checkInterval": 21600000
+  }
+}
+```
+
+## Core Settings
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `pc2_mode` | boolean | `true` | Enable PC2 features (vs vanilla Puter) |
+| `http_port` | number | `4200` | HTTP server port |
+| `data_dir` | string | `"./data"` | Data storage directory |
+
+## Access Control
+
+```json
+{
+  "accessControl": {
+    "enabled": false,
+    "allowedWallets": [
+      {
+        "wallet": "0x1234...",
+        "role": "admin",
+        "addedAt": "2024-01-15T10:00:00Z"
+      }
+    ]
+  }
+}
+```
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `enabled` | boolean | Enable access control |
+| `allowedWallets` | array | List of allowed wallet entries |
+| `allowedWallets[].wallet` | string | Ethereum address (0x...) |
+| `allowedWallets[].role` | string | "owner", "admin", or "member" |
+| `allowedWallets[].addedAt` | string | ISO timestamp when added |
+
+## Boson Network
+
+```json
+{
+  "boson": {
+    "enabled": true,
+    "superNodes": [
+      {
+        "host": "69.164.241.210",
+        "dhtPort": 39001,
+        "proxyPort": 8090
+      }
+    ],
+    "proxy": {
+      "enabled": true,
+      "keepaliveInterval": 30000,
+      "reconnectDelay": 5000
+    }
+  }
+}
+```
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | boolean | `true` | Enable Boson integration |
+| `superNodes` | array | [...] | List of super node endpoints |
+| `proxy.enabled` | boolean | `true` | Enable Active Proxy |
+| `proxy.keepaliveInterval` | number | `30000` | PING interval (ms) |
+| `proxy.reconnectDelay` | number | `5000` | Reconnect delay (ms) |
+
+## AI Providers
+
+```json
+{
+  "ai": {
+    "defaultProvider": "ollama",
+    "ollama": {
+      "baseUrl": "http://localhost:11434",
+      "defaultModel": "deepseek-r1:7b"
+    },
+    "openai": {
+      "apiKey": "sk-...",
+      "defaultModel": "gpt-4o"
+    },
+    "anthropic": {
+      "apiKey": "sk-ant-...",
+      "defaultModel": "claude-3-opus-20240229"
+    },
+    "gemini": {
+      "apiKey": "AIza...",
+      "defaultModel": "gemini-2.0-flash"
+    },
+    "xai": {
+      "apiKey": "xai-...",
+      "defaultModel": "grok-3"
+    }
+  }
+}
+```
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `defaultProvider` | string | Default AI provider |
+| `[provider].apiKey` | string | API key for provider |
+| `[provider].baseUrl` | string | Custom API endpoint |
+| `[provider].defaultModel` | string | Default model to use |
+
+## Updates
+
+```json
+{
+  "updates": {
+    "autoCheck": true,
+    "checkInterval": 21600000,
+    "githubRepo": "Elacity/pc2.net"
+  }
+}
+```
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `autoCheck` | boolean | `true` | Auto-check for updates |
+| `checkInterval` | number | `21600000` | Check interval (ms, 6 hours) |
+| `githubRepo` | string | `"Elacity/pc2.net"` | GitHub repo for updates |
+
+## Session
+
+```json
+{
+  "session": {
+    "expiryDays": 7,
+    "cookieName": "session"
+  }
+}
+```
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `expiryDays` | number | `7` | Session duration in days |
+| `cookieName` | string | `"session"` | Cookie name for session |
+
+## Storage
+
+```json
+{
+  "storage": {
+    "maxFileSize": 104857600,
+    "ipfs": {
+      "enabled": true,
+      "repo": "./data/ipfs"
+    }
+  }
+}
+```
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `maxFileSize` | number | `104857600` | Max upload size (100MB) |
+| `ipfs.enabled` | boolean | `true` | Enable IPFS storage |
+| `ipfs.repo` | string | `"./data/ipfs"` | IPFS repo directory |
+
+## Environment Variables
+
+Override config with environment variables:
+
+| Variable | Description |
+|----------|-------------|
+| `PORT` | HTTP port (overrides `http_port`) |
+| `NODE_ENV` | Environment ("development" or "production") |
+| `PC2_DATA_DIR` | Data directory path |
+| `PC2_CONFIG_FILE` | Path to config file |
+| `OPENAI_API_KEY` | OpenAI API key |
+| `ANTHROPIC_API_KEY` | Anthropic API key |
+| `GEMINI_API_KEY` | Google AI API key |
+| `XAI_API_KEY` | xAI API key |
+
+## Example Configurations
+
+### Minimal (Development)
+
+```json
+{
+  "pc2_mode": true,
+  "http_port": 4200
+}
+```
+
+### Production (VPS)
+
+```json
+{
+  "pc2_mode": true,
+  "http_port": 4200,
+  "accessControl": {
+    "enabled": true
+  },
+  "boson": {
+    "enabled": true
+  },
+  "updates": {
+    "autoCheck": true
+  }
+}
+```
+
+### Private (Home Server)
+
+```json
+{
+  "pc2_mode": true,
+  "http_port": 4200,
+  "accessControl": {
+    "enabled": true,
+    "allowedWallets": [
+      {"wallet": "0xmywallet...", "role": "owner"}
+    ]
+  },
+  "ai": {
+    "defaultProvider": "ollama",
+    "ollama": {
+      "baseUrl": "http://localhost:11434"
+    }
+  }
+}
+```
+
+## Config Validation
+
+PC2 validates configuration on startup. Invalid config causes:
+
+```
+[ERROR] Configuration validation failed:
+  - accessControl.allowedWallets[0].wallet: Invalid Ethereum address
+```
+
+Fix the error and restart.
+
+---
+
+→ See [Troubleshooting](/cloud/reference/troubleshooting) for common issues

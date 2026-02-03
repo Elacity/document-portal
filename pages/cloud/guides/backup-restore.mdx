@@ -1,0 +1,189 @@
+import { Callout, Steps } from 'nextra/components'
+
+# Backup & Restore
+
+Protect your data with PC2's backup system.
+
+## What Gets Backed Up
+
+A PC2 backup includes:
+
+- **User Files** — All files in your storage
+- **Database** — Metadata, sessions, settings
+- **Identity** — Node keypair and configuration
+- **App Data** — WASM apps and configurations
+
+## Creating a Backup
+
+### From the UI
+
+<Steps>
+### Open Settings
+
+Click the gear icon or go to Settings from the app menu.
+
+### Navigate to PC2 Tab
+
+Select the "PC2" tab in settings.
+
+### Click Create Backup
+
+Click the "Create Backup" button.
+
+### Wait for Completion
+
+Backup creation takes a few seconds to minutes depending on data size.
+
+### Download (Optional)
+
+Click "Download" to save the backup file locally.
+</Steps>
+
+### From Command Line
+
+```bash
+cd pc2-node
+
+# Create backup
+npm run backup
+
+# Backup is saved to data/backups/
+```
+
+## Backup Storage
+
+Backups are stored in:
+- **Local**: `pc2-node/data/backups/`
+- **Format**: `.tar.gz` compressed archive
+- **Naming**: `backup-YYYY-MM-DD-HHMMSS.tar.gz`
+
+## Downloading Backups
+
+1. Go to **Settings → PC2**
+2. Find backup in the list
+3. Click **Download**
+4. Save to external storage
+
+<Callout type="info">
+**Best Practice**: Download backups regularly and store them off-site (external drive, cloud storage, etc.)
+</Callout>
+
+## Restoring from Backup
+
+### Web UI Restore
+
+If your node is running:
+
+<Steps>
+### Open Settings
+
+Navigate to Settings → PC2.
+
+### Click Restore
+
+Select "Restore from Backup".
+
+### Choose Backup File
+
+Select a local backup or upload one.
+
+### Confirm Restore
+
+Click "Restore" and confirm.
+
+### Wait for Completion
+
+Node will restart automatically.
+</Steps>
+
+### Fresh Install Restore
+
+For a new node or disaster recovery:
+
+```bash
+# 1. Start PC2 node
+npm start
+
+# 2. Access the restore URL directly
+open http://localhost:4200/restore
+
+# 3. Upload your backup file
+# 4. Click Restore
+```
+
+### Command Line Restore
+
+```bash
+cd pc2-node
+
+# Restore from specific backup
+npm run restore -- --file data/backups/backup-2024-01-15.tar.gz
+```
+
+## Backup Best Practices
+
+### Frequency
+
+| Use Case | Recommended Frequency |
+|----------|----------------------|
+| Personal use | Weekly |
+| Active development | Daily |
+| Critical data | After every major change |
+
+### Storage Locations
+
+Keep backups in multiple locations:
+
+1. **Local** — On the same server (quick restore)
+2. **External Drive** — Physical backup
+3. **Cloud Storage** — Off-site (encrypted)
+4. **Another PC2 Node** — Cross-backup with friend
+
+### Encryption
+
+Backups contain sensitive data. If storing off-site:
+
+```bash
+# Encrypt with GPG
+gpg -c backup-2024-01-15.tar.gz
+
+# Creates backup-2024-01-15.tar.gz.gpg
+```
+
+## Recovery Phrase vs Backup
+
+| | Recovery Phrase | Full Backup |
+|-|-----------------|-------------|
+| **Restores** | Node identity only | Everything |
+| **Files** | No | Yes |
+| **Settings** | No | Yes |
+| **Size** | 12 words | MB-GB |
+
+<Callout type="warning">
+Your recovery phrase restores node identity but NOT your files. Always keep full backups.
+</Callout>
+
+## Automated Backups
+
+### Using Cron
+
+```bash
+# Edit crontab
+crontab -e
+
+# Add daily backup at 2 AM
+0 2 * * * cd /path/to/pc2-node && npm run backup
+```
+
+### Retention Policy
+
+Delete old backups to save space:
+
+```bash
+# Keep only last 7 days
+find /path/to/pc2-node/data/backups -mtime +7 -delete
+```
+
+---
+
+→ Next: [Auto Updates](/cloud/guides/updates)

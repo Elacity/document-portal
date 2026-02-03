@@ -1,0 +1,478 @@
+# API Reference
+
+Complete REST API documentation for PC2 nodes.
+
+## Base URL
+
+```
+http://localhost:4200
+https://yourname.ela.city
+```
+
+## Authentication
+
+Most endpoints require authentication via session token.
+
+### Headers
+
+```
+Authorization: Bearer <session_token>
+Cookie: session=<session_token>
+```
+
+Session tokens are obtained after wallet authentication.
+
+---
+
+## Auth Endpoints
+
+### Get Current User
+
+```http
+GET /whoami
+```
+
+**Response (Authenticated)**
+```json
+{
+  "user": {
+    "uuid": "123e4567-e89b-12d3-a456-426614174000",
+    "username": "alice",
+    "wallet": "0x1234567890abcdef...",
+    "authenticated": true
+  }
+}
+```
+
+**Response (Not Authenticated)**
+```json
+{
+  "user": {
+    "authenticated": false
+  }
+}
+```
+
+### Particle Auth Callback
+
+```http
+POST /auth/particle
+Content-Type: application/json
+
+{
+  "uuid": "particle-user-id",
+  "address": "0x1234567890abcdef...",
+  "token": "particle-jwt-token"
+}
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "user": { ... },
+  "sessionToken": "abc123..."
+}
+```
+
+---
+
+## File Endpoints
+
+### Read File
+
+```http
+GET /read?path=/Documents/hello.txt
+```
+
+**Response**
+```
+Hello, World!
+```
+
+### Write File
+
+```http
+POST /write
+Content-Type: multipart/form-data
+
+path: /Documents/hello.txt
+file: <file data>
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "path": "/Documents/hello.txt"
+}
+```
+
+### List Directory
+
+```http
+GET /readdir?path=/Documents
+```
+
+**Response**
+```json
+[
+  {
+    "name": "hello.txt",
+    "type": "file",
+    "size": 13,
+    "modified": "2024-01-15T10:30:00Z"
+  },
+  {
+    "name": "subfolder",
+    "type": "directory",
+    "modified": "2024-01-14T08:00:00Z"
+  }
+]
+```
+
+### File Metadata
+
+```http
+GET /stat?path=/Documents/hello.txt
+```
+
+**Response**
+```json
+{
+  "name": "hello.txt",
+  "path": "/Documents/hello.txt",
+  "type": "file",
+  "size": 13,
+  "modified": "2024-01-15T10:30:00Z",
+  "created": "2024-01-15T10:30:00Z"
+}
+```
+
+### Create Directory
+
+```http
+POST /mkdir
+Content-Type: application/json
+
+{
+  "path": "/Documents/newfolder"
+}
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "path": "/Documents/newfolder"
+}
+```
+
+### Delete File/Folder
+
+```http
+POST /delete
+Content-Type: application/json
+
+{
+  "path": "/Documents/hello.txt"
+}
+```
+
+**Response**
+```json
+{
+  "success": true
+}
+```
+
+### Move/Rename
+
+```http
+POST /move
+Content-Type: application/json
+
+{
+  "source": "/Documents/hello.txt",
+  "destination": "/Documents/renamed.txt"
+}
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "path": "/Documents/renamed.txt"
+}
+```
+
+---
+
+## WASM Endpoints
+
+### Execute WASM File
+
+```http
+POST /api/wasm/execute-file
+Content-Type: application/json
+
+{
+  "filepath": "/apps/calculator.wasm",
+  "function": "add",
+  "args": [5, 3]
+}
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "result": 8
+}
+```
+
+### Execute WASM Bytes
+
+```http
+POST /api/wasm/execute
+Content-Type: application/json
+
+{
+  "wasmBytes": "<base64-encoded-wasm>",
+  "function": "calculate",
+  "args": [10, 20]
+}
+```
+
+---
+
+## AI Endpoints
+
+### Chat (Streaming)
+
+```http
+POST /api/ai/chat
+Content-Type: application/json
+
+{
+  "provider": "openai",
+  "model": "gpt-4o",
+  "messages": [
+    {"role": "user", "content": "Hello!"}
+  ],
+  "stream": true
+}
+```
+
+**Response (Server-Sent Events)**
+```
+data: {"chunk": "Hello"}
+data: {"chunk": "! How"}
+data: {"chunk": " can I help?"}
+data: [DONE]
+```
+
+### List Models
+
+```http
+GET /api/ai/models
+```
+
+**Response**
+```json
+{
+  "providers": {
+    "ollama": ["deepseek-r1:7b", "llama3"],
+    "openai": ["gpt-4o", "gpt-4o-mini"],
+    "anthropic": ["claude-3-opus", "claude-3-sonnet"]
+  }
+}
+```
+
+---
+
+## Update Endpoints
+
+### Get Version
+
+```http
+GET /api/update/version
+```
+
+**Response**
+```json
+{
+  "version": "1.0.0",
+  "commit": "abc123",
+  "buildDate": "2024-01-15T10:00:00Z"
+}
+```
+
+### Check Status
+
+```http
+GET /api/update/status
+```
+
+**Response**
+```json
+{
+  "currentVersion": "1.0.0",
+  "latestVersion": "1.1.0",
+  "updateAvailable": true,
+  "releaseNotes": "Bug fixes and performance improvements"
+}
+```
+
+### Trigger Check
+
+```http
+POST /api/update/check
+```
+
+**Response**
+```json
+{
+  "updateAvailable": true,
+  "latestVersion": "1.1.0"
+}
+```
+
+### Install Update
+
+```http
+POST /api/update/install
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "message": "Update started"
+}
+```
+
+### Get Progress
+
+```http
+GET /api/update/progress
+```
+
+**Response**
+```json
+{
+  "isUpdating": true,
+  "progress": "Installing dependencies..."
+}
+```
+
+---
+
+## Backup Endpoints
+
+### Create Backup
+
+```http
+POST /api/backup/create
+```
+
+**Response**
+```json
+{
+  "success": true,
+  "filename": "backup-2024-01-15-103000.tar.gz",
+  "size": 15728640
+}
+```
+
+### List Backups
+
+```http
+GET /api/backup/list
+```
+
+**Response**
+```json
+{
+  "backups": [
+    {
+      "filename": "backup-2024-01-15-103000.tar.gz",
+      "size": 15728640,
+      "created": "2024-01-15T10:30:00Z"
+    }
+  ]
+}
+```
+
+### Download Backup
+
+```http
+GET /api/backup/download/:filename
+```
+
+**Response**: Binary file download
+
+---
+
+## System Endpoints
+
+### Health Check
+
+```http
+GET /health
+```
+
+**Response**
+```json
+{
+  "status": "ok",
+  "database": "connected",
+  "ipfs": "available",
+  "uptime": 86400
+}
+```
+
+### Boson Status
+
+```http
+GET /api/boson/status
+```
+
+**Response**
+```json
+{
+  "nodeId": "2abc...",
+  "did": "did:boson:2abc...",
+  "connected": true,
+  "proxyEnabled": true,
+  "allocatedPort": 25001
+}
+```
+
+---
+
+## Error Responses
+
+All errors return:
+
+```json
+{
+  "error": true,
+  "message": "Description of error",
+  "code": "ERROR_CODE"
+}
+```
+
+### Common Error Codes
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `UNAUTHORIZED` | 401 | Not authenticated |
+| `FORBIDDEN` | 403 | Access denied |
+| `NOT_FOUND` | 404 | Resource not found |
+| `VALIDATION_ERROR` | 400 | Invalid input |
+| `INTERNAL_ERROR` | 500 | Server error |
+
+---
+
+→ See [Configuration](/cloud/reference/configuration) for node settings

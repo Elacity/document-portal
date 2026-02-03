@@ -1,0 +1,220 @@
+import { Callout } from 'nextra/components'
+
+# NAT Traversal
+
+How PC2 makes nodes accessible from behind firewalls.
+
+## The Problem
+
+Most home and office networks use NAT (Network Address Translation):
+
+```
+┌───────────────────────────────────────────────────────┐
+│                    Your Home Network                   │
+│                                                       │
+│   PC2 Node (192.168.1.100:4200)                      │
+│       │                                               │
+│       ▼                                               │
+│   ┌─────────┐                                        │
+│   │ Router  │ ← NAT blocks incoming connections      │
+│   └────┬────┘                                        │
+└────────┼──────────────────────────────────────────────┘
+         │
+         ▼
+    Internet (Public IP: 203.0.113.50)
+         │
+    Someone trying to access your PC2 ✗
+```
+
+**Result**: External users can't reach your PC2 node.
+
+## The Solution: Active Proxy
+
+PC2 uses the Boson Active Proxy to tunnel connections:
+
+```
+┌───────────────────────────────────────────────────────┐
+│                    Your Home Network                   │
+│                                                       │
+│   PC2 Node (192.168.1.100:4200)                      │
+│       │                                               │
+│       │ (1) Outbound connection to proxy             │
+│       ▼                                               │
+│   ┌─────────┐                                        │
+│   │ Router  │                                        │
+│   └────┬────┘                                        │
+└────────┼──────────────────────────────────────────────┘
+         │
+         ▼ (2) Tunnel established
+┌────────────────────────────────────────────────────────┐
+│              Super Node (69.164.241.210)               │
+│                                                        │
+│   ┌─────────────────────────────────────────┐         │
+│   │           Active Proxy (:8090)           │         │
+│   │                                          │         │
+│   │  Port 25001 ←→ Tunnel ←→ Your PC2 Node  │         │
+│   └─────────────────────────────────────────┘         │
+│                                                        │
+│   (3) External user connects to port 25001            │
+│                                                        │
+└────────────────────────────────────────────────────────┘
+         ▲
+         │
+    External user accessing your PC2 ✓
+```
+
+## How It Works
+
+### 1. Authentication
+
+Your PC2 node connects to the Active Proxy:
+
+```
+PC2 Node → AUTH packet (signed with Ed25519) → Active Proxy
+Active Proxy → Verify signature → AUTH_ACK + allocated port
+```
+
+### 2. Port Allocation
+
+The proxy assigns a unique port (e.g., 25001) for your node:
+
+```
+yourname.ela.city → 69.164.241.210:25001 → tunnel → your PC2
+```
+
+### 3. Keepalive
+
+PC2 sends PING packets every 30 seconds to maintain the tunnel:
+
+```
+PC2 Node → PING → Active Proxy
+Active Proxy → PONG → PC2 Node
+```
+
+### 4. Request Relay
+
+When someone visits `yourname.ela.city`:
+
+```
+Browser → DNS → Super Node (:443)
+Super Node → Lookup "yourname" → Port 25001
+Super Node → Proxy to 25001 → Tunnel → Your PC2 Node
+Your PC2 Node → Response → Tunnel → Super Node → Browser
+```
+
+## Protocol Details
+
+### Packet Types
+
+| Type | Purpose |
+|------|---------|
+| AUTH | Initial authentication |
+| AUTH_ACK | Port assignment |
+| PING | Keepalive |
+| PONG | Keepalive response |
+| DATA | Relayed HTTP data |
+| CLOSE | Session termination |
+
+### Encryption
+
+All proxy traffic is encrypted:
+
+- **TLS 1.3** — Transport encryption
+- **CryptoBox** — Session encryption (curve25519-xsalsa20-poly1305)
+- **Ed25519** — Authentication signatures
+
+## Automatic Detection
+
+PC2 automatically detects if NAT traversal is needed:
+
+```typescript
+// ConnectivityService checks:
+1. Public IP matches actual IP? (no NAT needed)
+2. Port 4200 externally reachable? (no proxy needed)
+3. Neither? → Activate Active Proxy
+```
+
+<Callout type="info">
+VPS nodes with public IPs don't need the proxy—they connect directly.
+</Callout>
+
+## Configuration
+
+Active Proxy settings in `data/config/pc2.json`:
+
+```json
+{
+  "boson": {
+    "superNodes": [
+      {
+        "host": "69.164.241.210",
+        "proxyPort": 8090
+      }
+    ],
+    "proxy": {
+      "enabled": true,
+      "keepaliveInterval": 30000,
+      "reconnectDelay": 5000
+    }
+  }
+}
+```
+
+## Monitoring
+
+Check proxy status:
+
+```bash
+# From PC2 API
+curl http://localhost:4200/api/boson/status
+```
+
+Response:
+```json
+{
+  "connected": true,
+  "proxyEnabled": true,
+  "allocatedPort": 25001,
+  "superNode": "69.164.241.210"
+}
+```
+
+## Troubleshooting
+
+### Proxy Won't Connect
+
+1. Check super node is reachable:
+   ```bash
+   nc -vz 69.164.241.210 8090
+   ```
+
+2. Verify identity exists:
+   ```bash
+   cat data/identity/identity.json
+   ```
+
+3. Check firewall allows outbound TCP to port 8090
+
+### Tunnel Drops
+
+- Check internet stability
+- Increase keepalive frequency if needed
+- Look for reconnection in logs
+
+### Slow Connection
+
+Proxied connections add latency. For better performance:
+- Use a VPS with public IP
+- Choose super node closer to your location
+
+## Comparison
+
+| Method | Latency | Setup | Reliability |
+|--------|---------|-------|-------------|
+| **Direct (VPS)** | Lowest | Requires VPS | High |
+| **Active Proxy** | +50-100ms | Automatic | High |
+| **Port Forward** | Low | Manual router config | Medium |
+
+---
+
+→ See [Super Node Guide](/cloud/infrastructure/supernode) to run your own

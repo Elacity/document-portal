@@ -1,0 +1,129 @@
+import { Callout, Steps } from 'nextra/components'
+
+# First Login
+
+Your complete guide to connecting your wallet and setting up your PC2 node.
+
+## Supported Wallets
+
+PC2 uses Particle Network for authentication, supporting:
+
+- **MetaMask** — Browser extension
+- **WalletConnect** — Mobile wallets via QR
+- **Coinbase Wallet** — Browser & mobile
+- **Social Login** — Google, Twitter, Email
+
+<Callout type="info">
+**Recommended**: MetaMask for the smoothest experience.
+</Callout>
+
+## Login Flow
+
+<Steps>
+### Open PC2
+
+Navigate to your PC2 URL:
+- Local: `http://localhost:4200`
+- VPS: `https://yourname.ela.city`
+
+### Click Connect Wallet
+
+The login screen shows "Connect Wallet" button.
+
+### Choose Your Wallet
+
+Select your preferred wallet type from the modal.
+
+### Approve Connection
+
+- **MetaMask**: Click "Connect" in the MetaMask popup
+- **WalletConnect**: Scan QR with your mobile wallet
+- **Social**: Complete OAuth flow
+
+### Sign Authentication Message
+
+You'll be asked to sign a message to prove ownership. This is free (no gas).
+
+### Setup Wizard (First Time Only)
+
+On first login, you'll see:
+1. **Welcome** — Introduction to PC2
+2. **Choose Username** — Select your `*.ela.city` subdomain
+3. **Save Recovery Phrase** — Backup your 12-word phrase
+4. **Complete** — Ready to use!
+
+### Desktop Loads
+
+You're now in your personal cloud!
+</Steps>
+
+## Setup Wizard Details
+
+### Username Selection
+
+- Must be 3-20 characters
+- Lowercase letters, numbers, hyphens only
+- Cannot start/end with hyphen
+- Must be unique (availability checked in real-time)
+
+Your username becomes: `yourname.ela.city`
+
+### Recovery Phrase
+
+<Callout type="warning">
+**Critical**: Write down your 12-word recovery phrase and store it safely. This is the ONLY way to recover your node identity if you lose access.
+</Callout>
+
+The recovery phrase:
+- Generates your node's Ed25519 keypair
+- Creates your DID (Decentralized Identifier)
+- Can restore your identity on a new device
+
+Click "Copy to Clipboard" and save somewhere secure.
+
+## Session Persistence
+
+After login:
+- Session lasts 7 days by default
+- Survives page refreshes
+- Works across tabs
+- Stored in browser cookie
+
+## Multiple Devices
+
+You can access your PC2 node from multiple devices:
+1. Open the same URL on another device
+2. Connect with the same wallet
+3. Sign authentication message
+4. You're in the same cloud!
+
+## Wallet Sidebar
+
+After login, hover on the right edge of the screen to open the wallet sidebar:
+
+- **Account** — Wallet address, DID, balance
+- **Send** — Transfer tokens
+- **Activity** — Transaction history
+
+## Troubleshooting
+
+### Wallet Won't Connect
+
+1. Check browser console for errors
+2. Try a different wallet
+3. Clear browser cache
+4. Disable VPN (can interfere with WalletConnect)
+
+### "Sign Message" Hangs
+
+1. Check wallet popup isn't hidden
+2. Try disconnecting and reconnecting wallet
+3. Restart browser
+
+### Session Expired
+
+Just connect your wallet again—your data is safe.
+
+---
+
+→ Next: [File Management](/cloud/guides/file-management)
