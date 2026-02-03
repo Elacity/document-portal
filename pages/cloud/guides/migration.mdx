@@ -1,0 +1,97 @@
+import { Callout, Steps } from 'nextra/components'
+
+# Migrating from 2.x to 1.x
+
+<Callout type="warning">
+If you installed PC2 before February 2026, you're on version 2.6.x. You need to manually update once to get on the new release track.
+</Callout>
+
+## Why Manual Update?
+
+We reset our versioning for the public launch:
+- **Old versions**: 2.6.0 → 2.6.8 (pre-release/beta)
+- **New versions**: 0.1.1 → 1.0.0+ (public release)
+
+Your PC2 thinks 2.6.x is "newer" than 0.1.1, so auto-update won't kick in. **This is a one-time fix** - after this, auto-updates work normally.
+
+## How to Update
+
+<Steps>
+
+### Stop PC2
+
+```bash
+pm2 stop pc2
+```
+
+### Update the code
+
+```bash
+cd ~/pc2.net
+git fetch origin main
+git reset --hard origin/main
+```
+
+### Reinstall dependencies
+
+```bash
+npm install --legacy-peer-deps --ignore-scripts
+```
+
+### Rebuild
+
+```bash
+cd pc2-node && npm run build
+```
+
+### Restart PC2
+
+```bash
+pm2 restart pc2
+```
+
+### Verify
+
+Open your PC2 in browser and go to **Settings → About**. You should see version **0.1.1** or higher.
+
+</Steps>
+
+## Quick One-Liner
+
+If you prefer, run this single command:
+
+```bash
+pm2 stop pc2 && cd ~/pc2.net && git fetch origin main && git reset --hard origin/main && npm install --legacy-peer-deps --ignore-scripts && cd pc2-node && npm run build && pm2 restart pc2
+```
+
+## After Migration
+
+Once you're on 0.1.1+, auto-updates work normally:
+- Go to **Settings → About → Check for Updates**
+- Or wait for the update notification
+
+<Callout type="info">
+Your files and data are preserved during this update. Only the application code changes.
+</Callout>
+
+## Troubleshooting
+
+### "Permission denied" errors
+
+```bash
+sudo chown -R $USER:$USER ~/pc2.net
+```
+
+### Build fails
+
+```bash
+rm -rf node_modules
+npm install --legacy-peer-deps --ignore-scripts
+cd pc2-node && npm run build
+```
+
+### PM2 not found
+
+```bash
+source ~/.nvm/nvm.sh
+```

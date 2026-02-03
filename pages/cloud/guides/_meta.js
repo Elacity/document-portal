@@ -4,5 +4,6 @@ export default {
   "ai-chat": "AI Chat Setup",
   "backup-restore": "Backup & Restore",
   updates: "Auto Updates",
-  "access-control": "Access Control"
+  "access-control": "Access Control",
+  migration: "Migrate from 2.x"
 }
