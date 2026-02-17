@@ -5,9 +5,5 @@ export default {
     type: "separator"
   },
   cloud: "Personal Cloud",
-  exchange: "Exchange",
-  "---2": {
-    type: "separator"
-  },
-  "getting-started": "Get Started"
+  exchange: "Exchange"
 }

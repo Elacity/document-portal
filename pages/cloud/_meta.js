@@ -1,11 +1,16 @@
 export default {
   index: "Overview",
-  "why-pc2": "Why Self-Host?",
-  features: "Features",
-  "getting-started": "Getting Started",
-  guides: "User Guides",
+  "getting-started": "Install",
   "ai-setup": "AI Setup",
-  "managing": "Managing PC2",
+  guides: "Guides",
+  managing: "Managing PC2",
+  "---": {
+    type: "separator",
+    title: "Learn More"
+  },
+  features: "Features",
+  "why-pc2": "Why Self-Host?",
+  architecture: "Architecture",
   infrastructure: "Infrastructure",
   reference: "Reference"
 }

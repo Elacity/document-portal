@@ -1,9 +1,9 @@
 export default {
   index: "Quick Start",
-  local: "Local Install",
-  vps: "VPS Deployment",
-  docker: "Docker",
-  source: "From Source",
+  vps: "VPS Server",
+  jetson: "NVIDIA Jetson",
   "raspberry-pi": "Raspberry Pi",
-  jetson: "NVIDIA Jetson"
+  local: "Local (Mac/Linux/Win)",
+  docker: "Docker",
+  source: "From Source"
 }
