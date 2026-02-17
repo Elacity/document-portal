@@ -4,5 +4,6 @@ export default {
   vps: "VPS Deployment",
   docker: "Docker",
   source: "From Source",
-  "raspberry-pi": "Raspberry Pi"
+  "raspberry-pi": "Raspberry Pi",
+  jetson: "NVIDIA Jetson"
 }

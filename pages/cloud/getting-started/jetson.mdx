@@ -1,0 +1,307 @@
+import { Callout, Steps } from 'nextra/components'
+
+# NVIDIA Jetson
+
+Run PC2 on an NVIDIA Jetson device for GPU-accelerated private AI. Your Jetson becomes a sovereign AI node — running local language models with hardware acceleration, no cloud APIs needed.
+
+<Callout type="info">
+**Why Jetson?** Jetson devices have dedicated NVIDIA GPUs that accelerate AI inference 3-10x faster than CPU-only. This means faster responses from your local AI agent, entirely private, entirely on your hardware.
+</Callout>
+
+## Supported Devices
+
+| Model | RAM | GPU | AI Performance | Price |
+|-------|-----|-----|----------------|-------|
+| **Jetson Nano (4GB)** | 4GB | 128 CUDA cores | Entry-level | ~$150 |
+| **Jetson Orin Nano** | 8GB | 1024 CUDA cores | Mid-range (recommended) | ~$250 |
+| **Jetson Orin NX** | 16GB | 2048 CUDA cores | High-end | ~$900 |
+| **Jetson AGX Orin** | 64GB | 2048 CUDA cores | Enterprise | ~$2000 |
+
+<Callout type="warning">
+**Jetson Nano (4GB)**: Can run PC2 and small AI models (`deepseek-r1:1.5b`). For larger models, use an Orin device with 8GB+ RAM.
+</Callout>
+
+## Step 1: Flash JetPack OS
+
+<Steps>
+
+### Download JetPack
+
+Go to [developer.nvidia.com/jetpack](https://developer.nvidia.com/embedded/jetpack) and download the latest JetPack SD card image for your device.
+
+### Flash the Image
+
+Use [balenaEtcher](https://etcher.balena.io/) or the NVIDIA SDK Manager to flash the image to your SD card or NVMe SSD.
+
+### First Boot
+
+Connect keyboard, monitor, and ethernet. Power on and complete the Ubuntu setup wizard. Set your username and password.
+
+</Steps>
+
+## Step 2: Remove Desktop (Recommended)
+
+The GNOME desktop environment uses 1-2GB of RAM. Since PC2 provides its own web-based interface, you don't need it. Removing it frees up RAM for AI models.
+
+```bash
+# Remove GNOME desktop to free RAM for AI
+sudo systemctl set-default multi-user.target
+sudo apt remove --purge -y ubuntu-desktop gnome-shell gdm3
+sudo apt autoremove -y
+sudo reboot
+```
+
+After reboot, your Jetson will boot to a terminal. SSH in from another computer:
+
+```bash
+ssh your-username@your-jetson-ip
+```
+
+<Callout type="info">
+Find your Jetson's IP address by checking your router's connected devices, or run `hostname -I` on the Jetson before removing the desktop.
+</Callout>
+
+## Step 3: Install Node.js
+
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Node.js 20 LTS
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Install build tools (needed for native modules)
+sudo apt install -y build-essential git libcairo2-dev libpango1.0-dev \
+  libjpeg-dev libgif-dev librsvg2-dev
+
+# Verify
+node --version  # Should show v20.x.x
+npm --version
+```
+
+## Step 4: Install Ollama (Local AI)
+
+```bash
+# Install Ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Verify Ollama detects GPU
+ollama --version
+```
+
+<Callout type="info">
+Ollama automatically detects CUDA on Jetson devices. No extra GPU configuration is needed if JetPack was installed correctly.
+</Callout>
+
+### Download an AI Model
+
+Choose a model based on your device's RAM:
+
+```bash
+# For Jetson Nano (4GB) — lightweight model
+ollama pull deepseek-r1:1.5b
+
+# For Jetson Orin (8GB+) — more capable model
+ollama pull llama3.2:3b
+
+# For Jetson Orin NX/AGX (16GB+) — full-size model
+ollama pull mistral:7b
+```
+
+Test it:
+
+```bash
+ollama run deepseek-r1:1.5b "Hello, what can you do?"
+```
+
+You should see the response generated using your Jetson's GPU.
+
+## Step 5: Install PC2
+
+### Option A: One-Line Install (Recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+```
+
+This installs PC2, builds it, and starts it with PM2.
+
+### Option B: Manual Install
+
+```bash
+# Install PM2 (process manager)
+sudo npm install -g pm2
+
+# Clone repository
+git clone https://github.com/Elacity/pc2.net
+cd pc2.net
+
+# Install dependencies
+npm install --legacy-peer-deps --ignore-scripts
+
+# Build PC2
+cd pc2-node
+npm install --legacy-peer-deps
+npm run build
+
+# Start with PM2
+pm2 start npm --name pc2 -- start
+pm2 save
+pm2 startup
+```
+
+## Step 6: Access Your Cloud
+
+Open a browser on any device on your network and go to:
+
+```
+http://your-jetson-ip:4200
+```
+
+You'll see the PC2 setup wizard. Connect your wallet and pick a username.
+
+<Callout type="info">
+**Remote Access**: Once connected, your Jetson automatically registers a `username.ela.city` domain through the Boson network. Anyone can reach your PC2 at `https://username.ela.city` — even though your Jetson is behind your home router.
+</Callout>
+
+## Managing PC2
+
+### Common Commands
+
+```bash
+# Check status
+pm2 status
+
+# View logs
+pm2 logs pc2
+
+# Restart
+pm2 restart pc2
+
+# Stop
+pm2 stop pc2
+
+# Monitor (real-time dashboard)
+pm2 monit
+```
+
+### Update PC2
+
+```bash
+pm2 stop pc2
+cd ~/pc2.net
+git pull origin main
+cd pc2-node
+npm run build
+pm2 restart pc2
+```
+
+### Auto-Start on Boot
+
+```bash
+pm2 startup    # Follow the printed command
+pm2 save       # Save current process list
+```
+
+Now PC2 starts automatically when your Jetson powers on.
+
+## Performance Optimization
+
+### Use NVMe SSD
+
+SD cards are slow. For significantly better performance, use an NVMe SSD:
+
+1. Install an M.2 NVMe SSD in your Jetson's M.2 slot
+2. Flash JetPack directly to the SSD, or move the root filesystem to SSD
+
+### Increase Swap
+
+For running larger AI models, add swap space:
+
+```bash
+# Create 4GB swap file
+sudo fallocate -l 4G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+# Make permanent
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+### Set Max Performance Mode
+
+Jetson devices have power modes. For maximum AI performance:
+
+```bash
+# Set to maximum performance (Orin)
+sudo nvpmodel -m 0
+
+# Set max clock speeds
+sudo jetson_clocks
+```
+
+<Callout type="warning">
+Maximum performance mode uses more power and generates more heat. Ensure adequate cooling.
+</Callout>
+
+### Monitor GPU Usage
+
+```bash
+# Check GPU utilization
+sudo tegrastats
+
+# Or use jtop (Jetson's htop equivalent)
+sudo pip3 install jetson-stats
+sudo jtop
+```
+
+## Troubleshooting
+
+### Ollama Not Using GPU
+
+```bash
+# Check if CUDA is available
+nvcc --version
+
+# If not found, install JetPack CUDA toolkit
+sudo apt install -y nvidia-jetpack
+
+# Restart Ollama
+sudo systemctl restart ollama
+```
+
+### Out of Memory
+
+If PC2 or Ollama crashes with OOM errors:
+
+1. Remove the desktop environment (Step 2)
+2. Use a smaller AI model (`deepseek-r1:1.5b` instead of `mistral:7b`)
+3. Increase swap space (see above)
+4. Close unnecessary services: `sudo systemctl disable bluetooth`
+
+### Build Errors (node-pty)
+
+If you get native module errors during `npm install`:
+
+```bash
+sudo apt install -y build-essential libcairo2-dev libpango1.0-dev \
+  libjpeg-dev libgif-dev librsvg2-dev
+npm rebuild
+```
+
+### Can't Access from Browser
+
+1. Check PC2 is running: `pm2 status`
+2. Check the port: `curl http://localhost:4200/health`
+3. Check firewall: `sudo ufw allow 4200`
+4. Use the Jetson's IP address, not `localhost`, from another device
+
+### WASM Warning
+
+You may see `wasm streaming compile failed` in the logs. This is harmless — it falls back to ArrayBuffer instantiation and works correctly.
+
+---
+
+**Your hardware. Your AI. Your sovereignty.**
