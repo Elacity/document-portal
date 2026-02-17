@@ -52,29 +52,6 @@ Once complete, open **http://your-jetson-ip:4200** in a browser on any device on
 **Remote Access**: Your Jetson automatically registers a `username.ela.city` domain through the Boson network. Anyone can reach your PC2 at `https://username.ela.city` — even behind your home router.
 </Callout>
 
-## Step 3: Install Ollama for Local AI (Optional)
-
-To run AI models locally on your Jetson's GPU:
-
-```bash
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
-Then pull a model based on your RAM:
-
-```bash
-# Jetson Nano (4GB)
-ollama pull deepseek-r1:1.5b
-
-# Jetson Orin (8GB+)
-ollama pull llama3.2:3b
-
-# Jetson Orin NX/AGX (16GB+)
-ollama pull mistral:7b
-```
-
-Ollama automatically detects CUDA on Jetson. No extra GPU setup needed.
-
 ## Managing PC2
 
 ```bash
