@@ -53,11 +53,13 @@ node --version
 
 ### 4. Install PC2
 
-You can use the one-liner (recommended):
+Use the ARM install script (recommended):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+cd ~ && git clone https://github.com/Elacity/pc2.net.git && cd pc2.net && sudo bash scripts/install-arm.sh
 ```
+
+This installs Node.js, WireGuard, stealth transports, builds PC2, and starts it automatically.
 
 Or manually:
 

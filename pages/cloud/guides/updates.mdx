@@ -33,23 +33,18 @@ When you click "Install Update":
 
 A progress modal shows each step.
 
+## Desktop Launcher Update
+
+If you use the **ElastOS Desktop Launcher**, it displays the installed PC2 version and checks for updates automatically. When a new release is available, an "Update" button appears — click it to update with zero terminal commands.
+
 ## Manual Update
 
 If you prefer manual control:
 
 ```bash
-# SSH into your server
-cd /path/to/pc2-node
-
-# Pull latest
-git pull origin main
-
-# Rebuild
-npm install
-npm run build
-
-# Restart
-systemctl restart pc2-node
+cd ~/pc2.net && git fetch origin && git reset --hard origin/main
+cd pc2-node && npm install --legacy-peer-deps && npm run build
+pm2 restart pc2          # or: systemctl restart pc2-node (on VPS)
 ```
 
 ## Check Current Version

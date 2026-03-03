@@ -13,7 +13,7 @@ Download the **ElastOS Desktop Launcher** for a visual interface:
 | **macOS** | [Download .dmg](https://github.com/Elacity/elastos-launcher/releases/latest) |
 | **Linux** | [Download .AppImage](https://github.com/Elacity/elastos-launcher/releases/latest) |
 
-The launcher provides one-click Start/Stop, status monitoring, and log viewing.
+The launcher provides one-click Start/Stop, status monitoring, log viewing, and automatic update detection with one-click PC2 updates.
 
 <Callout type="warning">
 **Windows users:** Local installation is complex. We recommend using a [VPS](/cloud/getting-started/vps) instead. See the Windows section below for details.
@@ -29,11 +29,12 @@ macOS shows a security warning for apps downloaded outside the App Store. Follow
 4. **Copy and paste this command** (it will install the app and open it):
 
 ```bash
-cp -R "/Volumes/ElastOS 1.0.0-arm64/ElastOS.app" /Applications/ && xattr -cr /Applications/ElastOS.app && open /Applications/ElastOS.app
+# Replace VERSION with the version you downloaded (e.g. 1.0.0)
+cp -R "/Volumes/ElastOS VERSION-arm64/ElastOS.app" /Applications/ && xattr -cr /Applications/ElastOS.app && open /Applications/ElastOS.app
 ```
 
 <Callout type="info">
-**Version note:** The volume name includes the version number. If you downloaded a newer release, replace `1.0.0` with the version you downloaded. Run `ls /Volumes/` after opening the `.dmg` to see the exact name.
+**Find the volume name:** After opening the `.dmg`, run `ls /Volumes/` to see the exact name (e.g. `ElastOS 1.0.0-arm64`). Use that in the command above.
 </Callout>
 
 5. **Done!** The app opens automatically. You only need to do this once - next time just open ElastOS from your Applications folder.
@@ -102,16 +103,12 @@ Press `Ctrl+C` to stop watching logs.
 
 ### How do I update PC2?
 
-Open PC2 in your browser, go to **Settings → About**, and click **Check for Updates**.
+**If using the Desktop Launcher:** The launcher shows your current version and an "Update" button when a new release is available. Click it to update automatically.
 
-Or via terminal:
+**If using the terminal install:**
 
 ```bash
-cd ~/pc2.net
-git pull origin main
-npm install --legacy-peer-deps --ignore-scripts
-cd pc2-node && npm run build
-pm2 restart pc2
+cd ~/pc2.net && git fetch origin && git reset --hard origin/main && cd pc2-node && npm install --legacy-peer-deps && npm run build && pm2 restart pc2
 ```
 
 ---

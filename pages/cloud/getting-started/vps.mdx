@@ -201,12 +201,8 @@ Settings → About → Check for Updates → Install Update
 **Via Terminal:**
 
 ```bash
-cd ~/pc2.net
-git pull origin main
-npm install --legacy-peer-deps --ignore-scripts
-cd pc2-node
-npm install --legacy-peer-deps --include=dev
-npm run build
+cd ~/pc2.net && git fetch origin && git reset --hard origin/main
+cd pc2-node && npm install --legacy-peer-deps && npm run build
 systemctl restart pc2-node
 ```
 

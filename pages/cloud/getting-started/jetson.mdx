@@ -17,6 +17,10 @@ Run PC2 on an NVIDIA Jetson for GPU-accelerated private AI. Your Jetson becomes 
 | **Jetson Orin NX** | 16GB | 2048 CUDA cores | High-end | ~$900 |
 | **Jetson AGX Orin** | 64GB | 2048 CUDA cores | Enterprise | ~$2000 |
 
+<Callout type="info">
+**JetPack**: Use the latest JetPack version available for your device. The install script auto-detects your JetPack version and configures accordingly.
+</Callout>
+
 ## Step 1: Free Up RAM (Recommended)
 
 Your Jetson ships with a GNOME desktop that uses 1-2GB of RAM. Since PC2 provides its own web interface, remove it to free that RAM for AI:
@@ -40,16 +44,23 @@ Find your Jetson's IP before removing the desktop: run `hostname -I`
 
 ## Step 2: Install PC2
 
-One command. This installs everything — Node.js, dependencies, build tools, and starts the server:
+One command. This installs everything — Node.js, WireGuard, AmneziaWG stealth transport, sing-box (VLESS Reality), dependencies, and starts the server:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Elacity/pc2.net/main/scripts/start-local.sh | bash
+cd ~ && git clone https://github.com/Elacity/pc2.net.git && cd pc2.net && sudo bash scripts/install-arm.sh
 ```
+
+<Callout type="info">
+**Already have PC2 cloned?** Just update and reinstall:
+```bash
+cd ~/pc2.net && git pull origin main && sudo bash scripts/install-arm.sh
+```
+</Callout>
 
 Once complete, open **http://your-jetson-ip:4200** in a browser on any device on your network. Connect your wallet and pick a username.
 
 <Callout type="info">
-**Remote Access**: Your Jetson automatically registers a `username.ela.city` domain through the Boson network. Anyone can reach your PC2 at `https://username.ela.city` — even behind your home router.
+**Remote Access**: Your Jetson automatically registers a `username.ela.city` domain through the Boson network. Anyone can reach your PC2 at `https://username.ela.city` — even behind your home router. Stealth mode (AmneziaWG / VLESS Reality) is available if your network blocks standard VPN traffic.
 </Callout>
 
 ## Managing PC2
@@ -71,8 +82,10 @@ pm2 save            # Save current process list
 ### Update PC2
 
 ```bash
-pm2 stop pc2 && cd ~/pc2.net && git pull origin main && cd pc2-node && npm run build && pm2 restart pc2
+cd ~/pc2.net && git pull origin main && sudo bash scripts/install-arm.sh
 ```
+
+This pulls the latest code, upgrades any transport binaries if needed, rebuilds, and restarts your node.
 
 ## Performance Tips
 
@@ -82,10 +95,17 @@ SD cards are slow. Install an M.2 NVMe SSD and flash JetPack directly to it for 
 
 ### Max Performance Mode
 
+The install script automatically sets your Jetson to the highest power mode. To verify or change manually:
+
 ```bash
-sudo nvpmodel -m 0     # Maximum performance (Orin)
-sudo jetson_clocks      # Max clock speeds
+sudo nvpmodel -q        # Check current mode
+sudo nvpmodel -m 0      # Maximum performance (MAXN on Orin Nano = 15W)
+sudo jetson_clocks       # Lock to max clock speeds
 ```
+
+<Callout type="info">
+**Orin Nano** supports 7W, 15W (MAXN), and 25W (MAXN_SUPER) modes. The install script enables the highest available. Check with `sudo nvpmodel -q`.
+</Callout>
 
 ### Increase Swap (for larger AI models)
 
