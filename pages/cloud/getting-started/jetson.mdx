@@ -21,26 +21,13 @@ Run PC2 on an NVIDIA Jetson for GPU-accelerated private AI. Your Jetson becomes 
 **JetPack**: Use the latest JetPack version available for your device. The install script auto-detects your JetPack version and configures accordingly.
 </Callout>
 
-## Step 1: Free Up RAM (Recommended)
+## Step 1: Note Your Network Info
 
-Your Jetson ships with a GNOME desktop that uses 1-2GB of RAM. Since PC2 provides its own web interface, remove it to free that RAM for AI:
-
-```bash
-sudo systemctl set-default multi-user.target
-sudo apt remove --purge -y ubuntu-desktop gnome-shell gdm3
-sudo apt autoremove -y
-sudo reboot
-```
-
-After reboot, SSH in from another computer:
+Before starting, record your Jetson's IP address — you'll need it to access PC2 from other devices:
 
 ```bash
-ssh your-username@your-jetson-ip
+hostname -I
 ```
-
-<Callout type="info">
-Find your Jetson's IP before removing the desktop: run `hostname -I`
-</Callout>
 
 ## Step 2: Install PC2
 
@@ -128,11 +115,49 @@ sudo jtop
 
 **Ollama not using GPU?** Run `nvcc --version`. If not found: `sudo apt install -y nvidia-jetpack` then `sudo systemctl restart ollama`.
 
-**Out of memory?** Remove the desktop (Step 1), use a smaller model, increase swap, disable bluetooth: `sudo systemctl disable bluetooth`.
+**Out of memory?** Use a smaller model, increase swap, disable bluetooth (`sudo systemctl disable bluetooth`), or see the [Advanced: Free Up RAM](#advanced-free-up-ram-remove-desktop) section below.
 
 **Can't access from browser?** Check `pm2 status`, try `curl http://localhost:4200/health`, open firewall: `sudo ufw allow 4200`.
 
 **`wasm streaming compile failed` in logs?** Harmless — falls back automatically.
+
+---
+
+## Advanced: Free Up RAM (Remove Desktop)
+
+<Callout type="error">
+**⚠️ This is irreversible and removes your Jetson's graphical desktop environment.** After this, you can only interact with your Jetson via SSH or a serial console. Only do this if you are comfortable working entirely from the command line, and make sure SSH access is working first.
+</Callout>
+
+The GNOME desktop that ships with JetPack uses 1-2GB of RAM. If you're running larger AI models and need every MB, you can reclaim that RAM by removing the desktop. PC2 provides its own web interface, so you won't lose functionality — but you **will** lose the ability to use a monitor/keyboard/mouse directly on the Jetson for graphical tasks.
+
+**Before proceeding:**
+
+1. Confirm SSH works from another computer: `ssh your-username@your-jetson-ip`
+2. Note your IP address: `hostname -I`
+3. Make sure PC2 is running and accessible via the browser
+
+```bash
+sudo systemctl set-default multi-user.target
+sudo apt remove --purge -y ubuntu-desktop gnome-shell gdm3
+sudo apt autoremove -y
+sudo reboot
+```
+
+After reboot, reconnect via SSH:
+
+```bash
+ssh your-username@your-jetson-ip
+```
+
+<Callout type="info">
+**Want the desktop back?** You can reinstall it later with:
+```bash
+sudo apt install -y ubuntu-desktop gdm3
+sudo systemctl set-default graphical.target
+sudo reboot
+```
+</Callout>
 
 ---
 
