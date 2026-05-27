@@ -1,0 +1,237 @@
+import { Callout } from 'nextra/components'
+
+# Elacity Exchange — Consent Gate
+
+> **Version 1.0** &nbsp;•&nbsp; **Effective Date:** 27 May 2026 &nbsp;•&nbsp; **Last Updated:** 27 May 2026
+>
+> Linked: [Terms of Service](/legal/terms-of-service), [Risk Disclosures](/legal/risk-disclosures),
+> [Privacy Policy](/legal/privacy-policy), [Acceptable Use Policy](/legal/acceptable-use).
+
+This page documents the two-screen consent flow you complete the first time you connect a
+wallet to the Exchange — what we ask, why we ask it, and how the resulting Consent Record
+is captured.
+
+If you are about to use the Exchange for the first time and want to read the documents in
+peace before clicking through, this is the right place.
+
+---
+
+## 1. When you see the consent gate
+
+The consent flow is presented:
+
+- (a) On your first visit to any page on the Exchange that requires wallet connection.
+- (b) On any visit after a **material modification** to the Terms (see [Terms §23](/legal/terms-of-service#23-modifications-to-these-terms)).
+- (c) On any visit after **90 days of inactivity** (a re-affirmation cycle).
+- (d) When you explicitly click "Review legal" anywhere on the Exchange.
+
+The flow is modal — you cannot proceed without either accepting or explicitly declining.
+"Decline and exit" returns you to a static landing page that does not load the dApp.
+
+A returning user who has already accepted the current ToS version in the last 90 days will
+skip Screen 1; the Sanctions Screen still runs on every wallet connect.
+
+---
+
+## 2. Why this exists (the short version)
+
+A consent flow that asks for "I agree to everything" in a single click is the
+textbook unconscionability vulnerability. The flow is split into per-concept
+acknowledgments, scroll-to-enable checkboxes, and a cryptographic SIWE signature so that:
+
+- You see, and tick, each disclosure separately.
+- You cannot tick a box you have not scrolled past.
+- We can prove, later, exactly which version of which document you accepted.
+- Your wallet address is cryptographically tied to your acceptance.
+
+This pattern is designed to be unbreakable — for your protection and ours.
+
+---
+
+## 3. Screen 1 — Sovereignty acknowledgement (4 ticks)
+
+You will see four scrollable cards. Each card's checkbox becomes active only once you have
+scrolled the card's text into view.
+
+### Card 1 of 4 — Your wallet, your control
+
+> Elacity Exchange is **non-custodial**. We never hold your wallet, your private keys,
+> your seed phrase, or any of your digital assets. You are your own bank.
+>
+> If you lose your wallet credentials, **we cannot recover them for you**. There is no
+> password reset and no support channel that can return lost assets. You are responsible
+> for the security of your wallet at all times.
+>
+> When you connect a wallet, you are connecting software you control to software we
+> publish. We don't take possession of anything.
+
+> ☐ I understand. My wallet, my keys, my responsibility.
+
+### Card 2 of 4 — Transactions are peer-to-peer and irreversible
+
+> Every trade on the Exchange is a **peer-to-peer execution of a smart contract on a
+> public blockchain**. We are not the counterparty. We do not approve, intermediate,
+> escrow, or reverse any transaction.
+>
+> Once a transaction is signed and confirmed, **it cannot be undone** — not by us, not
+> by anyone. Mistakes (wrong address, wrong amount, wrong gas, fake listing) are permanent.
+>
+> Slow down before you sign. Read every transaction. Verify the contract address.
+> If something looks wrong, **don't sign**.
+
+> ☐ I understand. Transactions are final and Elacity cannot reverse them.
+
+### Card 3 of 4 — Crypto and smart-contract risk
+
+> The Exchange uses **immutable smart contracts** on public blockchains. Smart contracts
+> can have bugs. Public blockchains can reorganise. Token prices can go to zero. Wallet
+> providers can fail. Networks can congest. New attack vectors can emerge tomorrow.
+>
+> By using the Exchange you accept that **you may lose all the value of any digital
+> asset** you transact in. Past performance is not a predictor of future performance.
+> Nothing on the Exchange is investment advice.
+>
+> If you don't understand a risk, **don't take it**. Read the full
+> [Risk Disclosures](/legal/risk-disclosures) linked from the next screen.
+
+> ☐ I understand. I accept smart-contract risk, crypto-market risk, and the risk of total loss.
+
+### Card 4 of 4 — Eligibility (this matters)
+
+> The Exchange is **not available to everyone**. By continuing, you confirm that you are
+> not, and you will not act on behalf of someone who is:
+>
+> - A US Person (as defined in our Terms);
+> - Located in or a resident of: Cuba, Iran, North Korea, Syria, Crimea, Donetsk,
+>   Luhansk, Belarus, Russia, China, Myanmar, or any other jurisdiction blocked under
+>   our Acceptable Use Policy;
+> - Listed on the OFAC, EU, UK, or UN sanctions lists, or any equivalent list applicable
+>   to you;
+> - Under the age of legal majority where you live (and never under 18);
+> - Otherwise legally prohibited from using a non-custodial crypto exchange.
+>
+> If any of these apply to you, **stop now**. Close this window. Do not connect a wallet.
+
+> ☐ I confirm I am eligible. None of the above categories apply to me.
+
+---
+
+## 4. Screen 2 — Document acceptance (6 ticks)
+
+> ☐ I have read and accept the [Terms of Service](/legal/terms-of-service) (v1.0).
+>
+> ☐ I have read and accept the [Privacy Policy](/legal/privacy-policy) (v1.0).
+>
+> ☐ I have read and accept the [Acceptable Use Policy](/legal/acceptable-use) (v1.0).
+>
+> ☐ I have read and accept the [Risk Disclosures](/legal/risk-disclosures) (v1.0).
+>
+> ☐ I confirm that the **eligibility representations** in §2 of the Terms of Service are
+>   true for me, and I will inform Elacity if they ever cease to be true.
+>
+> ☐ I confirm that, to the best of my knowledge, my wallet address is **not on any
+>   Sanctions List**, and I consent to Elacity performing an automated sanctions screen
+>   of my wallet address at every connect.
+
+<Callout type="info">
+By clicking **"I agree and connect"**, you accept the documents above and agree that
+disputes will be resolved by individual arbitration in London under English law. You may
+opt out within 30 days; see
+[Terms §20](/legal/terms-of-service#20-dispute-resolution-arbitration-class-action-waiver).
+</Callout>
+
+---
+
+## 5. Wallet connect + sanctions screen
+
+When you click "I agree and connect":
+
+1. The **wallet selector** opens (MetaMask, Rabby, Phantom, Particle, etc.).
+2. You select a wallet and sign a SIWE-style message that **includes the SHA-256 hash of
+   the Terms version you accepted**.
+3. We run a **sanctions screen** on the wallet address against the Chainalysis Sanctions
+   Screening API (or, as fallback, the Chainalysis On-Chain Oracle).
+4. If the address is sanctioned, the connection is refused and you see a generic
+   "this wallet cannot be served" page. If you believe this is an error, email
+   [compliance@ela.city](mailto:compliance@ela.city).
+5. If the address is clear, the connection is accepted and the Consent Record is saved.
+
+The SIWE-style signed message looks like this:
+
+```
+ela.city wants you to sign in with your Ethereum account:
+
+[your wallet address]
+
+I accept Elacity Exchange Terms of Service v1.0 (hash: [sha256 hash of ToS]).
+
+URI: https://ela.city
+Version: 1
+Chain ID: 8453
+Nonce: [server-generated nonce]
+Issued At: [ISO 8601 timestamp]
+```
+
+This signed message is your cryptographic proof of acceptance. It ties your wallet to a
+specific version of the Terms and is stored alongside the off-chain Consent Record.
+
+---
+
+## 6. What we record (the Consent Record)
+
+Every successful completion of the consent flow produces a Consent Record stored in our
+database. We record:
+
+- A unique Consent ID and a server-side timestamp.
+- Your wallet address (checksummed EIP-55) and your wallet provider name.
+- The version string and SHA-256 hash of every Operative Document you accepted
+  (Terms, Privacy, AUP, Risk).
+- The exact moment you ticked each individual checkbox.
+- Your SIWE signature and the signed message.
+- Your IP address (with the last octet zeroed for GDPR purposes), the country derived
+  from your IP, your user-agent string.
+- The result of the sanctions screen (clear / sanctioned / error), the provider used,
+  and the time it ran.
+
+The Consent Record is **append-only** — we never update or delete it. If you exercise
+your GDPR Article 17 right to erasure, we hash your wallet address one-way and null
+identifying fields, but retain the rest of the record under Article 17(3)(e) (retention
+for legal claims).
+
+**Retention period:** as long as Elacity LLC operates the Exchange + 7 years.
+
+The consent log is hashed daily into a Merkle root, and the daily Merkle roots are
+written to a public blockchain for tamper-evidence. This produces a forensically
+verifiable evidentiary chain.
+
+For details, see the [Privacy Policy](/legal/privacy-policy#3-the-personal-data-we-process).
+
+---
+
+## 7. When you'll be asked to re-consent
+
+| Trigger | What happens |
+|---|---|
+| Material modification of any Operative Document | Full re-flow on next wallet connect. |
+| 90 days of inactivity | Full re-flow (abbreviated copy if same versions). |
+| Change of jurisdiction detected | Re-tick of the eligibility checkbox on Screen 2. |
+| Connecting a different wallet address | Sanctions Screen + SIWE re-sign of acceptance for the new wallet. |
+
+What counts as a "material modification" is defined in
+[Terms §23](/legal/terms-of-service#23-modifications-to-these-terms). Typo corrections
+and clarifying edits are not material; changes to rights, obligations, dispute
+resolution, or risk profile are.
+
+---
+
+## 8. Geo-block (IP-based)
+
+Before the consent gate is even shown, we check your IP-derived country. If the country
+is on our geo-block list, you see a static "not available in your region" page and the
+dApp never loads. The eligibility checkbox on Screen 1 Card 4 is the primary contractual
+defence; the IP geo-block is a best-effort technical mitigation.
+
+---
+
+*See the [changelog](/legal/changelog) for prior versions. If a step in this flow is
+unclear to you, email [legal@ela.city](mailto:legal@ela.city) before connecting your wallet.*

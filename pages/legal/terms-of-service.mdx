@@ -1,0 +1,669 @@
+import { Callout } from 'nextra/components'
+
+# Elacity Exchange — Terms of Service
+
+> **Version 1.0** &nbsp;•&nbsp; **Effective Date:** 27 May 2026 &nbsp;•&nbsp; **Last Updated:** 27 May 2026
+>
+> **Operating entity:** Elacity LLC (Co. No. 2860 LLC 2023, St. Vincent and the Grenadines)
+> &nbsp;•&nbsp; **Governing law:** England and Wales
+
+These Terms are part of the Operative Documents that govern your use of the
+Exchange. The full set lives at [/legal](/legal): [Privacy Policy](/legal/privacy-policy),
+[Acceptable Use Policy](/legal/acceptable-use), [Risk Disclosures](/legal/risk-disclosures),
+and [DMCA Procedure](/legal/dmca).
+
+---
+
+## How to read these Terms
+
+These Terms are written in plain English wherever the law permits. Where the law requires precise legal language (limitations of liability, dispute resolution, warranty disclaimers, indemnification), we use it directly and carefully — those clauses are the spine of the agreement and we want you to know exactly what they say.
+
+Defined Terms are written **In Title Case With Bold Type** the first time they appear and have a precise meaning that does not change throughout the document. The full list of Defined Terms is in Section 1.
+
+Cross-references look like §17 (the section referenced) or §17(b) (the lettered subclause within that section).
+
+If you have a question about anything in these Terms, contact us at the email in §24 before you click "I agree."
+
+---
+
+## TL;DR (NOT a substitute for the full Terms — read them in full)
+
+- The Elacity Exchange is **non-custodial software**. We do not hold your assets, your wallet, your keys, or your decryption keys. You are your own bank.
+- Every transaction on the Exchange is a **peer-to-peer smart-contract execution** between you and another User. **We are not the counterparty.** We do not approve, intermediate, escrow, or reverse transactions.
+- Our smart contracts are **immutable** once deployed. Bugs, exploits, and chain reorganizations are risks you accept by using the Service.
+- **Crypto is risky.** You may lose all the value of your digital assets through your own error, third-party failure, regulatory change, or factors no one controls. We disclaim every warranty the law allows us to disclaim.
+- **You must be eligible.** No US Persons (with limited exceptions; see §2). No persons subject to sanctions. No persons in restricted jurisdictions. No persons under the age of majority where they live (and never under 18). You must screen as not-sanctioned at wallet connect.
+- **Disputes** are resolved by individual arbitration under the LCIA Rules in London, in English, under English law. Class actions are waived. You may opt out of arbitration within 30 days. See §20.
+- **You can stop using the Exchange at any time.** We can change these Terms with notice; if you keep using the Exchange after the change, you accept the new Terms.
+
+---
+
+## 1. Definitions
+
+Capitalised terms used in these Terms have the meanings given in this Section.
+
+| Term | Meaning |
+|---|---|
+| **"Access Token"** | An ERC-1155 sub-token of an Operative that confers the on-chain right to consume the Asset associated with that Operative, as further described in §7. |
+| **"Acceptable Use Policy"** or **"AUP"** | The Elacity Acceptable Use Policy, as published at the URL in §24 and amended from time to time, which is incorporated into these Terms by reference. |
+| **"Agreement"** | These Terms together with the Acceptable Use Policy, the Privacy Policy, the Risk Disclosures, and the DMCA Procedure (collectively the "Operative Documents"). |
+| **"Asset"** | Any digital file, data, software, identity claim, capability token, or other digital object that has been wrapped, encrypted, and minted as an Operative on the Exchange. |
+| **"Authority Gateway"** | The on-chain smart contract that orchestrates the buy / sell flow on the Exchange. |
+| **"Channel"** | A per-creator on-chain container contract from which Operatives are minted. |
+| **"Decryption"** | The process by which an Access Token holder, on their own hardware, retrieves the content encryption key from the Secure-Decrypt Enclave and decrypts the encrypted Asset bytes. |
+| **"Distribution Right"** | An ERC-1155 sub-token of an Operative that confers the on-chain right to resell Access Tokens for that Asset, as further described in §7. |
+| **"Effective Date"** | The date on which a User accepts these Terms via the Pop-up Consent Gate, recorded in our consent capture log. |
+| **"Elacity"**, **"we"**, **"us"**, **"our"** | Elacity LLC, a limited liability company incorporated in St. Vincent and the Grenadines under Company Number 2860 LLC 2023, with registered office at The Financial Services Centre, Stoney Ground, Kingstown, St. Vincent and the Grenadines, and any of its successors and assigns. |
+| **"Exchange"** | The user-facing portal published at the URL in §24 (currently `ela.city`), together with the smart contracts, indexers, gateways, and supporting infrastructure that comprise the Elacity Exchange Service. |
+| **"Geo-Blocked Jurisdiction"** | Any jurisdiction listed in the Eligibility schedule of the Acceptable Use Policy, including without limitation the Restricted Persons jurisdictions enumerated in §2(c). |
+| **"Operative"** | A per-Asset on-chain ERC-1155 smart contract that holds the Access Token, Royalty Share, and (where applicable) Distribution Right sub-tokens for a single Asset. The Operative is the on-chain "vending machine" for that Asset. |
+| **"Personal Cloud"** or **"PC2"** | The user-controlled, open-source software node that the User runs on their own hardware to encrypt, store, and consume Assets. |
+| **"Pop-up Consent Gate"** | The two-screen progressive-disclosure consent flow described in the [Consent Gate document](/legal/consent) and implemented at the URL in §24, which the User must complete before using the Exchange. |
+| **"Privacy Policy"** | The Elacity Privacy Policy, as published at the URL in §24 and amended from time to time, which is incorporated into these Terms by reference. |
+| **"Restricted Person"** | Any Person who is (i) a US Person, (ii) located, organised, or resident in a Geo-Blocked Jurisdiction, (iii) listed on a Sanctions List, (iv) prohibited by applicable law from accessing the Exchange, or (v) acting on behalf of any of (i)–(iv). |
+| **"Risk Disclosures"** | The Elacity Risk Disclosures document, as published at the URL in §24 and amended from time to time, which is incorporated into these Terms by reference. |
+| **"Royalty Share"** | An ERC-1155 sub-token of an Operative that confers the on-chain right to receive a pro-rata share (per-thousand basis) of revenue from sales of the associated Asset, as further described in §7. |
+| **"Sanctions List"** | The OFAC Specially Designated Nationals and Blocked Persons List; the EU consolidated sanctions list; the UK OFSI consolidated list; the United Nations Security Council Consolidated Sanctions List; and any analogous list maintained by a competent authority of a User's jurisdiction. |
+| **"Secure-Decrypt Enclave"** | The third-party trusted execution environment (TEE) that gates the release of content encryption keys for dDRM-encrypted Assets upon verifiable on-chain proof of access. The Secure-Decrypt Enclave is operated by a third-party service provider; Elacity is not the operator. |
+| **"Service"** | The functionality of the Exchange together with all related software, smart contracts, websites, mobile apps, gateways, indexers, APIs, and documentation made available by Elacity. |
+| **"Service Condition"** | A technical or operational requirement that a User must satisfy on a continuing basis to access or use the Service, including without limitation passing the Sanctions Screen at wallet connect. |
+| **"Sanctions Screen"** | The automated screening of a connected wallet address against the Sanctions List, performed at every wallet-connect event using the Chainalysis Sanctions Screening API or equivalent service. |
+| **"Smart Contract"** | A self-executing program deployed to a public blockchain that runs autonomously according to its code without any party having the unilateral ability to alter, halt, or reverse its operation. |
+| **"Token"** | Any cryptographic token associated with the Service, including without limitation Access Tokens, Royalty Shares, and Distribution Rights. |
+| **"User"**, **"you"**, **"your"** | A Person who accesses or uses the Exchange. |
+| **"US Person"** | Has the meaning given in Rule 902(k) of Regulation S under the United States Securities Act of 1933, as amended, including without limitation: (i) any natural person resident in the United States; (ii) any partnership or corporation organised or incorporated under US law; (iii) any estate of which any executor or administrator is a US Person; (iv) any trust of which any trustee is a US Person; (v) any agency or branch of a foreign entity located in the United States; (vi) any non-discretionary account held by a dealer or other fiduciary for the benefit or account of a US Person; and (vii) any partnership or corporation organised or incorporated outside the United States by a US Person principally for the purpose of investing in securities not registered under the US Securities Act. |
+| **"Wallet"** | A self-custodial cryptographic wallet (whether software-based, hardware-based, social-recovery-based, or otherwise) that holds the User's private keys outside Elacity's possession or control. |
+
+---
+
+## 2. Eligibility and Geographic Restrictions
+
+### 2.1 Capacity
+
+By accepting these Terms, you represent and warrant on the Effective Date and on each subsequent occasion you use the Exchange that:
+
+- (a) you are at least 18 years old, or the age of legal majority in your jurisdiction of residence (whichever is greater);
+- (b) you have the legal capacity, authority, and right to enter into and perform this Agreement;
+- (c) if you are entering into this Agreement on behalf of an entity, you have the authority to bind that entity, and references to "you" mean both you personally and that entity, and you and that entity are jointly and severally liable under this Agreement;
+- (d) your use of the Exchange does not breach any law or regulation applicable to you, any contractual obligation by which you are bound, or the rules of any tax, professional, or regulatory body to which you are subject; and
+- (e) you have read, understood, and accept the [Risk Disclosures](/legal/risk-disclosures).
+
+### 2.2 US Persons
+
+The Exchange is not offered or directed to US Persons. By accepting these Terms, you represent and warrant that you are not a US Person. If at any time you become a US Person, you must immediately stop using the Exchange and disconnect your Wallet. Continued use of the Exchange after becoming a US Person is a material breach of this Agreement.
+
+This restriction does not apply to:
+- (a) US Persons who are bona fide residents of, and physically located in, a US territory or possession that is exempted under Regulation S, where the relevant exemption is documented in writing by Elacity in advance;
+- (b) institutional users with a written waiver from Elacity, executed by an authorised signatory of Elacity, that specifically references this Section 2.2.
+
+For the avoidance of doubt: in the absence of a written exemption or waiver under this Section 2.2, no User who is a US Person is permitted to use the Exchange, and any apparent permission obtained through misrepresentation of US Person status is void.
+
+### 2.3 Restricted Persons and Geo-Blocked Jurisdictions
+
+You represent and warrant that you are not, and you will not access the Exchange while you are, a Restricted Person.
+
+You will not access the Exchange while located in any of the following jurisdictions, and you will not allow any Person located in any of the following jurisdictions to access the Exchange using your Wallet or credentials: the People's Republic of China; the Russian Federation; the Republic of Belarus; the Islamic Republic of Iran; the Democratic People's Republic of Korea (North Korea); the Syrian Arab Republic; the Republic of Cuba; the regions of Crimea, Donetsk, and Luhansk; the Republic of the Union of Myanmar (Burma); and any additional jurisdiction designated as a Geo-Blocked Jurisdiction in the Acceptable Use Policy from time to time.
+
+Elacity may, but is not obliged to, implement IP-address-based geographic blocking of access from Geo-Blocked Jurisdictions. The presence or absence of such IP-blocking does not affect your representations under this Section 2.3, and circumventing IP-blocking via VPN, Tor, proxy, or other means is a material breach of this Agreement.
+
+### 2.4 Sanctions screening
+
+You acknowledge and agree that Elacity will perform a Sanctions Screen on your Wallet address at every wallet-connect event using the Chainalysis Sanctions Screening API or equivalent service. If your Wallet address is identified on a Sanctions List, the Exchange will refuse to serve you, and you must immediately stop attempting to use the Exchange. The Sanctions Screen is a Service Condition.
+
+If you become aware that you are or may have become a Restricted Person at any time after accepting these Terms (whether through addition to a Sanctions List, change of residence, change of citizenship, or any other event), you must immediately disconnect your Wallet and stop using the Exchange.
+
+### 2.5 No assurance of eligibility
+
+Elacity does not verify the truth of your representations under this Section 2 beyond the Sanctions Screen. Your representations are binding and are relied upon by Elacity in granting you access to the Exchange. False or misleading representations are a material breach of this Agreement, void any apparent grant of access, and trigger your indemnification obligations under §19.
+
+---
+
+## 3. Wallet Connection and Authentication
+
+### 3.1 You bring your own Wallet
+
+To use any function of the Exchange beyond browsing, you must connect a self-custodial Wallet that you control. The Wallet may be provided by a third-party software wallet (such as MetaMask, Rabby, Phantom), a hardware wallet (such as Ledger, Trezor), an MPC-based wallet (such as Particle, Privy, Magic), or any other wallet that supports the relevant blockchain protocol.
+
+Elacity does not at any time hold, custody, manage, or have the ability to access your Wallet, your private keys, your seed phrase, your recovery phrase, or any other credentials that grant control over your Wallet. You are the sole and exclusive custodian of your Wallet and all assets in it.
+
+### 3.2 Wallet provider is not Elacity
+
+The provider of your Wallet is a third party, not Elacity. Elacity has no control over, and accepts no responsibility for, the operation, security, availability, or performance of any Wallet provider. Any malfunction, error, security failure, downtime, hack, exploit, or insolvency of a Wallet provider is a matter between you and the Wallet provider.
+
+By using the Exchange, you accept that Elacity disclaims, to the maximum extent permitted by applicable law, any liability arising from a Wallet provider's act or omission. This disclaimer is part of, and is reinforced by, §16 (Third-Party Services), §17 (Disclaimers), and §18 (Limitation of Liability).
+
+### 3.3 Authentication is by signing, not by username and password
+
+The Exchange authenticates you by your ability to produce a cryptographic signature from your Wallet. There is no username, no password, no email-based reset, and no other recovery channel through Elacity. If you lose access to your Wallet (lost device, lost seed phrase, forgotten password to your Wallet provider, etc.), you lose access to the Exchange and to any digital assets associated with your Wallet, and Elacity cannot recover them for you.
+
+You acknowledge that this is an inherent design feature of self-custodial systems and is not a defect. You are responsible for backing up, securing, and protecting access to your Wallet using best practices, including without limitation hardware-wallet storage of high-value private keys, secure offline storage of seed phrases, and multi-factor protection of any social-recovery wallet shares.
+
+### 3.4 Sanctions Screen as a Service Condition
+
+You may not connect a Wallet to the Exchange unless you can pass the Sanctions Screen described in §2.4. If your Wallet address is currently identified on a Sanctions List, you must not attempt to connect; if your Wallet address is later added to a Sanctions List, your connection will be refused on the next connect attempt and any continued use is a breach of this Agreement.
+
+### 3.5 No accounts; no profiles maintained by Elacity
+
+The Exchange does not require, and Elacity does not maintain, traditional user accounts (with stored personal information, account dashboards, balance accounting, or password-recovery channels). All accounting is performed by smart contracts on public blockchains and is therefore visible to you, to Elacity, and to anyone else who looks at the chain. The address-level history of your transactions on the Exchange is public on-chain data; Elacity does not control its disclosure and cannot delete it.
+
+---
+
+## 4. Non-Custodial Nature of the Service
+
+<Callout type="warning">
+This Section 4 is the structural centerpiece of this Agreement. It is repeated, in
+summary, at multiple points throughout this Agreement, in the [Consent Gate](/legal/consent),
+in the [Risk Disclosures](/legal/risk-disclosures), and on the Exchange's user interface.
+It is not capable of being misunderstood, and you are deemed to have read, understood,
+and accepted it before connecting any Wallet to the Exchange.
+</Callout>
+
+### 4.1 We are not a custodian
+
+Elacity does not hold custody of, control, or have access to:
+- (a) your Wallet, your private keys, your seed phrase, or any other credentials granting control of your Wallet;
+- (b) any digital asset, cryptocurrency, token, NFT, Operative, Access Token, Royalty Share, Distribution Right, or other item of value associated with your Wallet;
+- (c) any content encryption key, decryption key, or other cryptographic material that gates access to dDRM-encrypted Assets, except as described in §8 in respect of the third-party Secure-Decrypt Enclave operated by a third-party service provider not Elacity;
+- (d) any fiat currency, bank balance, or other off-chain financial asset that could be mistaken for crypto custody.
+
+### 4.2 We cannot reverse, freeze, or seize
+
+Once your Wallet executes a transaction on the blockchain — whether a sale, a purchase, a mint, a transfer, a royalty withdrawal, an approval, or any other action — the transaction is, after the relevant chain's finality threshold, irreversible. Elacity has no power to:
+- (a) reverse or roll back any blockchain transaction;
+- (b) freeze, seize, claw back, or otherwise immobilise any digital asset associated with any Wallet;
+- (c) modify, halt, suspend, or alter the operation of any Smart Contract that has been deployed;
+- (d) restore any digital asset that has been lost, stolen, sent in error, or destroyed.
+
+This is a structural feature of public blockchain protocols and an intentional architectural property of the Service.
+
+### 4.3 You are responsible for your assets and your transactions
+
+You are solely responsible for:
+- (a) the security of your Wallet and the credentials that control it;
+- (b) the correctness of every transaction you sign (recipient address, amount, token contract, gas price, gas limit, etc.);
+- (c) the consequences of every transaction you sign, including without limitation losses arising from typographical errors, phishing, malware, social engineering, lost devices, forgotten credentials, gas-price spikes, network congestion, MEV (maximal extractable value) attacks, slippage, front-running, sandwich attacks, chain reorganizations, or any other event that affects the execution of a transaction you signed;
+- (d) any tax obligations, reporting obligations, or other regulatory obligations that arise from your use of the Exchange or your transactions on it (see §15).
+
+### 4.4 No fiduciary, broker, dealer, or intermediary relationship
+
+Elacity is not your fiduciary, broker, dealer, custodian, financial adviser, investment adviser, exchange operator under §3(a)(1) of the Securities Exchange Act of 1934 (or any analogous foreign law), money services business, money transmitter, or counterparty. The Service is software infrastructure that connects Users directly with one another via Smart Contracts on public blockchains. Nothing in this Agreement, on the Exchange, in any Elacity marketing material, or in any communication from Elacity creates any such relationship between you and Elacity.
+
+You should not act on the assumption that Elacity owes you any duty beyond what is expressly stated in this Agreement.
+
+---
+
+## 5. Smart Contract Operation and Risk Acceptance
+
+### 5.1 What our Smart Contracts are
+
+The on-chain components of the Service consist of Smart Contracts deployed by Elacity (or by Users via Elacity-published contract factories) on one or more EVM-compatible public blockchains. The Smart Contracts include without limitation: a central registry contract, an Authority Gateway contract that processes buy/sell/access flows, a ChannelFactory that deploys per-creator Channels, an AssetFactory and per-Asset Operatives, a RoyaltyTradeGateway, a SubscriptionModule, and an EventHub. Together these contracts implement the on-chain logic of the Exchange.
+
+### 5.2 Code is deployed; behaviour is autonomous
+
+Once a Smart Contract is deployed, its behaviour is determined by its code, not by Elacity. Elacity does not have the ability to modify the behaviour of a deployed Smart Contract, and any function-call by Elacity is in the same posture as a function-call by any other User: subject to the contract's access control and made on a public blockchain.
+
+The Smart Contracts have been audited prior to deployment by reputable third-party auditors; however, audit does not guarantee the absence of bugs, exploits, or unintended behaviours. Audits are not warranties.
+
+### 5.3 Acceptance of Smart Contract risk
+
+You expressly accept the risks of using Smart Contracts, including without limitation:
+- (a) **Code bugs and exploits.** A Smart Contract may contain a bug or vulnerability that allows an attacker to drain assets, manipulate prices, or disrupt the contract's intended behaviour. Such losses are not recoverable from Elacity.
+- (b) **Composability risk.** A Smart Contract may interact with other Smart Contracts whose behaviour is not under Elacity's control; an exploit in any contract in the call chain can affect outcomes on the Exchange.
+- (c) **Chain reorganisation.** A blockchain may undergo a reorganisation that effectively reverses a transaction you believed to be confirmed.
+- (d) **Network congestion and gas spikes.** A Smart Contract transaction may fail to be included in a block, may be included with a delay, or may consume more gas than estimated, due to factors outside Elacity's control.
+- (e) **Maximal Extractable Value (MEV).** Validators or block producers may reorder, sandwich, or insert transactions in ways that disadvantage your transaction.
+- (f) **Slippage.** A price observed at the time of submission may differ from the executed price by an unbounded margin.
+- (g) **Oracle and price-feed failure.** Where Smart Contract behaviour depends on an oracle, oracle failure or manipulation may cause incorrect outcomes.
+- (h) **Bridge risk.** Where assets are bridged between chains, bridge contracts may be exploited or fail.
+- (i) **Validator / sequencer risk.** Where the underlying chain relies on a small validator set or a centralised sequencer, validator-level compromise or sequencer downtime may affect availability.
+- (j) **Quantum computing risk.** Future advances in quantum computing may compromise the cryptographic primitives underlying the Smart Contracts.
+- (k) **Unknown unknowns.** New attack vectors emerge regularly. By using the Service, you accept that you are using experimental software in an experimental environment.
+
+### 5.4 No warranty of Smart Contract performance
+
+Elacity makes no warranty, express or implied, that any Smart Contract will perform as intended, will be free of bugs, will execute any particular transaction at any particular price, or will preserve the value of any digital asset. The Smart Contracts are provided "as is" and "as available," with all faults, and you accept them in that state.
+
+---
+
+## 6. Peer-to-Peer Transactions; Elacity Is Not a Counterparty
+
+### 6.1 Trades are between Users
+
+Every commercial transaction on the Exchange — every mint, every sale, every secondary resale, every royalty withdrawal, every subscription — is a peer-to-peer execution of a Smart Contract between Users (or between a User and a Smart Contract, where the Smart Contract was deployed by another User using an Elacity-published contract factory).
+
+Elacity is not a party to any such transaction. Elacity does not buy from any User. Elacity does not sell to any User. Elacity does not match buyers and sellers in the manner of a centralised exchange. Elacity does not take any economic position in, or derive any economic benefit from, any individual trade other than (where applicable) the protocol fee that is automatically routed by the Smart Contract to the Elacity protocol-fee address (see §14).
+
+### 6.2 Elacity is not the issuer of any Token
+
+Where a User creates an Asset, the resulting Operative contract — and the Access Tokens, Royalty Shares, and Distribution Rights it issues — is deployed by the User using an Elacity-published contract factory. The User is the issuer; the User makes the representations to purchasers; the User sets the price; the User configures the royalty splits.
+
+Elacity provides protocol infrastructure: the contract factory, the Asset wrapping pipeline, the storage and decryption gateways, the indexer, the user-facing portal. Elacity does not issue any Token traded on the Exchange.
+
+### 6.3 Elacity is not an "exchange"
+
+The Service is software that connects Users with Smart Contracts. The Service does not bring together orders for the purchase or sale of securities or other instruments in the manner of a national securities exchange (US Exchange Act §3(a)(1)) or any analogous foreign concept. The Service does not provide a marketplace for Tokens that have been characterised by Elacity as "digital securities" within the meaning of the SEC and CFTC Joint Interpretation of March 17, 2026.
+
+Tokens issued via the Service are characterised by Elacity (without representing the position of any regulator) as Digital Tools — programmable revenue-routing instruments — under the SEC/CFTC Joint Interpretation. This characterisation is described in the [Risk Disclosures](/legal/risk-disclosures) and is the position Elacity takes in good faith based on the structural properties of the Tokens. The User-issuer of any Operative is solely responsible for any representations made to purchasers of its Tokens, and the User-issuer's representations may, in some cases, cause the User-issuer's Tokens to be characterised differently by a regulator. Elacity disclaims all liability for the consequences of a User-issuer's representations.
+
+### 6.4 No advice
+
+Nothing on the Exchange — no listing, no description, no metadata, no price feed, no indexer output, no marketing material, no support communication — constitutes investment advice, financial advice, tax advice, legal advice, or any other professional advice from Elacity. You should not treat any information presented through the Service as a recommendation to enter into any transaction. You are solely responsible for your decisions and for engaging your own qualified advisers as necessary.
+
+---
+
+## 7. Listing, Purchasing, Royalty Distribution
+
+### 7.1 Listing
+
+A User may list an Asset on the Exchange by minting an Operative through the Elacity-published contract factory. The User configures, at mint time, the price, the supply, the resale rules, the royalty splits, and the metadata. The User signs the mint transaction from their own Wallet. After the mint, the Operative exists as an autonomous Smart Contract on the relevant blockchain.
+
+The Exchange's catalog ingests on-chain mint events and presents listed Assets to Users through the user interface. Inclusion in the catalog is not a warranty by Elacity that the Asset is non-infringing, lawful, accurate, valuable, or fit for any purpose. The User-creator is solely responsible for the lawfulness and accuracy of the Asset and its metadata.
+
+### 7.2 Purchasing
+
+A User who wishes to purchase access to an Asset connects their Wallet, selects the Asset, and signs the relevant Smart Contract transactions (typically an ERC-20 token approval followed by a call to `Authority Gateway . buyAccess`). The Smart Contract pulls the payment from the buyer's Wallet, mints an Access Token to the buyer, and routes the proceeds to the configured recipients (creator, royalty-share holders, protocol-fee address).
+
+The flow is atomic: it either completes in full or reverts in full. There is no escrow, no clearing, no settlement delay, and no possibility of intervention by Elacity.
+
+### 7.3 Royalty distribution
+
+Royalty Share holders receive their pro-rata share of every sale automatically, by operation of the Smart Contract, in the form of accrued claimable balances on the Operative. A Royalty Share holder may withdraw accrued balances at any time by calling the Operative's withdraw function from their Wallet. Elacity does not approve, schedule, batch, or process royalty distributions; the Smart Contract does. Elacity has no power to delay or accelerate any royalty payment.
+
+### 7.4 Secondary resale
+
+Where an Operative is configured at mint time to permit resale, the holder of an Access Token may resell that token via the Authority Gateway's `sellAccess` function. The original creator and royalty-share holders continue to receive their pro-rata share on every secondary sale, by operation of the Smart Contract. There is no time horizon on this royalty entitlement; it endures for as long as the Smart Contract executes.
+
+### 7.5 No price assurance
+
+The Exchange does not assure the price, liquidity, market depth, or trading activity of any Asset or Token. Listings displayed by the Exchange may be stale, may not reflect the most recent on-chain state, and may include errors. The on-chain state is authoritative; the user-interface representation of that state is informational only.
+
+---
+
+## 8. dDRM Encryption; Decryption Through the Secure-Decrypt Enclave
+
+### 8.1 How encryption works
+
+When a User wraps an Asset for listing on the Exchange, the User's Personal Cloud (PC2) encrypts the Asset bytes with a content encryption key generated locally. The encrypted bytes are pinned to one or more IPFS nodes (which may include the User's local Helia node and Elacity-operated gateways). The encryption key is stored, in encrypted form, in a third-party Secure-Decrypt Enclave operated by an external service provider.
+
+The Secure-Decrypt Enclave is configured to release the decryption key only when an Access Token holder presents a valid on-chain proof that they hold the relevant token. The enclave verifies the proof, releases the key, and the key reaches the holder's Personal Cloud, which performs the decryption locally. The plaintext Asset bytes never leave the holder's hardware.
+
+### 8.2 The Secure-Decrypt Enclave is third-party
+
+The Secure-Decrypt Enclave is operated by a third-party service provider, not Elacity. The third-party service provider is engaged under separate commercial terms; Elacity does not warrant the operation, security, availability, or performance of the Secure-Decrypt Enclave. The third-party service provider is not Elacity's agent.
+
+### 8.3 No DRM is unbreakable
+
+You acknowledge that no digital rights management system, including the dDRM system used by the Exchange, is impervious to circumvention. Sufficiently determined adversaries with sufficient resources can defeat any DRM system. The dDRM system is designed to raise the cost of unauthorised consumption to an economically unattractive level, not to make it impossible. Any expectation that dDRM provides absolute prevention of unauthorised consumption is misplaced and disclaimed.
+
+### 8.4 Endpoint security is your responsibility
+
+The dDRM system protects content in storage, in transit, and at the moment of decryption inside the Secure-Decrypt Enclave. Once the content is decrypted on the consumer's Personal Cloud and rendered to the consumer's screen, speakers, or other output device, it can be captured by screen-recording software, cameras, microphones, memory dumps, or other endpoint-level tools. Endpoint-level capture is outside the scope of the dDRM system and is not preventable by Elacity. Creators who require a higher level of endpoint-level protection should pursue out-of-band measures (e.g., contractual undertakings, physical-presence enforcement, watermark-based forensics).
+
+### 8.5 No warranty of dDRM availability
+
+The Secure-Decrypt Enclave may be subject to outage, maintenance, capacity constraint, regulatory action, or termination by the third-party service provider. Elacity does not warrant that decryption will be available at any particular time or for any particular Asset. If the third-party service provider terminates its engagement with Elacity, Elacity may need to migrate dDRM Assets to an alternative enclave provider or, in the worst case, may be unable to maintain decryption availability for legacy Assets. The roadmap and migration path for such an event are documented in the [Risk Disclosures](/legal/risk-disclosures).
+
+---
+
+## 9. Content Listing Rules and Prohibited Content
+
+### 9.1 You warrant your content
+
+By listing an Asset on the Exchange, you represent and warrant that:
+- (a) you own all rights, title, and interest in the Asset, or you are authorised by the rights-holder to mint, encrypt, and offer access to the Asset under the terms you set;
+- (b) the Asset does not infringe the intellectual property rights, privacy rights, publicity rights, moral rights, or any other rights of any third party;
+- (c) the Asset is not illegal, defamatory, threatening, harassing, abusive, or in violation of the [Acceptable Use Policy](/legal/acceptable-use);
+- (d) the Asset does not include malware, viruses, ransomware, spyware, or any other malicious code;
+- (e) the metadata, description, cover art, and other associated information are accurate and not misleading;
+- (f) you have made all disclosures required by applicable law (including consumer-protection law, advertising law, and securities law if any) in respect of your offering of access to the Asset.
+
+### 9.2 Prohibited content
+
+The following categories of content are prohibited from the Exchange (and the list is non-exhaustive; see the [Acceptable Use Policy](/legal/acceptable-use) for the full and current list):
+- (a) Child sexual abuse material (CSAM) of any kind. CSAM is reported to the National Center for Missing & Exploited Children (NCMEC) and equivalent national authorities, and Elacity cooperates fully with law enforcement.
+- (b) Content depicting non-consensual intimate imagery, intimate images of identifiable persons without their explicit and verifiable consent, or other content that violates privacy or dignity.
+- (c) Content that infringes the copyright, trademark, patent, or other intellectual property rights of any third party.
+- (d) Content that incites, glorifies, or depicts terrorism, mass violence, or genocide.
+- (e) Content that is designed to facilitate the evasion of sanctions, the laundering of proceeds of crime, the financing of terrorism, the trafficking of persons, the trafficking of arms, or the trafficking of controlled substances.
+- (f) Content that facilitates fraud, identity theft, market manipulation, or other criminal activity.
+- (g) Content that is in violation of the export-control laws of any jurisdiction with which the User has a connection.
+- (h) Content that is otherwise prohibited by the [Acceptable Use Policy](/legal/acceptable-use).
+
+### 9.3 Removal from catalog
+
+Elacity may, at its sole discretion and without prior notice, remove an Asset from the Exchange's catalog if Elacity believes in good faith that the Asset violates §9.1 or §9.2 or is the subject of a credible complaint. Removal from the catalog ends the visibility of the Asset on the Exchange's user interface; it does not (and cannot) remove the Operative contract from the blockchain or remove the encrypted bytes from IPFS nodes outside Elacity's control. Buyers who already hold an Access Token to the Asset may continue to consume the Asset using their Personal Cloud and the Secure-Decrypt Enclave, subject to the third-party Secure-Decrypt Enclave's policies.
+
+### 9.4 Repeat infringers
+
+A User who repeatedly lists infringing or prohibited content may be banned from the Exchange. The repeat-infringer policy is set out in the [DMCA Procedure](/legal/dmca).
+
+---
+
+## 10. Intellectual Property
+
+### 10.1 Your content remains yours
+
+You retain all rights, title, and interest in any Asset you list on the Exchange, subject to the licences you grant under §10.2 and §10.3.
+
+### 10.2 Licence to Elacity to operate the Service
+
+You grant Elacity a worldwide, non-exclusive, royalty-free, sublicensable licence to host, store, transmit, encrypt, decrypt (only in the Secure-Decrypt Enclave under verified access proof), index, display thumbnails and metadata of, and otherwise process the Asset solely for the purpose of operating the Service in accordance with this Agreement and any operative configuration you have set on the Operative. This licence terminates if and when the Operative is removed from the catalog under §9.3, except to the extent continued processing is necessary for legal, audit, or operational reasons (e.g., responding to subpoena; maintaining historic catalog snapshots for forensic purposes).
+
+### 10.3 Licence to other Users acquiring rights through the Operative
+
+When another User acquires an Access Token, Royalty Share, or Distribution Right through the Operative, the licence terms applicable to that User are set by the Operative's on-chain configuration. You acknowledge that the Operative's configuration is the binding licence and that you cannot unilaterally rescind a licence already granted on-chain.
+
+### 10.4 Elacity's marks and intellectual property
+
+"Elacity," "Elacity Exchange," "Elacity dDRM," "PC2," and the Elacity logo are marks of Elacity LLC. Use of these marks requires Elacity's prior written permission. The Exchange's source code, where published, is licensed under the licence terms set out at the source-code repository; mere use of the Exchange does not grant you any licence to the source code beyond what is granted at the repository.
+
+### 10.5 Third-party intellectual property
+
+Where the Service incorporates third-party software, content, or services, the relevant third-party licences and terms govern that incorporation. Elacity makes commercially reasonable efforts to disclose third-party dependencies in the Service documentation; however, exhaustive third-party licence disclosure is not warranted.
+
+---
+
+## 11. Copyright Complaints and Takedown (DMCA / EU DSA)
+
+### 11.1 Designated Agent
+
+Elacity has designated an agent to receive notifications of claimed infringement under the United States Digital Millennium Copyright Act (17 U.S.C. §512) and equivalent foreign regimes. The Designated Agent's contact details, the form of valid notice, the form of valid counter-notice, and the takedown service-level commitments are set out in the [DMCA Procedure](/legal/dmca), which is incorporated into these Terms by reference.
+
+### 11.2 Repeat-infringer policy
+
+Elacity maintains and enforces a repeat-infringer policy under which a User who is the subject of three substantiated infringement notices within any 12-month period is banned from the Exchange. The full policy is set out in the [DMCA Procedure](/legal/dmca).
+
+### 11.3 EU DSA hosting safe-harbour
+
+In addition to the DMCA, Elacity operates a notice-and-action mechanism in respect of EU users, in compliance with Article 6 and Article 16 of the EU Digital Services Act (Regulation (EU) 2022/2065). The notice-and-action contact and procedure are set out in the [DMCA Procedure](/legal/dmca).
+
+---
+
+## 12. Acceptable Use
+
+The [Acceptable Use Policy](/legal/acceptable-use) is incorporated into these Terms by reference. By using the Exchange, you agree to comply with the Acceptable Use Policy at all times. Breach of the Acceptable Use Policy is a material breach of this Agreement and may result in your loss of access to the Exchange and triggering of your indemnification obligations under §19.
+
+---
+
+## 13. Privacy and Data
+
+The [Privacy Policy](/legal/privacy-policy) describes the personal data Elacity processes in connection with the Service, the lawful bases for processing, the rights of data subjects, and the international transfer mechanisms used. The Privacy Policy is incorporated into these Terms by reference.
+
+You acknowledge that on-chain data — including but not limited to your Wallet address, your transaction history, and the public metadata of any Asset you list, buy, or trade — is processed by the Service but is also publicly visible on the relevant blockchain. Elacity has no power to delete on-chain data, and any data-protection rights you have that depend on deletability of on-chain data are necessarily limited by this fact, as further described in the Privacy Policy.
+
+---
+
+## 14. Fees, Gas, and Protocol Cuts
+
+### 14.1 Protocol fee
+
+Every primary sale of an Access Token through the Authority Gateway is subject to a 5% (five per cent) protocol fee, routed automatically by the Smart Contract to the Elacity protocol-fee address. The protocol fee is configured at the contract level and is not discretionary. The protocol fee may be adjusted by Elacity from time to time, subject to the modification provisions in §23; any adjustment applies to mints made after the adjustment takes effect, and does not retroactively change the fee structure of Operatives already deployed.
+
+### 14.2 Royalty splits
+
+Royalty splits configured at mint time are settled atomically by the Operative. Elacity is not involved in computing or paying royalties.
+
+### 14.3 Gas
+
+Gas (transaction fees paid to validators of the underlying blockchain) is paid by the User signing the transaction. Gas is paid to the blockchain's validators, not to Elacity. Elacity does not receive, share, or rebate gas. Gas prices are set by the underlying blockchain's mempool dynamics and are outside Elacity's control.
+
+### 14.4 Payment tokens
+
+The Operative accepts the payment tokens configured by the creator at mint time. Where Elacity-published Operatives accept stablecoins (USDC, USDT) or native gas tokens (ETH, etc.), the User accepts the issuer-level risks of those tokens (including without limitation depeg risk, issuer-counterparty risk, and freezeable-token risk).
+
+### 14.5 No fiat custody
+
+The Exchange does not custody fiat currency, does not operate any fiat on-ramp or off-ramp directly, and does not partner with any fiat payment processor in connection with the Service as of the Effective Date. Where users use third-party fiat on-ramps (Moonpay, Transak, Coinbase Onramp, etc.) to fund their Wallet before transacting on the Exchange, those fiat-on-ramp services are operated by third parties under their own terms; Elacity is not a party to those services.
+
+---
+
+## 15. Taxes
+
+You are solely responsible for determining your tax obligations arising from your use of the Exchange and for filing all required tax returns and paying all taxes (including without limitation income tax, capital gains tax, value added tax, sales tax, withholding tax, and any cryptocurrency-specific tax) in every jurisdiction in which you have a tax obligation. Elacity does not provide tax advice and does not file any tax form on your behalf. Elacity does not issue 1099 forms, DAC8 reports, CARF reports, or any equivalent tax-information return as of the Effective Date; this status is subject to change as global tax-reporting rules evolve in 2027 and beyond.
+
+If you are uncertain about your tax position, consult a qualified tax professional in each jurisdiction where you may have a tax obligation. Failure to comply with tax law is your responsibility and is not excused by the design of the Service or by anything in this Agreement.
+
+---
+
+## 16. Third-Party Services
+
+The Service interacts with, and depends upon, services operated by third parties. These include without limitation:
+- (a) Wallet providers (MetaMask, Rabby, Phantom, Particle Network, Privy, Magic, Ledger, Trezor, etc.);
+- (b) Public blockchain protocols and their validators (Ethereum, Base, Optimism, Arbitrum, etc.);
+- (c) RPC providers (Alchemy, Infura, QuickNode, Ankr, etc.);
+- (d) The Secure-Decrypt Enclave third-party service provider (see §8);
+- (e) IPFS gateways and pinning services;
+- (f) AI providers under the User's own API keys (OpenAI, Anthropic, Google, X.AI, Mistral, DeepSeek, Together, OpenRouter, etc.);
+- (g) Sanctions-screening services (Chainalysis);
+- (h) Indexing and analytics services;
+- (i) Fiat on-ramp providers used by Users to fund their Wallets.
+
+Elacity has no control over the operation, security, availability, or performance of any third-party service. Elacity is not the agent of any third-party provider. Elacity does not warrant any third-party service. Any malfunction, error, security failure, downtime, hack, exploit, regulatory action, or insolvency of a third-party provider is a matter between you and the third-party provider, and Elacity disclaims, to the maximum extent permitted by applicable law, any liability arising from a third-party provider's act or omission.
+
+---
+
+## 17. Disclaimers of Warranties
+
+### 17.1 As is, as available
+
+THE SERVICE, THE EXCHANGE, THE SMART CONTRACTS, THE dDRM SYSTEM, THE SECURE-DECRYPT ENCLAVE, AND ANY OTHER COMPONENT OF, OR CONTENT ON, THE SERVICE ARE PROVIDED "AS IS" AND "AS AVAILABLE," WITH ALL FAULTS, WITHOUT WARRANTY OF ANY KIND.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, ELACITY EXPRESSLY DISCLAIMS ALL WARRANTIES, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, TITLE, ACCURACY, COMPLETENESS, AVAILABILITY, RELIABILITY, OR THAT THE SERVICE IS FREE FROM BUGS, ERRORS, OR DEFECTS.
+
+ELACITY DOES NOT WARRANT THAT:
+- (a) the Service will operate uninterrupted, secure, or free from error;
+- (b) any defect in the Service will be corrected;
+- (c) the Service is free from viruses, malware, or other harmful components;
+- (d) the Smart Contracts will perform as intended;
+- (e) any Asset will retain any particular value, will be transferable, or will be consumable in the future;
+- (f) any third-party service relied upon by the Service will be available or will perform as intended;
+- (g) any data presented by the Service will be accurate, complete, timely, or up-to-date;
+- (h) any User listing on the Exchange is non-infringing, lawful, or valuable.
+
+### 17.2 No advice
+
+NOTHING ON THE EXCHANGE OR IN ANY ELACITY COMMUNICATION CONSTITUTES INVESTMENT, FINANCIAL, TAX, LEGAL, OR OTHER PROFESSIONAL ADVICE. SEE §6.4.
+
+### 17.3 Local-law qualifier
+
+Some jurisdictions do not allow the disclaimer of certain warranties. To the extent that any warranty disclaimer is held unenforceable, the disclaimer shall be limited to the minimum extent permitted by the applicable law.
+
+---
+
+## 18. Limitation of Liability
+
+### 18.1 Cap
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, AND EXCEPT TO THE EXTENT EXCLUDED UNDER §18.3, ELACITY'S AGGREGATE LIABILITY TO YOU UNDER OR IN CONNECTION WITH THIS AGREEMENT, THE SERVICE, OR YOUR USE OF THE EXCHANGE, FROM ALL CLAIMS AND ALL CAUSES OF ACTION, IS LIMITED TO THE GREATER OF:
+
+- (a) ONE HUNDRED UNITED STATES DOLLARS (USD 100); OR
+- (b) THE AGGREGATE PROTOCOL FEES YOU PAID TO ELACITY THROUGH THE SERVICE IN THE TWELVE (12) MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO THE CLAIM.
+
+### 18.2 Exclusions of liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, ELACITY IS NOT LIABLE FOR ANY:
+- (a) INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, EXEMPLARY, OR PUNITIVE DAMAGES;
+- (b) LOSS OF PROFITS, REVENUE, GOODWILL, REPUTATION, OPPORTUNITY, ANTICIPATED SAVINGS, OR EXPECTED TOKEN APPRECIATION;
+- (c) LOSS OR CORRUPTION OF DATA;
+- (d) LOSS OR DIMINUTION OF VALUE OF ANY DIGITAL ASSET;
+- (e) LOSS ARISING FROM A FAILURE OR COMPROMISE OF YOUR WALLET, YOUR PRIVATE KEYS, OR YOUR DEVICE;
+- (f) LOSS ARISING FROM ANY THIRD-PARTY SERVICE (SEE §16);
+- (g) LOSS ARISING FROM A SMART CONTRACT BUG, EXPLOIT, OR REORGANISATION (SEE §5);
+- (h) LOSS ARISING FROM A MISREPRESENTATION OF ELIGIBILITY (SEE §2);
+- (i) LOSS ARISING FROM YOUR FAILURE TO COMPLY WITH APPLICABLE LAW.
+
+### 18.3 Mandatory carve-outs
+
+Nothing in this Agreement excludes or limits Elacity's liability for: (i) death or personal injury caused by Elacity's negligence; (ii) fraud or fraudulent misrepresentation; (iii) any other liability that cannot be excluded or limited under applicable law.
+
+### 18.4 Aggregate basis
+
+The cap and exclusions in §18.1 and §18.2 apply on an aggregate basis across all claims, all causes of action, and all theories of liability (whether in contract, tort, statute, or otherwise). They are essential elements of the bargain between Elacity and you, and the Service would not be available to you on its current terms (free or otherwise) without them.
+
+---
+
+## 19. Indemnification
+
+### 19.1 You indemnify Elacity
+
+To the maximum extent permitted by applicable law, you will indemnify, defend, and hold harmless Elacity, its affiliates, and their respective officers, directors, employees, agents, contractors, licensors, and service providers (the "Elacity Indemnitees") from and against any and all claims, demands, suits, actions, investigations, proceedings, losses, damages, judgments, awards, settlements, fines, penalties, taxes, fees, costs, and expenses (including without limitation reasonable attorneys' fees and disbursements) arising out of or relating to:
+
+- (a) your use of, or inability to use, the Exchange;
+- (b) your breach of any provision of this Agreement, including without limitation your representations and warranties under §2 (Eligibility) and §9 (Content);
+- (c) your violation of any law, rule, or regulation applicable to you, including without limitation any sanctions, anti-money-laundering, securities, consumer-protection, advertising, or tax law;
+- (d) your infringement, misappropriation, or violation of the rights of any third party;
+- (e) any tax obligation arising from your use of the Exchange or your transactions on it;
+- (f) any false or misleading statement made by you to Elacity, including without limitation false statements about your US Person status, your residence, your sanctions status, your age, or your authority to act for an entity;
+- (g) any content you list, transmit, or otherwise make available through the Exchange;
+- (h) your use of any third-party service in connection with the Service;
+- (i) any claim by a third party that, if true, would constitute a breach of this Agreement by you.
+
+### 19.2 Conduct of defence
+
+Elacity may, at its sole option, control the defence and settlement of any claim subject to indemnification under §19.1, in which case you will reasonably cooperate. You will not settle any indemnified claim in a manner that imposes any obligation on Elacity without Elacity's prior written consent.
+
+### 19.3 Survival
+
+This Section 19 survives termination of this Agreement.
+
+---
+
+## 20. Dispute Resolution; Arbitration; Class Action Waiver
+
+### 20.1 Informal resolution first
+
+Before initiating any formal dispute, you agree to contact Elacity at the address in §24 and provide a reasonable description of the dispute, the relief sought, and your contact information, and to give Elacity 30 days to attempt informal resolution. This Section does not delay any limitation period prescribed by applicable law.
+
+### 20.2 Mandatory individual arbitration
+
+If the dispute is not resolved informally within 30 days, the dispute will be referred to and finally resolved by arbitration under the LCIA Rules in force at the time of referral. The seat of arbitration is London, England. The language of the arbitration is English. The number of arbitrators is one. The arbitrator's decision is final and binding.
+
+### 20.3 Governing law of the arbitration agreement
+
+This arbitration agreement is governed by, and shall be construed in accordance with, the law of England and Wales.
+
+### 20.4 Class action waiver
+
+YOU AND ELACITY AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY ON AN INDIVIDUAL BASIS. NEITHER YOU NOR ELACITY MAY ACT AS A CLASS REPRESENTATIVE OR PARTICIPATE AS A MEMBER OF A CLASS OF CLAIMANTS WITH RESPECT TO ANY CLAIM. NEITHER YOU NOR ELACITY MAY CONSOLIDATE INDIVIDUAL CLAIMS WITHOUT THE PRIOR WRITTEN CONSENT OF ALL PARTIES TO THE CONSOLIDATION. THE ARBITRATOR HAS NO AUTHORITY TO PROCEED ON A CLASS, COLLECTIVE, OR REPRESENTATIVE BASIS.
+
+If the class-action waiver in this Section 20.4 is held unenforceable in respect of a particular claim, that claim is severed from arbitration and will be heard in a court of competent jurisdiction (subject to §20.7); the rest of the claims and the arbitration agreement remain in force.
+
+### 20.5 Opt-out
+
+You may opt out of the arbitration agreement (and the class-action waiver) in §20.2 to §20.4 by sending Elacity, within 30 days of the Effective Date, a written notice at the address in §24 stating that you opt out, including your full name, your Wallet address(es), and the date you accepted these Terms. If you opt out, disputes will be resolved in court under §20.7 (governing-law and venue).
+
+### 20.6 Carve-outs from arbitration
+
+The following are excluded from the arbitration agreement and may be brought in court:
+- (a) claims for emergency injunctive relief related to the alleged infringement of intellectual property rights;
+- (b) claims that may be brought in a small-claims court under applicable law and that are within the jurisdictional limit of that small-claims court;
+- (c) any claim that cannot, as a matter of mandatory applicable law, be arbitrated.
+
+### 20.7 Court venue (residual)
+
+To the extent any dispute is not subject to arbitration under §20.2 to §20.6, you and Elacity submit to the exclusive jurisdiction of the courts of England and Wales sitting in London. You waive any objection to the venue of those courts on grounds of inconvenience or otherwise.
+
+---
+
+## 21. Governing Law
+
+These Terms, the Operative Documents, and any non-contractual obligations arising out of or in connection with them are governed by, and shall be construed in accordance with, the law of England and Wales.
+
+---
+
+## 22. Acceptable Use Policy
+
+The [Acceptable Use Policy](/legal/acceptable-use) is incorporated into these Terms by reference. You will comply with the Acceptable Use Policy at all times. The Acceptable Use Policy may be updated by Elacity from time to time; updates take effect on publication, and continued use of the Exchange after publication constitutes acceptance of the updated AUP.
+
+---
+
+## 23. Modifications to These Terms
+
+### 23.1 Right to modify
+
+Elacity may modify these Terms from time to time. Modifications take effect on the date stated in the modified Terms (the "Modification Date"). For material modifications, the Modification Date will be at least 30 days after the date Elacity publishes the modified Terms; for non-material modifications (typo corrections, clarifications, or modifications that benefit Users), the Modification Date may be the date of publication.
+
+### 23.2 Notice of modification
+
+Elacity will give notice of any material modification by:
+- (a) publishing the modified Terms at the URL in §24 and updating the version number;
+- (b) presenting the modified Terms in the Pop-up Consent Gate for re-acceptance on the next wallet-connect after the Modification Date; and
+- (c) for Users who have provided an email address, sending a courtesy email to that address (best-effort; not a contractual requirement).
+
+### 23.3 Acceptance by continued use
+
+If you do not agree to a modification, you must stop using the Exchange and disconnect your Wallet before the Modification Date. Continued use of the Exchange after the Modification Date constitutes acceptance of the modified Terms.
+
+### 23.4 Re-consent for material modifications
+
+For material modifications, the Pop-up Consent Gate will require re-acceptance. Failure to re-accept will result in continued access being denied; this is not a termination of the Agreement (which survives in respect of past use), but a refusal of further service under the modified Terms.
+
+### 23.5 No retroactive change
+
+Modifications do not retroactively change the legal characterisation, rights, or obligations of any transaction completed before the Modification Date, except where the modification is required by mandatory applicable law (in which case the modification applies to the minimum extent required by that law).
+
+---
+
+## 24. Miscellaneous
+
+### 24.1 Entire agreement
+
+These Terms together with the [Acceptable Use Policy](/legal/acceptable-use), the [Privacy Policy](/legal/privacy-policy), the [Risk Disclosures](/legal/risk-disclosures), and the [DMCA Procedure](/legal/dmca) constitute the entire agreement between you and Elacity in respect of the Service and supersede all prior agreements, communications, and representations (whether oral or written) on the same subject matter, except for any binding individual written agreement between you and an authorised signatory of Elacity that expressly references and overrides this Agreement.
+
+### 24.2 Severability
+
+If any provision of this Agreement is held by a court or arbitrator of competent jurisdiction to be invalid, illegal, or unenforceable, the rest of the provisions remain in full force and effect, and the invalid, illegal, or unenforceable provision will be reformed to the minimum extent necessary to make it valid, legal, and enforceable while preserving the parties' original intent. If reformation is not possible, the provision will be severed.
+
+### 24.3 No waiver
+
+Elacity's failure to enforce any provision of this Agreement is not a waiver of that provision or of Elacity's right to enforce it later.
+
+### 24.4 Assignment
+
+You may not assign or transfer this Agreement, by operation of law or otherwise, without Elacity's prior written consent. Elacity may assign this Agreement, in whole or in part, to any affiliate or successor (whether by merger, sale of assets, or otherwise) without your consent, provided that the assignee assumes Elacity's obligations under this Agreement.
+
+### 24.5 Force majeure
+
+Neither party is liable for any failure or delay in performance of this Agreement (other than payment obligations) caused by events outside that party's reasonable control, including without limitation acts of God, natural disasters, pandemics, war, terrorism, civil unrest, government action, regulatory change, internet outages, blockchain network outages, third-party service outages, and similar events.
+
+### 24.6 No third-party beneficiaries
+
+Except for the Elacity Indemnitees in their capacity as beneficiaries of §19, this Agreement does not create any rights for any third party. The Contracts (Rights of Third Parties) Act 1999 (UK) is excluded.
+
+### 24.7 Headings
+
+Headings are for convenience only and do not affect the interpretation of this Agreement.
+
+### 24.8 Survival
+
+The following provisions survive termination of this Agreement: §1 (Definitions), §10 (Intellectual Property), §11 (DMCA), §15 (Taxes), §17 (Disclaimers), §18 (Limitation of Liability), §19 (Indemnification), §20 (Dispute Resolution), §21 (Governing Law), and §24 (Miscellaneous).
+
+### 24.9 Notices and contact
+
+Notices to Elacity under this Agreement should be sent to:
+
+> **Elacity LLC**
+> The Financial Services Centre
+> Stoney Ground, Kingstown
+> St. Vincent and the Grenadines
+>
+> General legal: [legal@ela.city](mailto:legal@ela.city)
+> DMCA / abuse: [abuse@ela.city](mailto:abuse@ela.city)
+> Privacy / data subject requests: [privacy@ela.city](mailto:privacy@ela.city)
+
+The current versions of the Operative Documents are published at:
+
+- Terms of Service: [https://docs.ela.city/legal/terms-of-service](/legal/terms-of-service)
+- Privacy Policy: [https://docs.ela.city/legal/privacy-policy](/legal/privacy-policy)
+- Acceptable Use Policy: [https://docs.ela.city/legal/acceptable-use](/legal/acceptable-use)
+- Risk Disclosures: [https://docs.ela.city/legal/risk-disclosures](/legal/risk-disclosures)
+- DMCA Procedure: [https://docs.ela.city/legal/dmca](/legal/dmca)
+
+### 24.10 Acceptance
+
+By clicking "I have read and accept these Terms" on the [Pop-up Consent Gate](/legal/consent), you accept these Terms and the Operative Documents and you confirm that the representations and warranties in §2 (Eligibility) are true on the Effective Date and on each subsequent occasion you use the Exchange.
+
+---
+
+*See the [changelog](/legal/changelog) for prior versions. Contact [legal@ela.city](mailto:legal@ela.city)
+with questions about these Terms.*

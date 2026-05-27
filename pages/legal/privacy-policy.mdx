@@ -1,0 +1,263 @@
+import { Callout } from 'nextra/components'
+
+# Elacity Exchange — Privacy Policy
+
+> **Version 1.0** &nbsp;•&nbsp; **Effective Date:** 27 May 2026 &nbsp;•&nbsp; **Last Updated:** 27 May 2026
+>
+> **Operating entity:** Elacity LLC (Co. No. 2860 LLC 2023, St. Vincent and the Grenadines)
+> &nbsp;•&nbsp; **Regulatory regimes:** GDPR (Reg. (EU) 2016/679), UK GDPR + Data Protection Act 2018, CCPA / CPRA, plus the highest applicable standard for any other jurisdiction in which a User resides.
+
+Incorporated into the [Terms of Service](/legal/terms-of-service) by reference. See the full
+document set at [/legal](/legal).
+
+---
+
+## 1. Why we have this policy and how to read it
+
+This Privacy Policy explains what personal data Elacity LLC ("Elacity," "we") processes when you use the Elacity Exchange (the "Service"), why we process it, on what lawful basis, who we share it with, how long we keep it, and what rights you have over it.
+
+We have written this policy to be readable by humans who are not lawyers. Where we use technical or legal terms (Personal Data, Controller, Processor, etc.) the meaning is the GDPR/UK GDPR meaning unless we say otherwise.
+
+This Privacy Policy is incorporated into the Elacity Exchange [Terms of Service](/legal/terms-of-service) by reference. If anything in this Privacy Policy conflicts with the Terms of Service, the Terms of Service prevail in respect of contractual matters; this Privacy Policy prevails in respect of data-protection matters.
+
+---
+
+## 2. Who we are; how to contact us
+
+The data Controller is **Elacity LLC**, a limited liability company incorporated in St. Vincent and the Grenadines under Company Number 2860 LLC 2023, with registered office at The Financial Services Centre, Stoney Ground, Kingstown, St. Vincent and the Grenadines.
+
+For any data-protection matter, including data-subject requests:
+
+- Email: [privacy@ela.city](mailto:privacy@ela.city)
+- Postal: as above, marked "FAO Privacy"
+
+### EU representative (Article 27 GDPR)
+
+Designation in progress. Until designation is complete, EU data subjects may contact
+[privacy@ela.city](mailto:privacy@ela.city) directly; we will route to the designated
+representative once appointed and the current designated entity will be published here.
+
+### UK representative (Article 27 UK GDPR)
+
+Designation in progress. Until designation is complete, UK data subjects may contact
+[privacy@ela.city](mailto:privacy@ela.city) directly; we will route to the designated
+representative once appointed and the current designated entity will be published here.
+
+---
+
+## 3. The personal data we process
+
+Elacity is a **non-custodial** service. We deliberately collect the minimum personal data we need to operate the Service. We do not run a traditional account system, we do not require an email address to use the Service, and we do not perform KYC.
+
+The personal data we process falls into the following categories:
+
+### 3.1 Wallet identifiers
+
+- **What:** Your public wallet address (e.g. `0x71C7656E…`), your wallet provider name (e.g. MetaMask), and the SIWE-style signed message you produced on consent.
+- **Why:** To authenticate you, to record your acceptance of the Terms, to link your transactions to a Consent Record, to perform Sanctions Screen.
+- **Lawful basis (GDPR Art. 6):** Performance of the contract (Article 6(1)(b)) — without your wallet address we cannot serve you. Compliance with legal obligation (Article 6(1)(c)) — sanctions screening.
+
+### 3.2 Network metadata
+
+- **What:** Your IP address (collected at every request; **stored with the last octet zeroed** for log-retention purposes), country derived from IP, user-agent string (browser + OS), referrer header, and timestamps.
+- **Why:** Geographic restriction enforcement (geo-blocking), security (bot detection, abuse prevention), service operation, audit trail.
+- **Lawful basis:** Legitimate interests (Article 6(1)(f)) — operational and security; compliance with legal obligation for the IP-country part of geo-blocking.
+
+### 3.3 Consent Records
+
+- **What:** All fields captured by the [Pop-up Consent Gate](/legal/consent) — consent ID, timestamps for each tick, document versions and hashes accepted, SIWE signature, sanctions-screen result.
+- **Why:** Evidence that you gave informed consent; required to prove the contract.
+- **Lawful basis:** Performance of contract (Article 6(1)(b)); Legitimate interests (Article 6(1)(f)) for evidentiary retention.
+
+### 3.4 Transaction-related data (predominantly on-chain, public)
+
+- **What:** The on-chain transactions you sign through the Exchange, including the contracts called, the parameters, the resulting events. This is **public blockchain data**, not data Elacity holds privately.
+- **Why:** Operating the catalog, enabling discovery, calculating royalty distributions, presenting your portfolio in the user interface.
+- **Lawful basis:** Performance of contract; legitimate interests in providing the Service. Note that this data is publicly visible on the blockchain regardless of Elacity's processing of it.
+
+### 3.5 Communications
+
+- **What:** Emails, support tickets, and other communications you initiate with us — the content, the email address you sent from, attachments, timestamps.
+- **Why:** To respond to you and to maintain a record of correspondence.
+- **Lawful basis:** Legitimate interests (Article 6(1)(f)) — providing support; performance of contract where the communication relates to a service issue.
+
+### 3.6 Cookies and similar technologies
+
+- **What:** A small set of essential cookies for session continuity and security, and (subject to your consent) limited analytics cookies. We do **not** use advertising cookies, tracking cookies, or third-party cookies that fingerprint you across the web.
+- **Why:** Service operation, security, anonymous usage analytics.
+- **Lawful basis:** For essential cookies, legitimate interests / strict necessity (ePrivacy Directive Article 5(3) exception). For analytics cookies, your prior consent (which you can withdraw at any time via the cookie banner).
+
+### 3.7 What we do NOT process
+
+We do not collect or process the following at the level of the Exchange:
+- Your name, address, phone number, or government-issued identifier (we do not perform KYC).
+- Your email (unless you contact us; see §3.5).
+- Your private keys, seed phrase, or any wallet credential.
+- Biometric data, special-category data (Article 9 GDPR), or criminal-conviction data (Article 10) — we have no purpose for these.
+- Your offline behaviour, your social-media activity, or any information acquired by tracking you across the web.
+
+---
+
+## 4. Why we process; lawful basis summary
+
+| Purpose | Categories of data | Lawful basis (GDPR Art. 6) |
+|---|---|---|
+| Provide the Exchange to you | Wallet ID, network metadata, Consent Records | Contract (b) |
+| Sanctions screening | Wallet ID | Legal obligation (c) |
+| Geo-blocking | IP / country | Legal obligation (c); Legitimate interests (f) |
+| Security, fraud prevention, abuse handling | All categories | Legitimate interests (f) |
+| Compliance with subpoena, court order, regulatory request | All categories | Legal obligation (c) |
+| Defending or pursuing legal claims | All categories | Legitimate interests (f); Legal claims (Art. 9(2)(f) for any sensitive crossover) |
+| Service improvement (anonymous analytics) | Aggregated network metadata | Legitimate interests (f) — with consent for analytics cookies |
+| Communications | Communications data | Legitimate interests (f); Contract (b) where applicable |
+
+---
+
+## 5. Sharing your personal data
+
+We share personal data with the following categories of recipient, only as necessary for the purposes above and only under appropriate contractual safeguards:
+
+### 5.1 Service providers (Processors)
+
+| Provider | Purpose | Country | Safeguard |
+|---|---|---|---|
+| Cloudflare | DNS, CDN, bot protection, IP geolocation | US/global | SCCs + UK IDTA + adequacy decision (where applicable) |
+| Hosting provider | Server hosting, storage | Per current vendor manifest | DPA + SCCs as required |
+| Chainalysis | Sanctions screening | US | DPA + SCCs |
+| Email provider | Transactional email | Per current vendor manifest | DPA + SCCs |
+| Error/monitoring service | Diagnostics | Per current vendor manifest | DPA + SCCs |
+| Analytics provider (if any) | Anonymous usage analytics | Per current vendor manifest | DPA + SCCs; analytics consent required |
+
+Each vendor is on a Data Processing Agreement (DPA), and where data leaves the EEA/UK,
+a transfer safeguard (SCCs, UK IDTA, BCR, or adequacy decision) is in place. To request
+the current vendor manifest, email [privacy@ela.city](mailto:privacy@ela.city).
+
+### 5.2 Public blockchains
+
+When you sign a transaction, the resulting on-chain data is **public**. Elacity does not control its disclosure. By using the Service you accept that on-chain data is public, permanent, and visible to anyone.
+
+### 5.3 Authorities
+
+We disclose personal data to law-enforcement, regulatory, or other competent authorities only when (a) we are required by valid legal process (subpoena, court order, regulatory demand) issued by an authority with jurisdiction over us, or (b) we have a good-faith belief that disclosure is necessary to prevent imminent harm. We do not voluntarily disclose User data without legal compulsion or User consent.
+
+### 5.4 Business transfers
+
+If Elacity is involved in a merger, acquisition, asset sale, or insolvency, personal data may be transferred to the successor or buyer subject to the same protections that applied with Elacity. We will notify Users of any such transfer to the extent required by applicable law.
+
+### 5.5 We do NOT sell personal data
+
+Elacity does not sell, rent, or trade your personal data to anyone, ever. Under CCPA, this is documented as: **"We do not sell personal information."** No "Do Not Sell My Personal Information" link is required, but you may opt out of any future sale (we have no plan for one) by emailing [privacy@ela.city](mailto:privacy@ela.city).
+
+---
+
+## 6. International transfers
+
+Elacity is incorporated in St. Vincent and the Grenadines; some service providers are located in the United States, the European Economic Area, the United Kingdom, and other regions. We rely on the following transfer mechanisms (whichever is most protective in the circumstance):
+
+- **EU adequacy decisions** (where the destination has been recognised as providing adequate protection by the European Commission).
+- **Standard Contractual Clauses (SCCs)** as adopted by the European Commission (Decision 2021/914) for transfers outside the EEA.
+- **UK IDTA** (International Data Transfer Agreement) or the UK Addendum to the SCCs for transfers from the UK.
+- **Supplementary measures** (encryption in transit, encryption at rest, pseudonymisation) where the destination's regime requires it.
+
+You may request a copy of the relevant transfer safeguard by emailing [privacy@ela.city](mailto:privacy@ela.city).
+
+---
+
+## 7. How long we keep personal data
+
+| Data category | Retention |
+|---|---|
+| Consent Records | As long as Elacity LLC operates the Exchange + 7 years after closure |
+| Wallet ID, network metadata in audit logs | 24 months in active form; archived (read-only, restricted access) for additional 60 months |
+| IP address (in non-audit logs) | 30 days for security logs; 24 months for audit-trail logs (with last octet zeroed) |
+| Communications | 36 months from last contact |
+| Cookies | Session cookies: until session end. Consented analytics cookies: 13 months. |
+
+When personal data is no longer needed for the purpose it was collected for, we either delete it or anonymise it. Anonymised data is no longer personal data and may be retained indefinitely for analytics and product improvement.
+
+---
+
+## 8. Your rights
+
+Under GDPR, UK GDPR, CCPA/CPRA, and equivalent regimes you have the following rights. Your rights are exercised by emailing [privacy@ela.city](mailto:privacy@ela.city) (or by post to the address in §2).
+
+| Right | What it means | How we respond |
+|---|---|---|
+| **Access** | Get a copy of the personal data we hold about you | We provide a copy within 30 days (extendable to 90 days for complex requests). For wallet-tied data, we authenticate by SIWE signature from the wallet. |
+| **Rectification** | Correct inaccurate or incomplete personal data | We rectify and confirm within 30 days. |
+| **Erasure ("right to be forgotten")** | Delete your personal data | We delete to the maximum extent possible. **Important caveat:** on-chain data is permanent and not deletable by anyone; consent records are retained under Art. 17(3)(e) for legal-claims purposes; we satisfy the request by hashing your wallet address one-way and nulling identifying fields in retained records. |
+| **Restriction** | Pause processing while a dispute is resolved | We pause and confirm. |
+| **Portability** | Receive a structured, commonly used, machine-readable copy of your personal data | We provide JSON within 30 days. |
+| **Objection** | Object to processing based on legitimate interests | We assess; if our interests do not override your objection, we stop processing. |
+| **Automated decision-making** | We do not perform any automated decision-making with legal or similarly significant effects on you, except the Sanctions Screen at connect time, which is a legal-obligation-based screen with no profiling involved. You may request human review of any Sanctions Screen result. | |
+| **Withdraw consent** | Withdraw any consent you previously gave | You can withdraw at any time. Past processing remains lawful. |
+| **Lodge complaint** | Contact your data-protection authority | Details below in §9. |
+
+For California residents under CCPA/CPRA, additional rights:
+- **Right to know** what categories of personal information are collected and the categories of sources.
+- **Right to delete** (subject to the on-chain caveat).
+- **Right to limit sensitive personal information** (we do not process sensitive personal information).
+- **Right to opt out of sale or sharing** (we do not sell or share for cross-context behavioral advertising).
+- **Right of non-discrimination** for exercising your rights — guaranteed.
+
+---
+
+## 9. Lodging a complaint
+
+You can complain to your data-protection authority. We encourage you to contact us first at [privacy@ela.city](mailto:privacy@ela.city) and give us 30 days to resolve, but you are not required to.
+
+| Region | Authority |
+|---|---|
+| United Kingdom | Information Commissioner's Office (ICO) — [ico.org.uk](https://ico.org.uk) |
+| Ireland | Data Protection Commission — [dataprotection.ie](https://dataprotection.ie) |
+| Germany | Federal and Land Data Protection Commissioners |
+| France | CNIL — [cnil.fr](https://cnil.fr) |
+| California | California Privacy Protection Agency — [cppa.ca.gov](https://cppa.ca.gov) |
+| (Other) | Your local data-protection authority. |
+
+---
+
+## 10. Children
+
+The Exchange is not directed at, and we do not knowingly process personal data of, children under 18 (or the age of legal majority in your jurisdiction, whichever is greater). If you believe a child has interacted with the Exchange, contact [privacy@ela.city](mailto:privacy@ela.city) and we will take appropriate steps.
+
+---
+
+## 11. Security
+
+We implement technical and organisational measures appropriate to the risk of processing, including:
+
+- Encryption of personal data in transit (TLS 1.3) and at rest (AES-256-GCM).
+- Hashing of sensitive identifiers (one-way SHA-256 for IP-address erasure, etc.).
+- Strict access controls (principle of least privilege, MFA for all internal access).
+- Audit logging of all access to personal data.
+- Periodic security reviews and penetration testing.
+- Daily backup of consent records hashed into a Merkle root anchored on a public blockchain for tamper-evidence.
+
+No security measure is perfect. We do not guarantee absolute security but commit to industry best practice.
+
+In the event of a personal data breach, we will notify the relevant supervisory authority within 72 hours of becoming aware of it (Article 33 GDPR) and notify affected data subjects without undue delay where the breach is likely to result in a high risk to their rights and freedoms (Article 34 GDPR).
+
+---
+
+## 12. Changes to this Privacy Policy
+
+We may update this Privacy Policy from time to time. The Effective Date at the top of this policy will be updated to reflect the date of the latest revision. **Material changes** trigger re-consent in the [Pop-up Consent Gate](/legal/consent) and email notification (where you have provided an email address). Continued use of the Service after the Effective Date of an update constitutes acceptance of the updated policy.
+
+---
+
+## 13. The blockchain–GDPR conflict (transparency note)
+
+There is an inherent tension between GDPR's right-to-erasure and public-blockchain immutability. We address this tension as follows:
+
+- **We do not write your personal data on-chain ourselves.** Where wallet activity is on-chain, the wallet address is the data — it was on-chain regardless of our involvement.
+- **For our off-chain records,** we apply standard GDPR rules including erasure to the maximum extent possible.
+- **For consent records that we must retain for legal-claims purposes,** we retain only the minimum identifier (one-way hash of wallet address) and remove other identifying fields on erasure request.
+- **We follow EDPB guidance** on this topic and update our practices as the guidance evolves.
+
+This is the same posture taken by every major non-custodial DeFi marketplace and is the current best practice for the industry.
+
+---
+
+*See the [changelog](/legal/changelog) for prior versions. Contact
+[privacy@ela.city](mailto:privacy@ela.city) for any data-protection question.*

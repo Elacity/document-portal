@@ -1,0 +1,214 @@
+import { Callout } from 'nextra/components'
+
+# Elacity Exchange — Risk Disclosures
+
+> **Version 1.0** &nbsp;•&nbsp; **Effective Date:** 27 May 2026 &nbsp;•&nbsp; **Last Updated:** 27 May 2026
+>
+> Incorporated into the [Terms of Service](/legal/terms-of-service) by reference.
+> You must read and accept these Risk Disclosures before using the Exchange.
+
+---
+
+## How to read this document
+
+This document lists, in plain language, the categories of risk you accept by using the Elacity Exchange. The list is **not exhaustive**. New risks emerge regularly in crypto and digital-rights infrastructure. The categories below are the ones we believe are most material today; you are responsible for staying informed about new risks and for assessing whether the Exchange is suitable for you.
+
+<Callout type="warning">
+If, after reading these disclosures, you do not understand a risk, **do not use the
+Exchange** until you do.
+</Callout>
+
+---
+
+## 1. Total loss is possible
+
+Crypto markets are extremely volatile. Smart contracts are immutable software. Cryptographic keys are fragile. **You may lose all the value of any digital asset associated with your wallet** — through your own error, third-party failure, regulatory change, market collapse, technology failure, or causes no one anticipates. Past performance is not a predictor of future performance. Do not invest more than you are prepared to lose entirely.
+
+---
+
+## 2. Smart contract risk
+
+The Exchange operates through immutable smart contracts deployed on public blockchains. Smart contracts can:
+
+- Contain undiscovered bugs that a sophisticated attacker can exploit.
+- Behave unexpectedly when interacting with other contracts (composability risk).
+- Be manipulated by validators or block producers (MEV — maximal extractable value).
+- Execute incorrectly because of an oracle or price-feed failure.
+- Become temporarily unavailable due to network congestion.
+
+**Audits do not warrant absence of bugs.** Even contracts audited by reputable firms have been exploited.
+
+If a smart contract bug results in loss, the loss is not recoverable from Elacity.
+
+---
+
+## 3. Wallet and key-management risk
+
+You are the sole custodian of your wallet. If you:
+
+- Lose your seed phrase or recovery phrase;
+- Forget the password to your wallet;
+- Have your seed phrase stolen, photographed, or otherwise disclosed;
+- Sign a malicious transaction (phishing dApp, fake airdrop, fake support agent);
+- Connect your wallet to a malicious website pretending to be Elacity;
+- Suffer a malware infection or device compromise;
+- Lose your hardware wallet without a backup;
+
+— **you lose access to your wallet and to every digital asset in it**, and Elacity cannot recover them. There is no password reset, no support team that can return funds, and no mechanism to reverse a wallet compromise.
+
+You are also responsible for verifying the address you send to, the contract you call, the amount you spend, and the gas you pay. Mistakes are permanent.
+
+---
+
+## 4. Counterparty and listing risk
+
+When you buy access to an Asset on the Exchange, you transact peer-to-peer with the User who minted the Asset. Elacity is not the counterparty. You should evaluate:
+
+- Whether the listing creator has the right to mint and sell what they list.
+- Whether the listed Asset is what its metadata claims (you cannot inspect encrypted content before purchase).
+- Whether the listed Asset is legal in your jurisdiction.
+- Whether the listing creator may be misrepresenting price, supply, scarcity, or quality.
+- Whether the metadata, cover art, or description is accurate.
+
+If a creator misrepresents what they list, your remedy is against the creator, not against Elacity.
+
+---
+
+## 5. Royalty-share token risk
+
+Royalty Share tokens grant the on-chain right to a programmatic share of revenue from sales of the underlying Asset. They are characterised by Elacity as **Digital Tools** under the SEC and CFTC Joint Interpretation of March 17, 2026. Risks include:
+
+- **Regulatory uncertainty.** The legal characterisation of revenue-share tokens varies by jurisdiction and continues to evolve. A token characterised by Elacity as a non-security may be characterised differently by a regulator or court in your jurisdiction. **You bear the regulatory risk of holding, buying, or selling these tokens, including any risk that they are characterised as securities in your jurisdiction.**
+- **Issuer-creator risk.** Royalty Shares are issued by per-asset Operative contracts deployed by the User-creator, not by Elacity. The User-creator's representations to purchasers may affect the legal characterisation of their tokens — including whether they are deemed an investment contract under Howey-like analyses. Elacity does not control creator representations.
+- **Revenue volatility.** Royalty Share tokens pay only when the underlying Asset sells. Most Assets do not generate meaningful sales. **You should not assume any token will pay anything.**
+- **Liquidity.** Secondary markets for Royalty Share tokens may be thin or non-existent. You may not be able to sell when you want.
+- **Tax treatment.** The tax treatment of receipts from Royalty Share tokens varies by jurisdiction and may be uncertain. You are responsible for your tax position.
+
+**Royalty Share tokens are not offered to US Persons** under §2 of the [Terms of Service](/legal/terms-of-service#2-eligibility-and-geographic-restrictions). If you are a US Person and you nonetheless acquire a Royalty Share token through misrepresentation of your status, you bear all consequences and you indemnify Elacity ([Terms §19](/legal/terms-of-service#19-indemnification)).
+
+---
+
+## 6. Regulatory risk
+
+Crypto regulation is fast-moving and inconsistent across jurisdictions. The Exchange may become unavailable to you due to:
+
+- A change in your jurisdiction's law that prohibits or restricts your use.
+- A change in the law of a jurisdiction in which Elacity operates that requires Elacity to restrict service.
+- A regulatory action against a third-party service provider on which the Exchange depends (wallet providers, RPC providers, IPFS gateways, the Secure-Decrypt Enclave operator).
+- An OFAC, EU, UK, UN, or other sanctions designation that affects the Exchange's ability to serve a particular region or user.
+
+You are responsible for complying with the law of your jurisdiction. The fact that the Exchange is technically accessible to you is not a representation that your use is lawful.
+
+---
+
+## 7. Third-party service risk
+
+The Exchange depends on services operated by third parties (Wallet providers, RPC providers, IPFS pinning, the Secure-Decrypt Enclave, sanctions screening, AI providers). Any third-party service may:
+
+- Experience downtime, degradation, or outright failure.
+- Be hacked, exploited, or compromised.
+- Be discontinued by its operator.
+- Be subject to a regulatory action.
+- Become unavailable in your region.
+
+Failure of a third-party service may make the Exchange or specific functions of the Exchange unavailable to you. Elacity is not liable for third-party failures
+([Terms §16, §17, §18](/legal/terms-of-service#16-third-party-services)).
+
+---
+
+## 8. dDRM and decryption-availability risk
+
+The Exchange's content-protection system relies on a third-party Secure-Decrypt Enclave to gate the release of decryption keys. Risks include:
+
+- **Enclave operator failure.** If the third-party operator ceases to operate the enclave, decryption may become unavailable for legacy Assets. Elacity may seek to migrate to an alternative enclave provider, but migration is not guaranteed and may take time.
+- **Enclave operator policy change.** If the operator changes its access policies or its acceptance criteria, Elacity may be required to comply, which could affect Asset availability.
+- **DRM is not unbreakable.** Determined adversaries with sufficient resources can defeat any DRM system. dDRM raises the cost of unauthorised consumption; it does not make it impossible.
+- **Endpoint capture.** Once decrypted on the consumer's device, content can be captured by screen-recorders, cameras, microphones, or memory dumps. This is outside dDRM's scope.
+
+---
+
+## 9. Storage / IPFS risk
+
+Encrypted Asset bytes are stored on IPFS. Risks include:
+
+- **Pinning failure.** If no IPFS node is pinning your Asset, the bytes may become unavailable.
+- **Gateway failure.** Elacity-operated IPFS gateways may experience downtime.
+- **Persistence.** Once published to IPFS, encrypted bytes may be replicated to nodes outside Elacity's control. We have limited ability to enforce removal.
+
+---
+
+## 10. Chain-level risk
+
+Public blockchains experience their own risk vectors:
+
+- **Reorganisation.** A chain may reorganise, effectively reversing a transaction you believed confirmed.
+- **Hard forks.** A chain may hard-fork, splitting state into two competing chains.
+- **Validator-set centralisation.** Some chains rely on small validator sets or centralised sequencers, exposing them to censorship or downtime risk.
+- **Quantum-computing risk.** Future advances in quantum computing may compromise the cryptographic primitives of current blockchains.
+- **Network congestion.** Gas prices may spike or transactions may fail to be included.
+
+---
+
+## 11. Phishing, social engineering, and scam risk
+
+Crypto-native phishing and scams are pervasive and increasingly sophisticated. Be aware of:
+
+- **Fake Elacity sites.** Always verify the URL is `ela.city`. Bookmark it. Do not click promoted/sponsored search results.
+- **Fake support agents.** Elacity will never DM you on Telegram, Discord, or Twitter to "help" with your wallet or seed phrase. Anyone who does is a scammer.
+- **Fake airdrops.** "Free" tokens that arrive in your wallet often have malicious approval logic. Do not interact.
+- **Approval drainers.** A malicious dApp can use a single token-approval to drain assets later. Review all approvals; revoke unused ones (revoke.cash is one tool).
+- **Address-poisoning.** Attackers send you small transactions from addresses that look similar to addresses you frequently send to. Always copy from a verified source, not from your transaction history.
+
+---
+
+## 12. Tax risk
+
+Every transaction you make on the Exchange may have tax consequences. These may include:
+
+- Capital-gains tax on dispositions.
+- Income tax on receipts (royalty payments, sale proceeds).
+- Sales tax / VAT on certain transactions in certain jurisdictions.
+- Reporting obligations independent of any tax owed.
+
+You are solely responsible for understanding and complying with your tax obligations. Elacity does not provide tax advice and does not issue 1099 forms or equivalent reports.
+(See [Terms §15](/legal/terms-of-service#15-taxes).)
+
+---
+
+## 13. Operational and infrastructure risk
+
+The Exchange is software, and software can fail:
+
+- The user interface may have bugs.
+- The catalog indexer may fall out of sync with the blockchain.
+- API endpoints may experience downtime.
+- A deployed update may introduce a regression.
+
+These risks are inherent to software-based services. Elacity makes commercially reasonable efforts to maintain availability but does not warrant uptime.
+
+---
+
+## 14. New and unknown risks
+
+The Exchange is at the frontier of multiple emerging technologies — blockchain, decentralised storage, autonomous-agent commerce, programmable rights. **New risk vectors emerge regularly.** By using the Exchange, you accept that:
+
+- The list of risks above is not exhaustive.
+- Risks not yet known to Elacity or to the industry may materialise during your use.
+- You are responsible for monitoring the development of these risks.
+
+---
+
+## Acknowledgement
+
+By accepting these Risk Disclosures in the [Pop-up Consent Gate](/legal/consent), you confirm that:
+
+- You have read the disclosures above.
+- You understand them.
+- You accept the risks they describe.
+- You accept the additional risks not described above that are inherent in using a non-custodial crypto exchange and a programmable digital-rights platform.
+- You have not been induced to use the Exchange by any representation, warranty, or guarantee made by Elacity that contradicts these Disclosures.
+
+---
+
+*See the [changelog](/legal/changelog) for prior versions. If a risk on this list is
+unclear to you, email [legal@ela.city](mailto:legal@ela.city) before connecting your wallet.*
