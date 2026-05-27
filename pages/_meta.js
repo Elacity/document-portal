@@ -5,5 +5,6 @@ export default {
     type: "separator"
   },
   cloud: "Personal Cloud",
-  exchange: "Exchange"
+  exchange: "Exchange",
+  legal: "Legal"
 }

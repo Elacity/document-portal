@@ -1,0 +1,159 @@
+import { Callout } from 'nextra/components'
+
+# Elacity Exchange — Copyright Infringement Procedure (DMCA + EU DSA)
+
+> **Version 1.0** &nbsp;•&nbsp; **Effective Date:** 27 May 2026 &nbsp;•&nbsp; **Last Updated:** 27 May 2026
+>
+> Incorporated into the [Terms of Service](/legal/terms-of-service) by reference.
+> Implements [§11 of the Terms](/legal/terms-of-service#11-copyright-complaints-and-takedown-dmca--eu-dsa).
+
+---
+
+## 1. Purpose
+
+This document sets out:
+
+1. The procedure for submitting a notice of claimed copyright infringement under 17 U.S.C. § 512 (DMCA), Article 16 of the EU Digital Services Act (Regulation (EU) 2022/2065), and equivalent foreign regimes.
+2. The procedure for submitting a counter-notice.
+3. The Designated Agent for receiving notifications.
+4. Elacity's repeat-infringer policy.
+5. Service-level commitments for response and takedown.
+
+Elacity processes copyright complaints in good faith and operates a notice-and-action system designed to qualify for the §512(c) hosting safe harbour (US) and the Article 6 hosting safe harbour (EU).
+
+---
+
+## 2. Designated Agent (DMCA)
+
+<Callout type="info">
+Pursuant to 17 U.S.C. § 512(c)(2), Elacity has designated an agent to receive
+notifications of claimed infringement. **Designated Agent registration is in progress**
+with the US Copyright Office DMCA Designated Agent Directory. Until registration is
+complete, all DMCA notices are received and processed at the email and postal address
+below.
+</Callout>
+
+**Designated Agent contact:**
+
+| Channel | Address |
+|---|---|
+| **Email** | [dmca@ela.city](mailto:dmca@ela.city) |
+| **Postal address** | Elacity LLC, FAO DMCA Designated Agent, The Financial Services Centre, Stoney Ground, Kingstown, St. Vincent and the Grenadines |
+
+The US Copyright Office DMCA Directory entry will be published here once registration is
+complete.
+
+---
+
+## 3. How to submit a notice of infringement
+
+A valid notice of claimed infringement must be in writing and must include all of the following (per 17 U.S.C. § 512(c)(3)(A)):
+
+1. A physical or electronic signature of a person authorised to act on behalf of the owner of the exclusive right that is allegedly infringed.
+2. Identification of the copyrighted work claimed to have been infringed (or a representative list, if multiple works at a single online location are covered by a single notice).
+3. Identification of the material claimed to be infringing or to be the subject of infringing activity, with sufficient information for Elacity to locate it. We strongly prefer:
+   - The Operative contract address (e.g. `0x…`) and the chain on which it is deployed.
+   - The KID (content identifier) of the encrypted Asset.
+   - The URL on `ela.city` at which the listing is displayed.
+4. Information reasonably sufficient for Elacity to contact you: name, postal address, telephone, email.
+5. A statement that you have a good-faith belief that the use of the material in the manner complained of is not authorised by the copyright owner, its agent, or the law.
+6. A statement that the information in the notice is accurate, and **under penalty of perjury**, that you are authorised to act on behalf of the owner of the right that is allegedly infringed.
+
+Notice should be sent by email to [dmca@ela.city](mailto:dmca@ela.city) with the subject **"DMCA NOTICE — [Operative address or URL]"**. Postal notice is also accepted at the address in §2.
+
+<Callout type="warning">
+A notice that lacks any of items 1–6 is not a valid DMCA notice and may not result in
+action. We will, where reasonable, explain the deficiency and invite resubmission.
+</Callout>
+
+---
+
+## 4. What happens after we receive a valid notice
+
+1. **Acknowledgment:** within 2 business days, we acknowledge receipt of the notice.
+2. **Initial assessment:** within 5 business days of acknowledgment (10 business days from receipt), we assess whether the notice is facially valid and identifies a listing on the Exchange.
+3. **Action:** if the notice is valid and identifies a listing on the Exchange, we:
+   - Remove or disable access to the listing in the Exchange catalog.
+   - Suspend Elacity-operated IPFS pinning of the encrypted bytes (other IPFS nodes outside our control may continue to pin; we cannot remove from those).
+   - Where technically feasible and permitted by the third-party Secure-Decrypt Enclave operator, request that further decryption of the relevant KID be denied (this prevents new buyers from consuming the content; existing buyers' decryptions may continue subject to the operator's policies).
+   - Notify the User who listed the content, including a copy of the notice, and inform them of the counter-notice procedure (§5).
+4. **Documentation:** we record the notice, our assessment, and the action taken in our DMCA log, retained for evidentiary purposes.
+5. **Response to complainant:** we confirm to the complainant that action has been taken (or, if not, the reason).
+
+If the notice is invalid, ambiguous, or appears to be a strategic abuse (e.g., designed to suppress legitimate criticism, satire, or fair use), we may decline to act, may seek further information, or may consult counsel before acting.
+
+---
+
+## 5. How to submit a counter-notice
+
+If you are a User whose listing has been removed pursuant to a DMCA notice and you have a good-faith belief that the removal was the result of mistake or misidentification, you may submit a counter-notice. A valid counter-notice must include (per 17 U.S.C. § 512(g)(3)):
+
+1. Your physical or electronic signature.
+2. Identification of the material removed and the location at which it appeared before removal (we will provide this information when we notify you of removal).
+3. A statement, **under penalty of perjury**, that you have a good-faith belief that the material was removed or disabled as a result of mistake or misidentification.
+4. Your name, postal address, telephone, and email.
+5. A statement that you consent to the jurisdiction of the federal district court for the judicial district in which your address is located, or, if your address is outside the United States, for any judicial district in which Elacity may be found, and that you will accept service of process from the complainant or its agent.
+
+Counter-notice should be sent by email to [dmca@ela.city](mailto:dmca@ela.city) with the subject **"DMCA COUNTER-NOTICE — [Operative address or URL]"**.
+
+If we receive a valid counter-notice, we will forward it to the complainant. **Within 10 to 14 business days after we forward the counter-notice**, unless the complainant files an action in court seeking a restraining order, we will restore the removed material to the catalog.
+
+---
+
+## 6. EU DSA notice-and-action
+
+For users in the European Union, the procedure above also satisfies the notice-and-action obligations of Article 16 of the EU Digital Services Act. EU complainants may use the email and postal contacts in §2. We do not require submitting under the DMCA framework for EU complaints; either the DMCA template or a free-form notice that contains substantially the same information is acceptable.
+
+In addition, EU users have access to the out-of-court dispute settlement mechanisms under Article 21 of the DSA, where applicable.
+
+---
+
+## 7. Repeat-infringer policy
+
+Elacity terminates Users who are repeat infringers. A "repeat infringer" is a User who:
+
+- Has been the subject of three (3) substantiated infringement notices in any 12-month period; OR
+- Has at any time submitted CSAM, intimate imagery without consent, or other content prohibited under §2 of the [Acceptable Use Policy](/legal/acceptable-use).
+
+"Substantiated" means: the notice was facially valid, identified a listing the User created, and the listing was found to be infringing on Elacity's review (or was unrebutted by counter-notice within the §5 timeframe).
+
+Termination consists of:
+
+1. Permanent denylisting of the User's wallet address from connecting to the Exchange.
+2. Removal of any remaining listings authored by the User.
+3. (Where applicable) reporting to law enforcement for category-2 prohibitions.
+4. Notification to the User of termination and the basis for it.
+
+A terminated User may appeal in writing to [legal@ela.city](mailto:legal@ela.city) within 30 days. Appeals are reviewed by Elacity's legal contact and are decided in good faith. The appeal decision is final.
+
+---
+
+## 8. Misrepresentations in notices and counter-notices
+
+Under 17 U.S.C. § 512(f), any person who knowingly materially misrepresents that material is infringing, or that material was removed by mistake, is liable for damages incurred by the alleged infringer or by Elacity. We take false notices and false counter-notices seriously and may pursue costs against persons who submit them in bad faith.
+
+---
+
+## 9. Service levels
+
+| Action | Target | Comment |
+|---|---|---|
+| Acknowledgment of valid notice | 2 business days | Automated where possible |
+| Initial assessment + action on valid notice | 10 business days from receipt | Often faster for clear cases |
+| Acknowledgment of valid counter-notice | 2 business days | |
+| Forwarding of counter-notice to complainant | 5 business days from receipt | |
+| Restoration after counter-notice (no court filing) | 10–14 business days from forwarding | Per § 512(g)(2)(C) |
+| Action on category-2 AUP prohibitions (CSAM etc.) | 24 hours, 7 days a week | |
+
+These targets are commitments of best effort, not contractual SLAs.
+
+---
+
+## 10. Ongoing process improvement
+
+We periodically review our DMCA / notice-and-action procedures and update them as legal regimes evolve and as our scale changes. Material changes to this procedure are versioned and re-consented under the [Pop-up Consent Gate](/legal/consent).
+
+---
+
+*See the [changelog](/legal/changelog) for prior versions. Send DMCA notices to
+[dmca@ela.city](mailto:dmca@ela.city); appeals to [legal@ela.city](mailto:legal@ela.city).*
