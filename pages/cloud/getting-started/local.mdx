@@ -19,32 +19,19 @@ The launcher provides one-click Start/Stop, status monitoring, log viewing, and 
 **Windows users:** Local installation is complex. We recommend using a [VPS](/cloud/getting-started/vps) instead. See the Windows section below for details.
 </Callout>
 
-### Mac Installation (One-Time Setup)
+### Mac Installation
 
-macOS shows a security warning for apps downloaded outside the App Store. Follow these steps once:
+ElastOS is signed with an Apple Developer ID and notarized by Apple, so it installs like any normal Mac app — **no Terminal required**:
 
 1. **Download** the `.dmg` file from the link above
-2. **Double-click** the downloaded file to open the disk image (a window will appear showing the app)
-3. **Open Terminal** (press `Cmd + Space`, type "Terminal", press Enter)
-4. **Copy and paste this command** (it will install the app and open it):
+2. **Double-click** the `.dmg` to open the disk image
+3. **Drag** ElastOS into your **Applications** folder
+4. **Open** ElastOS from Applications (double-click it)
 
-```bash
-# Replace VERSION with the version you downloaded (e.g. 1.0.0)
-cp -R "/Volumes/ElastOS VERSION-arm64/ElastOS.app" /Applications/ && xattr -cr /Applications/ElastOS.app && open /Applications/ElastOS.app
-```
+On first launch macOS may ask *"ElastOS is an app downloaded from the Internet. Are you sure you want to open it?"* — click **Open**. You only need to confirm this once.
 
 <Callout type="info">
-**Find the volume name:** After opening the `.dmg`, run `ls /Volumes/` to see the exact name (e.g. `ElastOS 1.0.0-arm64`). Use that in the command above.
-</Callout>
-
-5. **Done!** The app opens automatically. You only need to do this once - next time just open ElastOS from your Applications folder.
-
-<Callout type="info">
-**Don't drag the app manually** - the Terminal command above handles everything: it copies the app to Applications, removes the security restriction, and opens it for you.
-</Callout>
-
-<Callout type="info">
-**Why is this needed?** The app isn't signed with an Apple Developer certificate yet. The command copies the app to your Applications folder and removes the macOS security quarantine. Future updates will include proper signing.
+**First-time PC2 setup (one-time):** The very first time you install a PC2 node, macOS may show one or two system prompts — Apple's "Install Command Line Tools?" dialog (click **Install**) and a single password prompt so ElastOS can install Homebrew and configure networking. After that, everything runs automatically with no Terminal needed. If you already have Homebrew installed, you won't see the password prompt at all.
 </Callout>
 
 ---
