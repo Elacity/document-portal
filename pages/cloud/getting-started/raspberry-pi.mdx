@@ -146,17 +146,13 @@ Overclocking requires good cooling. Monitor temperature with `vcgencmd measure_t
 
 ### Option A: *.ela.city (Recommended)
 
-Register for free HTTPS subdomain:
+Your Pi can register a free `yourname.ela.city` subdomain with automatic HTTPS, right from the PC2 dashboard:
 
-```bash
-curl -X POST https://69.164.241.210/api/gateway/register \
-  -H "Content-Type: application/json" \
-  -d '{"subdomain": "myhome", "endpoint": "http://YOUR_PUBLIC_IP:4200"}'
-```
+1. Open your PC2 at `http://raspberrypi.local:4200` (or your Pi's IP)
+2. Go to **Settings → Network**
+3. Register your subdomain
 
-<Callout type="info">
-This requires port forwarding on your router (port 4200 → Pi's local IP).
-</Callout>
+Your node connects out to the Boson network and becomes reachable at `https://yourname.ela.city` — even behind your home router, with no manual port forwarding required.
 
 ### Option B: Tailscale
 

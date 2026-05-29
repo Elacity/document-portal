@@ -116,16 +116,14 @@ Subdomains are registered dynamically via the gateway API.
 
 ## Getting a Subdomain
 
-Register your node for a free `*.ela.city` address:
+The simplest way to register a free `*.ela.city` address is from the PC2 dashboard: **Settings → Network → Register subdomain**. Your node publishes its identity to the Boson DHT and the Super Node maps your subdomain to it automatically.
+
+To register programmatically against your local node (owner-authenticated):
 
 ```bash
-curl -X POST https://69.164.241.210/api/gateway/register \
+curl -X POST http://localhost:4200/api/boson/register \
   -H "Content-Type: application/json" \
-  -d '{
-    "subdomain": "yourname",
-    "nodeId": "your-node-id",
-    "endpoint": "http://YOUR_IP:4200"
-  }'
+  -d '{ "username": "yourname" }'
 ```
 
 ## Learn More

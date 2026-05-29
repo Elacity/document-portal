@@ -13,12 +13,20 @@ For most users, the [one-line install](/cloud/getting-started/local) is easier. 
 - **Node.js 20+** (v23 recommended for best performance)
 - **npm** (comes with Node.js)
 - **Git**
+- **FFmpeg** — required for video minting (AV1/H.264 transcode in the Creator app)
+- **cmake** — fallback for compiling native modules (`node-datachannel`) when no prebuild matches your platform
 
 ```bash
 node --version  # Should be v20.0.0 or higher
 npm --version   # Should be 10.0.0 or higher
 git --version
+ffmpeg -version # Required for video minting
+cmake --version # Native module build fallback
 ```
+
+<Callout type="info">
+**Installing FFmpeg + cmake:** On macOS run `brew install ffmpeg cmake`; on Debian/Ubuntu run `sudo apt-get install -y ffmpeg cmake`. The one-line install scripts (`start-local.sh` / `install-arm.sh`) install these for you automatically — you only need them manually when building from source.
+</Callout>
 
 ## Installation
 

@@ -154,11 +154,11 @@ npm start
    curl http://localhost:4200/api/boson/status
    ```
 
-3. **Register with gateway**:
+3. **Register your subdomain** (easiest via the dashboard: **Settings → Network**, or against your local node):
    ```bash
-   curl -X POST https://69.164.241.210/api/gateway/register \
+   curl -X POST http://localhost:4200/api/boson/register \
      -H "Content-Type: application/json" \
-     -d '{"subdomain": "yourname", "endpoint": "http://YOUR_IP:4200"}'
+     -d '{"username": "yourname"}'
    ```
 
 ### Active Proxy Not Connecting
