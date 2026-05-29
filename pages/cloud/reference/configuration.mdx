@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # Configuration
 
 All PC2 configuration options and environment variables.
@@ -93,6 +95,38 @@ Location: `data/config/pc2.json`
 | `proxy.enabled` | boolean | `true` | Enable Active Proxy |
 | `proxy.keepaliveInterval` | number | `30000` | PING interval (ms) |
 | `proxy.reconnectDelay` | number | `5000` | Reconnect delay (ms) |
+
+## Blockchain / RPC
+
+PC2 reads the Base chain for token-ownership checks (including dDRM playback access). The node maintains a rotating, health-tracked pool of public RPC endpoints and exposes its own caching proxy at `/api/rpc/base`.
+
+```json
+{
+  "blockchain": {
+    "chain_id": 8453,
+    "chain_name": "base",
+    "public_proxy_url": "",
+    "rpc_unhealthy_cooldown_ms": 60000,
+    "rpc_urls": [
+      "https://base-rpc.publicnode.com",
+      "https://base.drpc.org",
+      "https://mainnet.base.org"
+    ]
+  }
+}
+```
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `chain_id` | number | `8453` | Base mainnet chain ID |
+| `chain_name` | string | `"base"` | Chain name |
+| `public_proxy_url` | string | `""` | Optional. A publicly-reachable URL pointing at this node's own `/api/rpc/base` proxy (e.g. `https://yourname.ela.city/api/rpc/base`). When set, dDRM access checks run through your rotating, cached, multi-RPC proxy instead of a single public RPC. **Leave empty for auto-detection** — the node now auto-routes through its own public proxy during playback when reachable, falling back to a healthy public RPC otherwise. |
+| `rpc_unhealthy_cooldown_ms` | number | `60000` | How long (ms) a public RPC is sidelined after returning 5xx / 429 before it's retried. |
+| `rpc_urls` | array | [...] | Ordered pool of Base RPC endpoints. Index 0 must be a key-less, rate-tolerant public RPC. |
+
+<Callout type="info">
+**Playback shows "purchase access tokens" on a video you own?** That's almost always a transient RPC rate-limit during the on-chain ownership check. As of the May 2026 release, the node auto-routes these checks through its own resilient `/api/rpc/base` proxy when it has a public address — no configuration needed. If your node runs without a public hostname, you can pin `public_proxy_url` to any reliable RPC or your own proxy to harden it further.
+</Callout>
 
 ## AI Providers
 
